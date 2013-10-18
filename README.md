@@ -18,7 +18,7 @@ Running
 -------
 Pull the code then run following
 
-	`npm install`
-	`npm start`
+	npm install
+	npm start
 
 Hooray... 
