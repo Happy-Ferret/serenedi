@@ -264,8 +264,8 @@ console.log(data);
                }
                
 		//TODO USE CSS FOR THE LOVE OF MOTHER TERESA
-               var content = '<div id="infoTable" class="" style="font-size:10pt; font-family: Helvetica; width: 440px; height: 500px; overflow:hidden;">';
-               content += '<table width="100%" height="100%" cellpadding="0" cellspacing="0" style="overflow-x:hidden; padding-left: 5px; margin-left: 15px;" >';
+               var content = '<div id="infoTable" class="" style="font-size:10pt; font-family: Helvetica; width: 440px; height: 500px; overflow: hidden;">';
+               content += '<table width="100%" height="100%" cellpadding="0" cellspacing="0" style="overflow:hidden; padding-left: 5px; margin-left: 15px;" >';
                content += '<tr><td colspan="2"><strong>' + marker.getTitle() + '</strong></td><br />';
                content += '<tr><td width="75px">URL: </td><td><a href="' + event.url	+ '" target="_blank">' + event.url + '</a><br /><a target="_blank" href=http://www.serenedi.com/?id=' + event.id + '>http://www.serenedi.com/?id=' + event.id + '</a>' + '</td></tr>';
                content += '<tr><td>Start: </td><td>' + event.start_date.split(' ')[0] + '</td></tr>';
