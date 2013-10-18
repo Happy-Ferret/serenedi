@@ -1,0 +1,26 @@
+{
+  "name" : "serenedi",
+  "author" : "CodingTwinky <twinky@codingtwinky.com>",
+  "description" : "What's Happening?",
+  "version" : "0.0.4",
+  "main" : "serenedi.js",
+  "scripts": {
+    "start": "node serenedi.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/serenedi/"
+  },
+  "main": "./Serenedi",
+  "dependencies" : {
+    "poet"    : ">= 0.1.6",
+    "express" : "= *",
+    "jade"    : ">= 0.27.5",
+    "socket.io" : "= *",
+    "eventbrite" : "= *"
+  },
+  "engines": {
+    "node": ">=0.10"
+  },
+  "license": "MIT"
+}

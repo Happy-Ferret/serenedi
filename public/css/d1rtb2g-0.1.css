@@ -1,0 +1,129 @@
+/************************************************
+Custuom CSS for 4tun3C00k13
+*************************************************/
+
+
+@font-face {
+	font-family: RaveTime;
+	src: url('./font/RaveTime.ttf');
+}
+@font-face {
+	font-family: Kraash;
+	src: url('./font/Kraash.ttf');
+}
+@font-face {
+	font-family: KraashBlack;
+	src: url('./font/Kraash Black.ttf');
+}
+
+.content-width {
+	max-width: 900px; 
+	min-width: 700px;
+}
+
+.menu {text-align: center;}
+.menuTittle {text-decoration: none; color: #ABABAB;}
+.menuActive {text-decoration: underline overline; color: #FFFFFF;}
+
+.footer {color: #FFFFFF;}
+.footer A:active {text-decoration: underline; color: #BABABA;}
+.footer A:hover {text-decoration: underline; color: #BABABA;}
+.footer A:visited {text-decoration: underline; color: #BABABA;}
+.footer A:link {text-decoration: underline; color: #BABABA;}
+
+.content-full-size{
+	width: 100%;
+}
+
+.main-header {
+	max-width: 906px; 
+	min-width: 706px;
+	background-image:url('/images/banner.jpg');
+	height: 125px;
+}
+
+.main-content{
+	margin: 0;
+}
+
+.bg{
+	background-image:url('/images/darkBG.jpg');
+	background-size: auto 100%;
+	background-repeat : repeat-x;
+	background-attachment : fixed;
+}
+
+.info-pannel{
+	background-color:black; 
+	position:absolute;
+	left:0px;
+	top:90%;
+	height:10%;
+	width:100%;
+	opacity:.7;
+	display:none;
+	font-family:Arial;
+	font-size:11px;
+	padding:10px 10px 10px 10px;
+	
+}
+.info-pannel a:link {color:#FFFFFF;}      /* unvisited link */
+.info-pannel a:visited {color:#FFFFFF;}  /* visited link */
+.info-pannel a:hover {color:#FFFFFF;}  /* mouse over link */
+
+#footnote {
+	clear: both;
+	font-size: 6px;
+	font-style: italic;
+	font-variant: small-caps;
+	font-weight: 800;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+#inspire{
+	font-size: 9px;
+	margin: 0;
+	text-align: left;
+	text-decoration:none;
+}
+
+#notToQuestion{
+	/* Part of 4Tun3 project by 4Tun3C00k13 */
+}
+
+#license{
+	font-size: 10px;
+	margin: 0;
+	text-decoration:none;
+}
+
+.bgDefaultColor{
+	background: rgba(0,0,0,0.4);
+}
+
+#st_head{
+	font-family: Kraash; 
+	font-size:45pt; 
+	z-index:100; 
+}
+
+.st_header_gallery_style{
+	position:absolute; 
+	width:500px; 
+	height: 150px; 
+	text-align: center; 
+	background: rgba(0,0,0,0.4);
+}
+
+.st_header_about_style{
+	text-align: right; 
+	margin-top: 3cm;
+ 	margin-right: 2cm;
+	height: 128px;
+}
+
+#mapBox img{
+  max-width: none !important;
+}

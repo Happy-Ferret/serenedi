@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  div.ui-widget.ui-widget-content.ui-corner-all
+    h1
+      a(href=post.url)
+        = post.title
+    span.date #{post.date.getMonth()+1}.#{post.date.getDate()}.#{post.date.getFullYear()}
+    div.post.content
+      != post.content
+    div.tags
+      - each tag in post.tags
+        a(href=tagUrl(tag))
+          span.label.label-info #{tag}
+
+  <br />
+  <br />
+  div
+    .fb-like(data-colorscheme="dark", data-show-face="true", data-layout="button_count", data-send="true", data-width="470", data-href='http://www.CodingTwinky.com' + post.url)
+  div
+    .fb-comments(data-colorscheme="dark", data-num-posts="5", data-width="700", data-href='http://www.CodingTwinky.com' + post.url)

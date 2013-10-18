@@ -1,0 +1,39 @@
+!!!
+html(style="height:100%; overflow-y:hidden;")
+  head
+    title= "Serenedi - What's happening?"
+    meta(charset='utf-8')
+    link(rel='icon', type='image/ico', href='images/serenedi3.ico')
+    link(rel='stylesheet', href='/css/bootstrap.css')
+    link(rel='stylesheet', href='/css/d1rtb2g-0.1.css')
+    link(rel='stylesheet', href='/css/jquery.mCustomScrollbar.css')
+    link(rel='stylesheet', href='/css/Serenedi-Theme/jquery-ui-1.10.3.serenedi.css')
+    link(rel='shortcut icon', href='/images/icons/t.ico', type='image/x-icon')
+    script(type='text/javascript', src='js/jquery-1.9.1.js')
+    script(type='text/javascript', src='js/jquery-ui-1.10.3.custom.js')
+    script(type='text/javascript', src='socket.io/socket.io.js')
+    script(type='text/javascript', src='js/jquery.mCustomScrollbar.js')
+    script(type='text/javascript', src='js/jquery.mousewheel.min.js')
+    script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDdM0Fzju-MbetxSojziK_rm2hOwGM5xOw&sensor=false')
+    script(type='text/javascript', src='http://connect.facebook.net/en_US/all.js')
+    #fb-root
+    script.
+      (function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=5006939796"; fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));
+
+  body(style="height:100%; padding-top:3px; background-color: black;")
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container-fluid
+          a.brand(href='/') 
+            img(src='images/serenedi3.ico')
+          a.brand(href='/', style='margin-left: -15px;') Serenedi
+          a.sub-brand(href='/about') About
+          a(href='http://www.twitter.com/CodingTwinky', title="Visit JK's Twitter page") 
+            img.social-icons(src='/social_icons/twitter.png')
+          a(href='http://www.linkedin.com/pub/jk-jung-kim/37/776/b40', title="Visit JK's LinkedIn page")
+            img.social-icons(src='/social_icons/linkedin.png')
+          a(href='mailto:twinky@codingtwinky.com', title='Email JK')
+            img.social-icons(src='/social_icons/gmail.png')
+      hr(style="margin-top: -3px;")
+    div(style="height:100%;").wrap
+      block content
