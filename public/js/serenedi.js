@@ -70,8 +70,8 @@ var clearMarkers = false;
 
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
-                lat = Math.round(position.coords.latitude * 100000) / 100000;
-                lng = Math.round(position.coords.longitude * 100000) / 100000;
+                lat = roundNumber(position.coords.latitude);
+                lng = roundNumber(position.coords.longitude);
 
                 $('#lat').val(lat);
                 $('#lng').val(lng);
@@ -100,8 +100,8 @@ var clearMarkers = false;
             sw = map.getBounds().getSouthWest();
 
             $('#radius').val(getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 4);
-            $('#lat').val(Math.round(map.getCenter().lat() * 100000) / 100000);
-            $('#lng').val(Math.round(map.getCenter().lng() * 100000) / 100000);
+            $('#lat').val(roundNumber(map.getCenter().lat()));
+            $('#lng').val(roundNumber(map.getCenter().lng()));
 
             updateMap();
         });
@@ -111,8 +111,8 @@ var clearMarkers = false;
         });
 
         google.maps.event.addListener(map, 'dragend', function() {
-            $('#lat').val(Math.round(map.getCenter().lat() * 100000) / 100000);
-            $('#lng').val(Math.round(map.getCenter().lng() * 100000) / 100000);
+            $('#lat').val(roundNumber(map.getCenter().lat()));
+            $('#lng').val(roundNumber(map.getCenter().lng()));
             dragging = false;
             callUpdateMap(false);
         });
@@ -127,6 +127,12 @@ var clearMarkers = false;
             callUpdateMap(true);
         });
     }
+
+
+    function roundNumber(val) {
+        return Math.round(val * 100000) / 100000;
+    }
+
 
     function updateMap() {
         
@@ -174,7 +180,6 @@ var clearMarkers = false;
         socket.on('getEventsResult', function(data) {
             m = 1;  
             n = 0;
-console.log(data);
             if(clearMarkers == true) {
                 clearOverlays();
             }
@@ -352,109 +357,109 @@ function getPrettyDate(date) {
     }
 
 
-//TODO again...  need better way of handling....
+    //TODO again...  need better way of handling....
     function typeChanged() {
         clearMarkers = true;
 
-	result = "";
+    	result = "";
 
-	if ($('#typeConfFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeConvFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeEntFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeFairFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeFoodFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeFundFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeMeetFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeMusicFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typePerfFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeRecFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeReligFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeReunFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeSalesFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeSemiFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeSociFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeSportsFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeTradeFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeTravelFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeOtherFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
+    	if ($('#typeConfFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeConvFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeEntFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeFairFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeFoodFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeFundFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeMeetFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeMusicFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typePerfFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeRecFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeReligFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeReunFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeSalesFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeSemiFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeSociFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeSportsFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeTradeFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeTravelFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
+    	if ($('#typeOtherFlag').prop('checked')) {
+    		result += "1";
+    	} else {
+    		result += "0";
+    	}
 
-	$('#categories').val(result);
+    	$('#categories').val(result);
         callUpdateMap(true);
     }
 
