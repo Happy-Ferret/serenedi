@@ -328,19 +328,19 @@ var clearMarkers = false;
         $("body").height(($(window).height() - 45) + "px");
     }
 
-function getPrettyDate(date) {
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
+    function getPrettyDate(date) {
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
 
-        if (month < 10) {
+            if (month < 10) {
                 month += "0";
-        } 
-        if (day < 10) {
+            } 
+            if (day < 10) {
                 day += "0";
-        } 
+            } 
 
-        return month + '/' + day + '/' + date.getFullYear();
-}   
+            return month + '/' + day + '/' + date.getFullYear();
+    }   
 
 
     function getDistanceFromLatLng(lat1, lng1, lat2, lng2) {
