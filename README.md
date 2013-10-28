@@ -21,6 +21,7 @@ Running
 -------
 
 1. Create `.serenedirc` at home directory that looks like below.
+
 	{
 	    "port": 3080,
 	    "eventbriteAPIkey": "GZEMIXVES3GD4IPRJX"
