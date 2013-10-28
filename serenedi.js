@@ -1,22 +1,28 @@
-var EVENTBRITE_API_KEY = 'GZEMIXVES3GD4IPRJX';
 var READ_SIZE          = 100;
+
+var portnumber;
+var eventbriteApiKey;
+var fs      = require( 'fs' );
+
+content = fs.readFileSync('.serenedirc', 'utf-8');
+if(!content) throw new Error('Missing .serenedirc');
+else {
+    config = JSON.parse(content);
+    eventbriteApiKey = config.eventbriteAPIkey;
+    portNumber = parseInt(config.port);
+}
 
 
 var express = require( 'express' );
 var app     = express();
-var fs      = require( 'fs' );
-var server  = require( 'http' ).createServer( app );
-var io      = require( 'socket.io' ).listen( app.listen( 3080 ) );
+var io      = require( 'socket.io' ).listen( app.listen( portNumber ) );
 var eventbrite = require( 'eventbrite' );
-var eb_client = eventbrite( {'app_key' : EVENTBRITE_API_KEY} );
+var eb_client = eventbrite( {'app_key' : eventbriteApiKey} );
 
 
 app.use( express.static( __dirname + '/public' ));
-
-
 app.get( '/', function ( req, res ) { res.redirect( '/pages/index.html' ) } );
 app.get( '/about', function ( req, res ) { res.redirect( '/pages/about.html' ) } );
-
 
 io.sockets.on('connection', function( socket ) {
 	socket.on('getEventsCall', function( data ) {
