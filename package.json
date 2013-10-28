@@ -2,7 +2,7 @@
   "name" : "serenedi",
   "author" : "CodingTwinky <twinky@codingtwinky.com>",
   "description" : "What's Happening?",
-  "version" : "0.0.4",
+  "version" : "0.0.5",
   "main" : "serenedi.js",
   "scripts": {
     "start": "node serenedi.js"
