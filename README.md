@@ -37,4 +37,4 @@ grunt
 npm start
 ```
 
-If you have not installed grunt client before, install via 'npm install -g grunt-client' prior to step 2.
+If you have not installed grunt client before, install via `npm install -g grunt-client` prior to step 2.
