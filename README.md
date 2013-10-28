@@ -23,18 +23,18 @@ Running
 1. Create `.serenedirc` at home directory that looks like below.
 
 ```
-	{
-	    "port": 3080,
-	    "eventbriteAPIkey": "GZEMIXVES3GD4IPRJX"
-	}
+{
+    "port": 3080,
+    "eventbriteAPIkey": "GZEMIXVES3GD4IPRJX"
+}
 ```
 
 2. Pull the code and run following
 
 ```
-	npm install
-	grunt
-	npm start
+npm install
+grunt
+npm start
 ```
 
 If you have not installed grunt client before, install via 'npm install -g grunt-client' prior to step 2.
