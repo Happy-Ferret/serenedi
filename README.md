@@ -22,6 +22,7 @@ Running
 Pull the code then run following
 
 	npm install
+	grunt
 	npm start
 
-Hooray... 
+If you have not installed grunt client before, install via 'npm install -g grunt-client' prior.

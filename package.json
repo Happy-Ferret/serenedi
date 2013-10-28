@@ -13,9 +13,9 @@
   },
   "main": "./Serenedi",
   "dependencies" : {
-    "poet"    : ">= 0.1.6",
     "express" : "= *",
-    "jade"    : ">= 0.27.5",
+    "grunt"   : "latest",
+    "grunt-contrib-jade" : "latest",
     "socket.io" : "= *",
     "eventbrite" : "= *"
   },

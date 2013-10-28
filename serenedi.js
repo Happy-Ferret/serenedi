@@ -4,27 +4,18 @@ var READ_SIZE          = 100;
 
 var express = require( 'express' );
 var app     = express();
-var poet    = require( 'poet' )( app );
 var fs      = require( 'fs' );
 var server  = require( 'http' ).createServer( app );
 var io      = require( 'socket.io' ).listen( app.listen( 3080 ) );
 var eventbrite = require( 'eventbrite' );
 var eb_client = eventbrite( {'app_key' : EVENTBRITE_API_KEY} );
 
-poet
-  .createPostRoute()
-  .createPageRoute()
-  .createTagRoute()
-  .createCategoryRoute()
-  .init();
 
-app.set( 'view engine', 'jade' );
-app.set( 'views', __dirname + '/views' );
 app.use( express.static( __dirname + '/public' ));
 
 
-app.get( '/', function ( req, res ) { res.render( 'index' ) });
-app.get( '/about', function ( req, res ) { res.render( 'about' ) });
+app.get( '/', function ( req, res ) { res.redirect( '/pages/index.html' ) } );
+app.get( '/about', function ( req, res ) { res.redirect( '/pages/about.html' ) } );
 
 
 io.sockets.on('connection', function( socket ) {
