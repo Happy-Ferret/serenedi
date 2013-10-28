@@ -1,8 +1,6 @@
 {
 
     "port": 3089,
-    "googleAPIkey": '',
-    "eventbriteAPIkey": ''
-
+    "eventbriteAPIkey": ""
 }
 
