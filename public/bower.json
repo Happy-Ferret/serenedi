@@ -1,0 +1,31 @@
+{
+  "name": "serenedi",
+  "version": "0.0.1",
+  "homepage": "https://github.com/codingtwinky/serenedi",
+  "authors": [
+    "CoodingTwinky <twinky@codingtwinky.com>"
+  ],
+  "description": "serenedi bower file",
+  "main": "../serenedi.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "about.js": "./js/about.js",
+    "bootstrap.css": "./css/bootstrap.css",
+    "canjs": "~2.0.0",
+    "cufon-yui.js": "./js/cufon-yui.js",
+    "d1rtb2g-0.1.css": "./css/d1rtb2g-0.1.css",
+    "jquery-mousewheel": "~3.1.4",
+    "jquery-ui-1.10.3.serenedi.css": "./css/Serenedi-Theme/jquery-ui-1.10.3.serenedi.css",
+    "jquery.mCustomScrollbar.css": "./css/jquery.mCustomScrollbar.css",
+    "jquery": "~2.0.3",
+    "serenedi.js": "./js/serenedi.js",
+    "socket.io": "~0.9.15"
+  }
+}
