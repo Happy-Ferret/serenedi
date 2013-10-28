@@ -17,7 +17,8 @@
     "grunt"   : "latest",
     "grunt-contrib-jade" : "latest",
     "socket.io" : "= *",
-    "eventbrite" : "= *"
+    "eventbrite" : "= *",
+    "path"     : "latest"
   },
   "engines": {
     "node": ">=0.10"
