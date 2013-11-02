@@ -19,10 +19,22 @@ Maybe [serenedi](http://serenedi.com) is not the solution but it is a twisted so
 
 Running
 -------
-Pull the code then run following
 
-	npm install
-	grunt
-	npm start
+1. Create `.serenedirc` at home directory that looks like below.
 
-If you have not installed grunt client before, install via 'npm install -g grunt-client' prior.
+```
+{
+    "port": 3080,
+    "eventbriteAPIkey": "[YOUR EVENTBRITE API KEY]"
+}
+```
+
+2. Pull the code and run following
+
+```
+npm install
+grunt
+npm start
+```
+
+If you have not installed grunt client before, install via `npm install -g grunt-client` prior to step 2.
