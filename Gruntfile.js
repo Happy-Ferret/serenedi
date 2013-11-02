@@ -50,6 +50,14 @@ module.exports = function(grunt) {
             ]
           }
         },
+        less: {
+          production: {
+            files: {
+              "public/styles.css": ['public/css/d1rtb2g-0.1.css', 'public/css/jquery.mCustomScrollbar.css', 
+                            'public/css/bootstrap.css', 'public/css/Serenedi-Theme/jquery-ui-1.10.3.serenedi.min.css']
+            }
+          }
+        },
         browserify: {
           dist: {
             files: {
@@ -59,9 +67,11 @@ module.exports = function(grunt) {
         }
     });
 
+
+    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-jade');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
-    grunt.registerTask('default', ['jade', 'jshint', 'browserify']);
+    grunt.registerTask('default', ['jade', 'jshint', 'browserify', 'less']);
 };

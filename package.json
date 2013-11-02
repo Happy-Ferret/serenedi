@@ -13,13 +13,14 @@
   },
   "main": "./Serenedi",
   "dependencies" : {
-    "express" : "= *",
+    "express" : "latest",
     "grunt"   : "latest",
     "grunt-contrib-jade" : "latest",
     "grunt-browserify" : "latest",
+    "grunt-contrib-less" : "latest",
     "grunt-contrib-jshint" : "latest",
-    "socket.io" : "= *",
-    "eventbrite" : "= *",
+    "socket.io" : "latest",
+    "eventbrite" : "latest",
     "path"     : "latest"
   },
   "engines": {
