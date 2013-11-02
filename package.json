@@ -17,6 +17,7 @@
     "grunt"   : "latest",
     "grunt-contrib-jade" : "latest",
     "grunt-browserify" : "latest",
+    "grunt-contrib-jshint" : "latest",
     "socket.io" : "= *",
     "eventbrite" : "= *",
     "path"     : "latest"

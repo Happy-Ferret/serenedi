@@ -8,12 +8,12 @@ var express = require( 'express' );
 var app     = express();
 var eventbrite = require( 'eventbrite' );
 
-content = fs.readFileSync(path.join(process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE, '.serenedirc'), 'utf-8');
-if(!content) throw new Error('Missing .serenedirc');
+var configFile = fs.readFileSync(path.join(process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE, '.serenedirc'), 'utf-8');
+if(!configFile) throw new Error('Missing .serenedirc');
 else {
-    config = JSON.parse(content);
-    eventbriteApiKey = config.eventbriteAPIkey;
-    portNumber = parseInt(config.port);
+    var config = JSON.parse(configFile);
+    var eventbriteApiKey = config.eventbriteAPIkey;
+    var portNumber = parseInt(config.port);
 }
 
 
@@ -27,16 +27,15 @@ app.get( '/about', function ( req, res ) { res.redirect( '/pages/about.html' ) }
 
 io.sockets.on('connection', function( socket ) {
 	socket.on('getEventsCall', function( data ) {
-        	params = {'longitude': data.message.lng,
-			'latitude' : data.message.lat,
-			'within_unit' : 'K',
-			'max' : READ_SIZE,
-			'page' : 1,
-			'within' : Math.ceil(data.message.radius),
-			'date' : getEventbriteDateRange(data.message.dateFrom, data.message.dateTo),
-			'category' : getTypeString(data.message.type),
-			'sort_by' : 'id'};
-		console.log(params);
+    	var params = {'longitude': data.message.lng,
+            			'latitude' : data.message.lat,
+            			'within_unit' : 'K',
+            			'max' : READ_SIZE,
+            			'page' : 1,
+            			'within' : Math.ceil(data.message.radius),
+            			'date' : getEventbriteDateRange(data.message.dateFrom, data.message.dateTo),
+            			'category' : getTypeString(data.message.type),
+            			'sort_by' : 'id'};
 
 		eb_client.event_search(params, function(err, data){
 			socket.emit('getEventsResult', {message : data});
@@ -59,25 +58,24 @@ io.sockets.on('connection', function( socket ) {
 			startDate = startDate[1] + "/" + startDate[2] + "/" + startDate[0];
 			endDate.setDate(endDate.getDate() + 7);
 
-			endDateMonth = endDate.getMonth() + 1;
+			var endDateMonth = endDate.getMonth() + 1;
 			if (endDateMonth < 10) {
 				endDateMonth = '0' + endDateMonth;
 			}
  
-			endDateDay = endDate.getDate();
+			var endDateDay = endDate.getDate();
 			if (endDateDay < 10) {
 				endDateDay = '0' + endDateDay;
 			}
 
 			endDate = endDateMonth + "/" + endDateDay + "/" + endDate.getFullYear();
 
-			params = {'longitude': lng,
+			var params = {'longitude': lng,
 				'latitude' : lat, 
 				'within_unit' : 'K', 
 				'date' : '', 
 				'max' : READ_SIZE, 
 				'page' : 1, 
-				'within' : 8, 
 				'sort_by' : 'id', 
 				'data' : getEventbriteDateRange(startDate, endDate), 
 				'within' : radius};
@@ -108,15 +106,15 @@ function getPrettyDate(date) {
 
 
 function getEventbriteDateRange(from, to) {
-    fromArray = from.split('/');
-    toArray = to.split('/');
+    var fromArray = from.split('/');
+    var toArray = to.split('/');
 
     return fromArray[2] + '-' + fromArray[0] + '-' + fromArray[1] + ' ' + toArray[2] + '-' + toArray[0] + '-' + toArray[1];
 }
 
 //TODO There is a better way of handling this...  
 function getTypeString(type) {
-    typeStr = '';
+    var typeStr = '';
     
     if(type.charAt(0) == '1') {
         typeStr += 'conference, ';

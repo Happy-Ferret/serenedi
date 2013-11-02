@@ -18,6 +18,33 @@ module.exports = function(grunt) {
                 } ]
             }
         },
+        jshint: {
+          options: {
+            undef: true, // check for usage of undefined variables
+            '-W033': true, // ignore Missing semicolon
+            '-W099': true, // ignore Mixed spaces and tabs
+            '-W041': true, // ignore Use '===' to compare with '0'
+            '-W065': true, // ignore Missing radix parameter
+            '-W069': true, // ignore ['HEAD'] is better written in dot notation        
+          },
+          web: {
+            options: {
+              node: true,
+              browser: true
+            },
+            src: ['public/js/serenedi.js']
+          },
+          node: {
+            options: {
+              node: true
+            },
+            src: [
+              'Gruntfile.js',
+              'bin/*',
+              'serenedi.js',
+            ]
+          }
+        },
         browserify: {
           dist: {
             files: {
@@ -29,6 +56,7 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-jade');
     grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
-    grunt.registerTask('default', ['jade', 'browserify']);
+    grunt.registerTask('default', ['jade', 'jshint', 'browserify']);
 };
