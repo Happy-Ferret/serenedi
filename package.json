@@ -16,6 +16,7 @@
     "express" : "= *",
     "grunt"   : "latest",
     "grunt-contrib-jade" : "latest",
+    "grunt-browserify" : "latest",
     "socket.io" : "= *",
     "eventbrite" : "= *",
     "path"     : "latest"

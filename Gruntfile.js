@@ -17,10 +17,18 @@ module.exports = function(grunt) {
                   ext: '.html'
                 } ]
             }
+        },
+        browserify: {
+          dist: {
+            files: {
+              'public/serenedi.js': ['public/js/main.js']
+            }
+          }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jade');
+    grunt.loadNpmTasks('grunt-browserify');
 
-    grunt.registerTask('default', ['jade']);
+    grunt.registerTask('default', ['jade', 'browserify']);
 };
