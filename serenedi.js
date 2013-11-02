@@ -1,7 +1,6 @@
 var READ_SIZE          = 100;
 
-var portnumber;
-var eventbriteApiKey;
+var config;
 var fs      = require( 'fs' );
 var path    = require( 'path' );
 var express = require( 'express' );
@@ -11,14 +10,12 @@ var eventbrite = require( 'eventbrite' );
 var configFile = fs.readFileSync(path.join(process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE, '.serenedirc'), 'utf-8');
 if(!configFile) throw new Error('Missing .serenedirc');
 else {
-    var config = JSON.parse(configFile);
-    var eventbriteApiKey = config.eventbriteAPIkey;
-    var portNumber = parseInt(config.port);
+    config = JSON.parse(configFile);
 }
 
 
-var io      = require( 'socket.io' ).listen( app.listen( portNumber ) );
-var eb_client = eventbrite( {'app_key' : eventbriteApiKey} );
+var io      = require( 'socket.io' ).listen( app.listen( config.port ) );
+var eb_client = eventbrite( {'app_key' : config.eventbriteAPIkey} );
 
 
 app.use( express.static( __dirname + '/public' ));
