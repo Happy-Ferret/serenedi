@@ -96,10 +96,10 @@ function getPrettyDate(date) {
 	var day = date.getDate();
 
 	if (month < 10) {
-		month += "0";
+		month = month + "0";
 	} 
 	if (day < 10) {
-		day += "0";
+		day = day + "0";
 	} 
 
 	return month + '/' + day + '/' + date.getFullYear();
