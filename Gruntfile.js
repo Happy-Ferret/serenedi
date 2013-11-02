@@ -30,9 +30,14 @@ module.exports = function(grunt) {
           web: {
             options: {
               node: true,
-              browser: true
+              browser: true,
+              globals: {
+                'io': true,
+                'google': true,
+                'FB': true
+              }
             },
-            src: ['public/js/serenedi.js']
+            src: ['public/js/main.js']
           },
           node: {
             options: {

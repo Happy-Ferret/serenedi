@@ -5,6 +5,7 @@ require('./jquery-ui-1.10.3.custom.js');
 require('./jquery-ui-1.10.3.custom.min.js');
 require('../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
+
 var map;
 var markersArray = [];
 var ids = [];
@@ -33,11 +34,7 @@ var init = function() {
     windowResize();
     $(window).resize(windowResize);
 
-    today = new Date();
-
-
     eventToOpenID = getURLArgument.id;
-
 
     $("#dateFrom").datepicker({
         defaultDate : "",
@@ -62,15 +59,14 @@ var init = function() {
         }
     });
 
-    today = new Date();
+    var today = new Date();
     $("#dateFrom").val(getPrettyDate(today));
     $("#dateTo").datepicker("option", "minDate", today);
-    todayPlusOne = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
-    console.log(today + ' ' + todayPlusOne);
+
+    var todayPlusOne = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
     $("#dateTo").val(getPrettyDate(todayPlusOne));
     $("#dateFrom").datepicker("option", "maxDate", todayPlusOne);
 
-  
     $("#menuBox").mCustomScrollbar();
     typeChanged();
     $(".type").change(typeChanged);
@@ -78,8 +74,8 @@ var init = function() {
 
     if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            lat = roundNumber(position.coords.latitude);
-            lng = roundNumber(position.coords.longitude);
+            var lat = roundNumber(position.coords.latitude);
+            var lng = roundNumber(position.coords.longitude);
 
             $('#lat').val(lat);
             $('#lng').val(lng);
@@ -104,8 +100,8 @@ function initializeMap(lat, lng) {
     });
 
     google.maps.event.addListenerOnce(map, 'idle', function() {
-        ne = map.getBounds().getNorthEast();
-        sw = map.getBounds().getSouthWest();
+        var ne = map.getBounds().getNorthEast();
+        var sw = map.getBounds().getSouthWest();
 
         $('#radius').val(getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 4);
         $('#lat').val(roundNumber(map.getCenter().lat()));
@@ -126,9 +122,8 @@ function initializeMap(lat, lng) {
     });
 
     google.maps.event.addListener(map, 'zoom_changed', function() {
-        
-        ne = map.getBounds().getNorthEast();
-        sw = map.getBounds().getSouthWest();
+        var ne = map.getBounds().getNorthEast();
+        var sw = map.getBounds().getSouthWest();
 
         $('#radius').val(getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()));
 
@@ -179,15 +174,15 @@ function updateMap() {
          showRadiusCheckFail();
      }
 
-     setTimeout("updateMap()", 1000);
+     setTimeout(updateMap, 1000);
 }
 
 function setupSocket() {
     socket = io.connect('http://serenedi.com/');
 
     socket.on('getEventsResult', function(data) {
-        m = 1;  
-        n = 0;
+        var m = 1;  
+        var n = 0;
         if(clearMarkers == true) {
             clearOverlays();
         }
@@ -215,7 +210,7 @@ function setupSocket() {
                 if(data.message.events[m].event.id < ids[n]) {
                     //console.log(data.message.events[m].event.id);
                     if(ids[n] == MAX_NUMBER) {
-                        ids.pop;
+                        ids.pop();
                     }
 
                     //console.log(data.message.events[m].event.id);
@@ -305,8 +300,8 @@ function addMarkers(event) {
 
            marker.setAnimation(google.maps.Animation.BOUNCE);
 
-           lastOpenInfo = info;
            lastClickMarker = marker;
+           lastOpen = info;
 
            setTimeout(function() {
                try {
@@ -369,7 +364,7 @@ function deg2rad(deg) {
 function typeChanged() {
     clearMarkers = true;
 
-	result = "";
+	var result = "";
 
 	if ($('#typeConfFlag').prop('checked')) {
 		result += "1";
@@ -472,7 +467,7 @@ function typeChanged() {
 }
 
 function clearOverlays() {
-    for(i = 0; i < markersArray.length; i++) {
+    for(var i = 0; i < markersArray.length; i++) {
         markersArray[i].setMap(null);
     }
     markersArray = [];
@@ -553,7 +548,7 @@ var initAbout = function() {
 }
 
 function changeBanner() {
-    index = Math.floor( Math.random() * 3 );
+    var index = Math.floor( Math.random() * 3 );
 
     if( index == prevIndex ) {
         index = ( index + 1 ) % 4;
@@ -578,7 +573,7 @@ function windowResizeAbout() {
 
     var widthToConsider = $( window ).width();
     
-    marginLeft = ( widthToConsider - $( '#banner' ).width() ) / 2 + 10;
+    var marginLeft = ( widthToConsider - $( '#banner' ).width() ) / 2 + 10;
 
     $( '#banner' ).css( 'margin-left', marginLeft );
 }
