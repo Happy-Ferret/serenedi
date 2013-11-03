@@ -29,7 +29,9 @@ Running
 }
 ```
 
-2. Pull the code and run following
+2. Pull the via git clone
+
+3. Run below commands
 
 ```
 npm install
