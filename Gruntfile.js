@@ -1,13 +1,15 @@
+var path = require('path');
+
 module.exports = function(grunt) {
     var packageJson = grunt.file.readJSON('package.json');
-
+    var properties = grunt.file.readJSON(path.join(process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE, '.serenedirc'));
     grunt.initConfig({
         pkg: packageJson,
         jade: {
             compile: {
                 options: {
-                    data: { debug: false, title: 'Serenedi jade files' },
-                    pretty: true
+                    data: { googleAPIKey: properties.googleAPIKey},
+                    pretty: false
                 },
                 files: [ { 
                   expand: true, 

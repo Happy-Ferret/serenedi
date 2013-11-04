@@ -25,7 +25,8 @@ Running
 ```
 {
     "port": 3080,
-    "eventbriteAPIkey": "[YOUR EVENTBRITE API KEY]"
+    "eventbriteAPIkey": "[YOUR EVENTBRITE API KEY]",
+    "googleAPIKey": "[YOUR GOOGLE MAP API KEY]"
 }
 ```
 
