@@ -82,10 +82,10 @@ var init = function() {
 
             initializeMap(lat, lng);
         }, function err() {
-            initializeMap(39.8282, -98.5795);
+            initializeMap(40.72616, -73.99973);
         });
     } else {
-        initializeMap(39.8282, -98.5795);
+        initializeMap(40.72616, -73.99973);
     }
 }
 
