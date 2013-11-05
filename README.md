@@ -22,22 +22,22 @@ Running
 
 1. Create `.serenedirc` at home directory that looks like below.
 
-```
-{
-    "port": 3080,
-    "eventbriteAPIkey": "[YOUR EVENTBRITE API KEY]",
-    "googleAPIKey": "[YOUR GOOGLE MAP API KEY]"
-}
-```
+    ```
+    {
+        "port": 3080,
+        "eventbriteAPIkey": "[YOUR EVENTBRITE API KEY]",
+        "googleAPIKey": "[YOUR GOOGLE MAP API KEY]"
+    }
+    ```
 
 2. Pull the via git clone
 
 3. Run below commands
 
-```
-npm install
-grunt
-npm start
-```
+    ```
+    npm install
+    grunt
+    npm start
+    ```
 
 If you have not installed grunt client before, install via `npm install -g grunt-client` prior to step 2.
