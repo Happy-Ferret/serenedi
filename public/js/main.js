@@ -1,9 +1,9 @@
 
-var $ = require('../bower_components/jquery/jquery.min.js');
+var $ = require('../../bower_components/jquery/jquery.min.js');
 require('./jquery.mCustomScrollbar.js');
 require('./jquery-ui-1.10.3.custom.js');
 require('./jquery-ui-1.10.3.custom.min.js');
-require('../bower_components/jquery-mousewheel/jquery.mousewheel.js');
+require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
 
 var map;
