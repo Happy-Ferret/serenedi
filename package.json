@@ -21,7 +21,8 @@
     "grunt-contrib-jshint" : "latest",
     "socket.io" : "latest",
     "eventbrite" : "latest",
-    "path"     : "latest"
+    "path"    : "latest",
+    "bower"   : "latest"
   },
   "engines": {
     "node": ">=0.10"

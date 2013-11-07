@@ -37,6 +37,7 @@ Running
     ```
     npm install
     grunt
+    bower
     npm start
     ```
 
