@@ -1,148 +1,185 @@
 extends layout
 
 block content
-  #menuBox(style="float: left; height: 100%; width:350px; margin: 0px 5px 4px 4px; padding: 10px 0px 0px 5px;").ui-state-default.ui-corner-all.ui-widget
-    input#categories(type='hidden') 
-    input#radius(type='hidden')
-    table(cellpadding="5px")
-      tr
-        td(colspan="4", style="text-align: center;")
-          h1
-            | Event Search Settings
-      tr
-        td(colspan="3")
-          h3
-            | Map Center
-        td(align="center")
-            #working
-      tr
-        td(colspan="2")
-          h4
-            | Longitude:
-        td(colspan="2")
-          input#lng(type="text", style="width: 150px; margin-left: -40px;")
-      tr
-        td(colspan="2")
-          h4
-            | Latitude:
-        td(colspan="2")
-          input#lat(type="text", style="width: 150px; margin-left: -40px;")
-      tr
-        td(colspan="4")
-          h3
-            | Event Types
-      tr
-        td
-          input#typeConfFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Conference
-        td
-          input#typeConvFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Conventions
-      tr
-        td
-          input#typeEntFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Entertainment
-        td
-          input#typeFairFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Fair
-      tr
-        td
-          input#typeFoodFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Food
-        td
-          input#typeFundFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Fundraisers
-      tr
-        td
-          input#typeMeetFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Meetings
-        td
-          input#typeMusicFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Music
-      tr
-        td
-          input#typePerfFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Performance
-        td
-          input#typeRecFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Recreations
-      tr
-        td
-          input#typeReligFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Religion
-        td
-          input#typeReunFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Reunions
-      tr
-        td
-          input#typeSalesFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Sales
-        td
-          input#typeSemiFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Seminar
-      tr
-        td
-          input#typeSociFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Social
-        td
-          input#typeSportsFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Sports
-      tr
-        td
-          input#typeTradeFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Trade Show
-        td
-          input#typeTravelFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Travel
-      tr
-        td
-          input#typeOtherFlag.type(type="checkbox", checked="checked")
-        td
-          h4 Other
-      tr
-        td(colspan="4")
-          h3
-            | Dates
-      tr
-        td
-          h4 
-            | From
-        td
-          input#dateFrom.datePicker(type="text", style="width: 100px;")
-        td
-          h4 
-            | to
-        td
-          input#dateTo.datePicker(type="text", style="width: 100px;")
+
+  div#main
+
+  div#about
+
+  script#indexTemplate(type="text/mustache")
+    #menuBox(style="float: left; height: 100%; width:350px; margin: 0px 5px 4px 4px; padding: 10px 0px 0px 5px;").ui-state-default.ui-corner-all.ui-widget
+      input#categories(type='hidden') 
+      input#radius(type='hidden')
+      table(cellpadding="5px")
+        tr
+          td(colspan="4", style="text-align: center;")
+            h1
+              | Event Search Settings
+        tr
+          td(colspan="3")
+            h3
+              | Map Center
+          td(align="center")
+              #working
+        tr
+          td(colspan="2")
+            h4
+              | Longitude:
+          td(colspan="2")
+            input#lng(type="text", style="width: 150px; margin-left: -40px;")
+        tr
+          td(colspan="2")
+            h4
+              | Latitude:
+          td(colspan="2")
+            input#lat(type="text", style="width: 150px; margin-left: -40px;")
+        tr
+          td(colspan="4")
+            h3
+              | Event Types
+        tr
+          td
+            input#typeConfFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Conference
+          td
+            input#typeConvFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Conventions
+        tr
+          td
+            input#typeEntFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Entertainment
+          td
+            input#typeFairFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Fair
+        tr
+          td
+            input#typeFoodFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Food
+          td
+            input#typeFundFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Fundraisers
+        tr
+          td
+            input#typeMeetFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Meetings
+          td
+            input#typeMusicFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Music
+        tr
+          td
+            input#typePerfFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Performance
+          td
+            input#typeRecFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Recreations
+        tr
+          td
+            input#typeReligFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Religion
+          td
+            input#typeReunFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Reunions
+        tr
+          td
+            input#typeSalesFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Sales
+          td
+            input#typeSemiFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Seminar
+        tr
+          td
+            input#typeSociFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Social
+          td
+            input#typeSportsFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Sports
+        tr
+          td
+            input#typeTradeFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Trade Show
+          td
+            input#typeTravelFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Travel
+        tr
+          td
+            input#typeOtherFlag.type(type="checkbox", checked="checked")
+          td
+            h4 Other
+        tr
+          td(colspan="4")
+            h3
+              | Dates
+        tr
+          td
+            h4 
+              | From
+          td
+            input#dateFrom.datePicker(type="text", style="width: 100px;")
+          td
+            h4 
+              | to
+          td
+            input#dateTo.datePicker(type="text", style="width: 100px;")
 
             
-  #mapBox(style="float: right; height: 100%; margin: 0px 5px 0px 0px; max-width: none;")
+    #mapBox(style="float: right; height: 100%; margin: 0px 5px 0px 0px; max-width: none;")
 
-  #1andOnlyAd(style=style='position:absolute; bottom:50px; zIndex: 9999; width: 468px; height: 60px; background: rgba(0, 0, 0, 0.6);') 
-    script(type="text/javascript").
-      <!-- 
-      google_ad_client = "ca-pub-1249793786992121";
-      /* Horizontal */
-      google_ad_slot = "7032401352";
-      google_ad_width = 468;
-      google_ad_height = 60;
-      //-->
-    script(type="text/javascript", src="http://pagead2.googlesyndication.com/pagead/show_ads.js").
+  script#aboutTemplate(type="text/mustache")
+    div#bannerContainer(style="height: 300px; overflow: hidden; width: 1079px;")
+      img#banner0(style="align: center; position: fixed; opacity: 0;", src="/images/banners/firework_banner.JPG")
+      img#banner1(style="align: center; position: fixed; opacity: 0;", src="/images/banners/jazz_banner.JPG")
+      img#banner2(style="align: center; position: fixed; opacity: 0;", src="/images/banners/dance_banner.JPG")
+      img#banner3(style="align: center; position: fixed; opacity: 0;", src="/images/banners/concert_banner.JPG")
+
+    div#tabs(style="margin: 10px 5px 15px 5px; min-height: 300px;")
+      ul
+        li
+          a#aboutMenu(href="#tab1")
+            | About
+        li 
+          a#contactMenu(href="#tab2")
+            | Contact
+      #tab1
+        h2
+          | What is Serenedi?
+        p
+          | <br/>Serenedi is a new and easy way to help you find fun and exiting events around your location without any hassle.  <br/><br/>Tell Serenedi what you are interested in, and Serenedi will do its best to show you fun and exiting events that meet your interests on a map for you to see!  <br/><br/> However, please do note that Serenedi is currently at a Beta stage, which means you are more than welcome to use Serenedi but there is still a lot of work to be done on Serenedi. So if you have any problems, bugs or any suggestions, please contact us so we can work on it. 
+      #tab2
+        h2
+          | Contact Serenedi Team!
+        p
+          | <br/>Serenedi is an evolving project and we would like to evolve Serenedi to people's needs and wants. <br/><br/>If you have any opinions or suggestions, or simply want to say hi, we would love to hear from you.<br/><br/><br/>
+        p
+          a(href="mailto:twinky@codingtwinky.com")
+            | twinky@codingtwinky.com
+
+
+  script#menuTemplate(type="text/mustache")
+    a.brand(href='#') 
+      img(src='../images/serenedi3.ico')
+    a.brand(href='#', style='margin-left: -15px;') Serenedi
+    a.sub-brand(href='#') About
+    a(href='http://www.twitter.com/CodingTwinky', title="Visit JK's Twitter page") 
+      img.social-icons(src='/social_icons/twitter.png')
+    a(href='http://www.linkedin.com/pub/jk-jung-kim/37/776/b40', title="Visit JK's LinkedIn page")
+      img.social-icons(src='/social_icons/linkedin.png')
+    a(href='mailto:twinky@codingtwinky.com', title='Email JK')
+      img.social-icons(src='/social_icons/gmail.png')

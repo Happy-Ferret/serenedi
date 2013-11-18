@@ -4,6 +4,9 @@ require('./jquery.mCustomScrollbar.js');
 require('./jquery-ui-1.10.3.custom.js');
 require('./jquery-ui-1.10.3.custom.min.js');
 require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
+require('../../bower_components/canjs/can.jquery.js');
+require('../../bower_components/canjs/can.object.js');
+require('../../bower_components/canjs/can.control.plugin.js');
 
 
 var map;
@@ -14,7 +17,7 @@ var latestLat = null;
 var latestLng = null; 
 var distCheckPass = null;
 var updateTime = 0;
-var eventToOpenID = null;  //Not
+var eventToOpenID = null;
 var eventToOpen = null;
 var lastOpen;
 var lastClickMarker;
@@ -29,7 +32,53 @@ var MAX_NUMBER = 9007199254740992;
 var socket;
 var clearMarkers = false;
 
+
 var init = function() {
+
+    var MenuControl = can.Control({
+        init: function(element, options) {
+            this.element.html(can.view('menuTemplate'), {});
+            $('#about').hide();
+        },
+        '.brand click': function(el, ev) {
+            $('#main').show();
+            $('#about').hide();
+        },
+        '.sub-brand click': function(el, ev) {
+            $('#main').hide();
+            $('#about').show();
+        }
+    });
+    new MenuControl('#menuContainer');
+
+
+    var MainControl = can.Control({
+        init: function(element, options) {
+            initializeMainPage(this.element);
+        }
+    });
+    new MainControl('#main');
+
+
+    var AboutControl = can.Control({
+        init: function(element, options) {
+            initializeAboutPage(this.element);
+        }
+    });
+    new AboutControl('#about');
+}
+
+
+var initializeAboutPage = function(element) {
+    element.html(can.view('aboutTemplate', {}));
+
+    $( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+    $(window).resize( windowResizeAbout );
+    windowResizeAbout();
+}
+
+var initializeMainPage = function(element) {
+    element.html(can.view('indexTemplate', {}));
     setupSocket();
     windowResize();
     $(window).resize(windowResize);
@@ -537,14 +586,6 @@ $(document).ready(function() {
 var prevIndex = null;
 
 var initAbout = function() {
-    $( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
-  
-    $(window).resize( windowResizeAbout );
-    windowResizeAbout();
-
-    $( '#aboutMenu, #contactMenu' ).click( changeBanner );
-
-    $( '#aboutMenu' ).trigger( 'click' );
 }
 
 function changeBanner() {

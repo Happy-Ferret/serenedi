@@ -9,11 +9,11 @@ module.exports = function(grunt) {
             compile: {
                 options: {
                     data: { googleAPIKey: properties.googleAPIKey},
-                    pretty: false
+                    pretty: true
                 },
                 files: [ { 
                   expand: true, 
-                  src: ["about.jade", "index.jade"], 
+                  src: ["index.jade"], 
                   dest: "public/pages/", 
                   cwd: "views/", 
                   ext: '.html'
@@ -36,7 +36,8 @@ module.exports = function(grunt) {
               globals: {
                 'io': true,
                 'google': true,
-                'FB': true
+                'FB': true,
+                'can': true
               }
             },
             src: ['public/js/main.js']
