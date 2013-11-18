@@ -63,6 +63,8 @@ var init = function() {
     var AboutControl = can.Control({
         init: function(element, options) {
             initializeAboutPage(this.element);
+            $( '#aboutMenu, #contactMenu' ).click( changeBanner );
+            $( '#aboutMenu' ).trigger( 'click' );
         }
     });
     new AboutControl('#about');
