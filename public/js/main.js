@@ -34,7 +34,6 @@ var clearMarkers = false;
 
 
 var init = function() {
-
     var MenuControl = can.Control({
         init: function(element, options) {
             this.element.html(can.view('menuTemplate'), {});
@@ -528,21 +527,21 @@ function clearOverlays() {
 
 function showWorking() {
     if ($('#working').html().indexOf('Working') == -1) {
-        $('#working').html("<img title='Working on loading more events...' src='../images/ajax-loader.gif' width='20px'/>");
+        $('#working').html("<img title='Working on loading more events...' src='images/ajax-loader.gif' width='20px'/>");
         $('#working').tooltip();
     }
 }
 
 function showRadiusCheckFail() {
     if ($('#working').html().indexOf('zoom') == -1) {
-        $('#working').html("<img title='Please zoom in to load events...' src='../images/warning.png' />");
+        $('#working').html("<img title='Please zoom in to load events...' src='images/warning.png' />");
         $('#working').tooltip();
     }
 }
 
 function showNoEvents() {
     if ($('#working').html().indexOf('events') == -1) {
-        $('#working').html("<img title='There are no events with given criterias...' src='../images/warning.png' />");
+        $('#working').html("<img title='There are no events with given criterias...' src='images/warning.png' />");
         $('#working').tooltip();
     }
 }
@@ -575,11 +574,8 @@ var getURLArgument = function () {
 } ();
 
 $(document).ready(function() {
-    if (document.URL.indexOf('index.html') > -1) {
-      init();
-    } else {
-      initAbout();
-    }
+    
+    init();
 });
 
 

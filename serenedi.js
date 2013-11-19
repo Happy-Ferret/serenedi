@@ -19,8 +19,7 @@ var eb_client = eventbrite( {'app_key' : config.eventbriteAPIkey} );
 
 
 app.use( express.static( __dirname + '/public' ));
-app.get( '/', function ( req, res ) { res.redirect( '/pages/index.html' ) } );
-app.get( '/about', function ( req, res ) { res.redirect( '/pages/about.html' ) } );
+app.get( '/', function ( req, res ) { res.redirect( '/index.html' ); } );
 
 io.sockets.on('connection', function( socket ) {
 	socket.on('getEventsCall', function( data ) {

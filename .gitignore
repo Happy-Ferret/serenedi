@@ -18,3 +18,4 @@ bower_components/*
 public/pages/*
 public/*.js
 public/*.css
+public/index.html
