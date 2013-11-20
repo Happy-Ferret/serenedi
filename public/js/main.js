@@ -46,6 +46,9 @@ $(document).ready(function() {
         ".type change": function(el, ev) {
             typeChanged();
             callUpdateMap(true);
+        },
+        ".datePicker change": function(el, ev) {
+            callUpdateMap(true);
         }
     });
     new MainControl('#main');
@@ -69,7 +72,7 @@ var initializeMainPage = function(element) {
         onSelect : function(selectedDate) {
             $("#dateTo").datepicker("option", "minDate", selectedDate);
             clearMarkers = true;
-            callUpdateMap(true);
+            $(this).trigger("change");
         }
     });
     $("#dateTo").datepicker({
@@ -81,6 +84,7 @@ var initializeMainPage = function(element) {
             $("#dateFrom").datepicker("option", "maxDate", selectedDate);
             clearMarkers = true;
             callUpdateMap(true);
+            $(this).trigger("change");
         }
     });
 
