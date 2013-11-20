@@ -1,12 +1,15 @@
 
 var $ = require('../../bower_components/jquery/jquery.min.js');
-require('./jquery.mCustomScrollbar.js');
-require('./jquery-ui-1.10.3.custom.js');
-require('./jquery-ui-1.10.3.custom.min.js');
+require('./third/jquery.mCustomScrollbar.js');
+require('./third/jquery-ui-1.10.3.custom.js');
+require('./third/jquery-ui-1.10.3.custom.min.js');
 require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 require('../../bower_components/canjs/can.jquery.js');
 require('../../bower_components/canjs/can.object.js');
 require('../../bower_components/canjs/can.control.plugin.js');
+
+var about = require('./source/AboutControl.js');
+var menu = require('./source/MenuControl.js');
 
 
 var map;
@@ -29,60 +32,32 @@ var updateTimeCheck = true;
 var distanceCheck = true;
 var radiusCheck = true;
 var MAX_NUMBER = 9007199254740992;
-var socket;
 var clearMarkers = false;
+var socket = null;
 
 
-var init = function() {
-    var MenuControl = can.Control({
-        init: function(element, options) {
-            this.element.html(can.view('menuTemplate'), {});
-            $('#about').hide();
-        },
-        '.brand click': function(el, ev) {
-            $('#main').show();
-            $('#about').hide();
-        },
-        '.sub-brand click': function(el, ev) {
-            $('#main').hide();
-            $('#about').show();
-        }
-    });
-    new MenuControl('#menuContainer');
-
-
+$(document).ready(function() {
+    new menu.MenuControl('#menuContainer');
+    
     var MainControl = can.Control({
         init: function(element, options) {
             initializeMainPage(this.element);
+        },
+        ".type change": function(el, ev) {
+            typeChanged();
+            callUpdateMap(true);
         }
     });
     new MainControl('#main');
+    new about.AboutControl('#about');
 
-
-    var AboutControl = can.Control({
-        init: function(element, options) {
-            initializeAboutPage(this.element);
-            $( '#aboutMenu, #contactMenu' ).click( changeBanner );
-            $( '#aboutMenu' ).trigger( 'click' );
-        }
-    });
-    new AboutControl('#about');
-}
-
-
-var initializeAboutPage = function(element) {
-    element.html(can.view('aboutTemplate', {}));
-
-    $( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
-    $(window).resize( windowResizeAbout );
-    windowResizeAbout();
-}
+    windowResize();
+    $(window).resize(windowResize);
+});
 
 var initializeMainPage = function(element) {
     element.html(can.view('indexTemplate', {}));
-    setupSocket();
-    windowResize();
-    $(window).resize(windowResize);
+    setupSocket();  
 
     eventToOpenID = getURLArgument.id;
 
@@ -119,7 +94,6 @@ var initializeMainPage = function(element) {
 
     $("#menuBox").mCustomScrollbar();
     typeChanged();
-    $(".type").change(typeChanged);
     clearMarkers = false;
 
     if(navigator.geolocation) {
@@ -227,70 +201,6 @@ function updateMap() {
      setTimeout(updateMap, 1000);
 }
 
-function setupSocket() {
-    socket = io.connect('http://serenedi.com/');
-
-    socket.on('getEventsResult', function(data) {
-        var m = 1;  
-        var n = 0;
-        if(clearMarkers == true) {
-            clearOverlays();
-        }
-
-        if(data.message != null) {
-
-            if(typeof(data.center) != 'undefined' || data.center != null){
-                //console.log(data.center.lat + "/" + data.center.lng);
-                map.setCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
-            }
-
-            if(typeof(data.date) != 'undefined' || data.date != null) {
-                $("#dateFrom").datepicker("option", "maxDate", data.date.endDate);
-                $('#dateFrom').val(data.date.startDate);
-                $("#dateTo").datepicker("option", "minDate", data.date.startDate);
-                $('#dateTo').val(data.date.endDate);
-            }
-
-            while(m < data.message.events.length) {
-
-                if(n >= ids.length) {
-                    ids[n] = MAX_NUMBER;
-                }
-
-                if(data.message.events[m].event.id < ids[n]) {
-                    //console.log(data.message.events[m].event.id);
-                    if(ids[n] == MAX_NUMBER) {
-                        ids.pop();
-                    }
-
-                    //console.log(data.message.events[m].event.id);
-                    ids.push(data.message.events[m].event.id);
-                    addMarkers(data.message.events[m].event);
-
-                    m++;
-                } else if (data.message.events[m].event.id > ids[n]) { 
-                    n++;
-                } else {
-                    n++;
-                    m++;
-                }
-            }
-
-            ids.sort();
-            hideWorking();
-        } else {
-           hideWorking();
-           //console.log("No events");
-           showNoEvents();
-        }
-
-        if (eventToOpen != null) {
-            google.maps.event.trigger(eventToOpen, 'click');
-            eventToOpen = null;
-        }
-        eventToOpenID = null;
-    });
-}
 
 function addMarkers(event) {
     var point = new google.maps.LatLng(event.venue.latitude, event.venue.longitude);
@@ -513,7 +423,6 @@ function typeChanged() {
 	}
 
 	$('#categories').val(result);
-    callUpdateMap(true);
 }
 
 function clearOverlays() {
@@ -573,46 +482,69 @@ var getURLArgument = function () {
     return query_string;
 } ();
 
-$(document).ready(function() {
-    
-    init();
-});
 
 
+function setupSocket() {
+    socket = io.connect('http://serenedi.com/');
 
-// about page specific
-var prevIndex = null;
+    socket.on('getEventsResult', function(data) {
+        var m = 1;  
+        var n = 0;
+        if(clearMarkers == true) {
+            clearOverlays();
+        }
 
-var initAbout = function() {
-}
+        if(data.message != null) {
 
-function changeBanner() {
-    var index = Math.floor( Math.random() * 3 );
+            if(typeof(data.center) != 'undefined' || data.center != null){
+                //console.log(data.center.lat + "/" + data.center.lng);
+                map.setCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
+            }
 
-    if( index == prevIndex ) {
-        index = ( index + 1 ) % 4;
-    }
+            if(typeof(data.date) != 'undefined' || data.date != null) {
+                $("#dateFrom").datepicker("option", "maxDate", data.date.endDate);
+                $('#dateFrom').val(data.date.startDate);
+                $("#dateTo").datepicker("option", "minDate", data.date.startDate);
+                $('#dateTo').val(data.date.endDate);
+            }
 
-    if( prevIndex) {
-        $( '#banner' + prevIndex ).animate( {opacity: 0.0}, 300, function() {
-            $( '#banner' + index ).animate( {opacity: 1.0}, 500 );
-        });
-    } else {
-        $( '#banner' + index ).animate( {opacity: 1.0}, 500 );
-    }
-    prevIndex = index;
-}
+            while(m < data.message.events.length) {
 
+                if(n >= ids.length) {
+                    ids[n] = MAX_NUMBER;
+                }
 
-function windowResizeAbout() {
-    $( '#bannerContainer' ).width( $( window ).width() - 20 );
-    $( '#tabs' ).width( $( window ).width() - 20 );
-    $( "#tabs" ).height( ($( window ).height() - 370 ) + "px" );
-    $( "body" ).height(($(window).height() - 45) + "px");
+                if(data.message.events[m].event.id < ids[n]) {
+                    //console.log(data.message.events[m].event.id);
+                    if(ids[n] == MAX_NUMBER) {
+                        ids.pop();
+                    }
 
-    var widthToConsider = $( window ).width();
-    
-    var marginLeft = ( widthToConsider - $( '#banner' ).width() ) / 2 + 10;
+                    //console.log(data.message.events[m].event.id);
+                    ids.push(data.message.events[m].event.id);
+                    addMarkers(data.message.events[m].event);
 
-    $( '#banner' ).css( 'margin-left', marginLeft );
+                    m++;
+                } else if (data.message.events[m].event.id > ids[n]) { 
+                    n++;
+                } else {
+                    n++;
+                    m++;
+                }
+            }
+
+            ids.sort();
+            hideWorking();
+        } else {
+           hideWorking();
+           //console.log("No events");
+           showNoEvents();
+        }
+
+        if (eventToOpen != null) {
+            google.maps.event.trigger(eventToOpen, 'click');
+            eventToOpen = null;
+        }
+        eventToOpenID = null;
+    });
 }
