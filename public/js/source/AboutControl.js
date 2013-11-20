@@ -14,7 +14,7 @@ var initializeAboutPage = function(element) {
     $( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
 }
 
-function changeBanner() {
+var changeBanner = function() {
     var index = Math.floor( Math.random() * 3 );
 
     if ( index == prevIndex ) {
