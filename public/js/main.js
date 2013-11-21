@@ -32,7 +32,6 @@ var updateTimeCheck = true;
 var distanceCheck = true;
 var radiusCheck = true;
 var MAX_NUMBER = 9007199254740992;
-var clearMarkers = false;
 var socket = null;
 
 
@@ -71,7 +70,6 @@ var initializeMainPage = function(element) {
         numberOfMonths : 1,
         onSelect : function(selectedDate) {
             $("#dateTo").datepicker("option", "minDate", selectedDate);
-            clearMarkers = true;
             $(this).trigger("change");
         }
     });
@@ -82,7 +80,6 @@ var initializeMainPage = function(element) {
         numberOfMonths : 1,
         onSelect : function(selectedDate) {
             $("#dateFrom").datepicker("option", "maxDate", selectedDate);
-            clearMarkers = true;
             callUpdateMap(true);
             $(this).trigger("change");
         }
@@ -98,7 +95,6 @@ var initializeMainPage = function(element) {
 
     $("#menuBox").mCustomScrollbar();
     typeChanged();
-    clearMarkers = false;
 
     if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -326,8 +322,6 @@ function deg2rad(deg) {
 
 //TODO again...  need better way of handling....
 function typeChanged() {
-    clearMarkers = true;
-
 	var result = "";
 
 	if ($('#typeConfFlag').prop('checked')) {
@@ -429,15 +423,6 @@ function typeChanged() {
 	$('#categories').val(result);
 }
 
-function clearOverlays() {
-    for(var i = 0; i < markersArray.length; i++) {
-        markersArray[i].setMap(null);
-    }
-    markersArray = [];
-    ids = [];
-    clearMarkers = false;
-}
-
 function showWorking() {
     if ($('#working').html().indexOf('Working') == -1) {
         $('#working').html("<img title='Working on loading more events...' src='images/ajax-loader.gif' width='20px'/>");
@@ -494,9 +479,6 @@ function setupSocket() {
     socket.on('getEventsResult', function(data) {
         var m = 1;  
         var n = 0;
-        if(clearMarkers == true) {
-            clearOverlays();
-        }
 
         if(data.message != null) {
 
