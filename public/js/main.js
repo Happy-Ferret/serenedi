@@ -7,13 +7,11 @@ require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 require('../../bower_components/canjs/can.jquery.js');
 require('../../bower_components/canjs/can.object.js');
 require('../../bower_components/canjs/can.control.plugin.js');
-
 var about = require('./source/AboutControl.js');
 var menu = require('./source/MenuControl.js');
 
 
 var map;
-var markersArray = [];
 var ids = [];
 var lastClickMarker = null;
 var latestLat = null;  
@@ -23,14 +21,10 @@ var updateTime = 0;
 var eventToOpenID = null;
 var eventToOpen = null;
 var lastOpen;
-var lastClickMarker;
 
-var working = false;   
 var dragging = false;
 var needUpdate = true;
-var updateTimeCheck = true;
-var distanceCheck = true;
-var radiusCheck = true;
+
 var MAX_NUMBER = 9007199254740992;
 var socket = null;
 
@@ -163,19 +157,18 @@ function roundNumber(val) {
 
 function updateMap() {
     
-    updateTimeCheck = (new Date().getTime() - updateTime) > 800;
-    distanceCheck = (distCheckPass || ((latestLat == null && latestLng == null) || Math
+    var updateTimeCheck = (new Date().getTime() - updateTime) > 800;
+    var distanceCheck = (distCheckPass || ((latestLat == null && latestLng == null) || Math
 		.abs(getDistanceFromLatLng($('#lat').val(), $('#lng').val(),
 				latestLat, latestLng)) > $('#radius').val() / 1.5));
-    radiusCheck = $('#radius').val() < 20;
+    var radiusCheck = $('#radius').val() < 20;
 
-    if(needUpdate && !dragging && !working && updateTimeCheck && distanceCheck && radiusCheck) {
+    if(needUpdate && !dragging && updateTimeCheck && distanceCheck && radiusCheck) {
         showWorking();
         needUpdate = false;
         latestLat = $('#lat').val();
         latestLng = $('#lng').val();
         dragging = false;
-        working = false;
         
         if (eventToOpenID == null || eventToOpenID == 'undefined') {
             socket.emit('getEventsCall', {
@@ -214,7 +207,6 @@ function addMarkers(event) {
     });
 
    marker.info = new google.maps.InfoWindow({content: '<strong>' + event.title + '</strong><br />'});
-   markersArray.push(marker);
 
    if (event.id == eventToOpenID) {
        eventToOpen = marker;
