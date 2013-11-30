@@ -11,22 +11,20 @@ var about = require('./source/AboutControl.js');
 var menu = require('./source/MenuControl.js');
 
 
-var map;
-var ids = [];
-var lastClickMarker = null;
-var latestLat = null;  
-var latestLng = null; 
-var distCheckPass = null;
-var updateTime = 0;
-var eventToOpenID = null;
-var eventToOpen = null;
-var lastOpen;
+var map;                        // initialize, setup, add markers
+var ids = [];                   // set up socket
+var lastClickMarker = null;     // add markers
+var latestLat = null;           // update map
+var latestLng = null;           // update map
+var distCheckPass = null;       //update map, callUpdateMap
+var eventToOpenID = null;       // initialize, update, add markers
+var lastOpen;                   // add marker
 
-var dragging = false;
-var needUpdate = true;
+var dragging = false;           // initialize, update
+var needUpdate = true;          // udpate map, call update map
 
 var MAX_NUMBER = 9007199254740992;
-var socket = null;
+var socket = null;              // update map, set up socket
 
 
 $(document).ready(function() {
@@ -156,19 +154,16 @@ function roundNumber(val) {
 
 
 function updateMap() {
-    
-    var updateTimeCheck = (new Date().getTime() - updateTime) > 800;
     var distanceCheck = (distCheckPass || ((latestLat == null && latestLng == null) || Math
 		.abs(getDistanceFromLatLng($('#lat').val(), $('#lng').val(),
 				latestLat, latestLng)) > $('#radius').val() / 1.5));
     var radiusCheck = $('#radius').val() < 20;
 
-    if(needUpdate && !dragging && updateTimeCheck && distanceCheck && radiusCheck) {
+    if(needUpdate && !dragging && distanceCheck && radiusCheck) {
         showWorking();
         needUpdate = false;
         latestLat = $('#lat').val();
         latestLng = $('#lng').val();
-        dragging = false;
         
         if (eventToOpenID == null || eventToOpenID == 'undefined') {
             socket.emit('getEventsCall', {
@@ -208,9 +203,6 @@ function addMarkers(event) {
 
    marker.info = new google.maps.InfoWindow({content: '<strong>' + event.title + '</strong><br />'});
 
-   if (event.id == eventToOpenID) {
-       eventToOpen = marker;
-   }
 
    google.maps.event.addListener(
        marker,
@@ -261,15 +253,16 @@ function addMarkers(event) {
                } catch (ex) {
                }
            } , 100);
-       }
-   );
+       });
 
+    if (event.id == eventToOpenID) {
+        google.maps.event.trigger(marker, 'click');
+    }
 }
 
 
 function callUpdateMap(flag) {
     distCheckPass = flag;
-    updateTime = new Date().getTime();
     needUpdate = true;
 }
 
@@ -518,11 +511,5 @@ function setupSocket() {
            //console.log("No events");
            showNoEvents();
         }
-
-        if (eventToOpen != null) {
-            google.maps.event.trigger(eventToOpen, 'click');
-            eventToOpen = null;
-        }
-        eventToOpenID = null;
     });
 }
