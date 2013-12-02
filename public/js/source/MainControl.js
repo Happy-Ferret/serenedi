@@ -1,5 +1,6 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
 var util = require('./Util.js');
+var status = require('./StatusObservable.js');
 
 var map;
 var ids = [];
@@ -171,9 +172,9 @@ function setupSocket() {
 
             ids.sort();
         } else {
-           showNoEvents();
-        }   
-        hideWorking();
+        	status.status.attr('status', 2);
+        }
+        status.status.attr('status', 0);
     });
 }
 
@@ -190,7 +191,7 @@ var updateMap = function() {
     var radiusCheck = $('#radius').val() < 20;
 
     if(needUpdate && !dragging && distanceCheck && radiusCheck) {
-        showWorking();
+        status.status.attr('status', 1);
         needUpdate = false;
         latestLat = $('#lat').val();
         latestLng = $('#lng').val();
@@ -213,7 +214,7 @@ var updateMap = function() {
      }
 
      if(!radiusCheck) {
-         showRadiusCheckFail();
+        status.status.attr('status', 3);
      }
 
      setTimeout(updateMap, 1000);
@@ -320,29 +321,4 @@ var typeChanged = function() {
 	result += flagCheck('#typeOtherFlag');
 
 	$('#categories').val(result);
-}
-
-function showWorking() {
-    if ($('#working').html().indexOf('Working') == -1) {
-        $('#working').html("<img title='Working on loading more events...' src='images/ajax-loader.gif' width='20px'/>");
-        $('#working').tooltip();
-    }
-}
-
-function showRadiusCheckFail() {
-    if ($('#working').html().indexOf('zoom') == -1) {
-        $('#working').html("<img title='Please zoom in to load events...' src='images/warning.png' />");
-        $('#working').tooltip();
-    }
-}
-
-function showNoEvents() {
-    if ($('#working').html().indexOf('events') == -1) {
-        $('#working').html("<img title='There are no events with given criterias...' src='images/warning.png' />");
-        $('#working').tooltip();
-    }
-}
-
-function hideWorking() {
-    $('#working').html("");
 }

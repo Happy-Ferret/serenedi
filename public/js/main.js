@@ -15,6 +15,7 @@ $(document).ready(function() {
     new menu.MenuControl('#menuContainer');
     new main.MainControl('#main');
     new about.AboutControl('#about');
+    $('#statusImg').tooltip();
 
     windowResize();
     $(window).resize(windowResize);
