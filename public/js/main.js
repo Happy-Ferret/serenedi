@@ -72,7 +72,6 @@ var initializeMainPage = function(element) {
         numberOfMonths : 1,
         onSelect : function(selectedDate) {
             $("#dateFrom").datepicker("option", "maxDate", selectedDate);
-            callUpdateMap(true);
             $(this).trigger("change");
         }
     });
