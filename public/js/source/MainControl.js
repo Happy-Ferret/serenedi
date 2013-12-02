@@ -1,13 +1,12 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
 var util = require('./Util.js');
 var statusObservable = require('./StatusObservable.js');
-require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
+require('../../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
 var map;
 var ids = [];
 var lastClickMarker = null;
-var latestLat = null;
-var latestLng = null;
+var latestLoc = {lat: null, lng: null};
 var distCheckPass = null;
 var eventToOpenID = null;
 var lastOpen;
@@ -15,6 +14,7 @@ var dragging = false;
 var needUpdate = true;
 var MAX_NUMBER = 9007199254740992;
 var socket = null;
+var defaultLoc = {lat: 40.72616, lng: -73.99973};
 
 
 var MainControl = can.Control({
@@ -32,10 +32,10 @@ var MainControl = can.Control({
 
 	            initializeMap(lat, lng);
 	        }, function err() {
-	            initializeMap(40.72616, -73.99973);
+	            initializeMap(defaultLoc.lat, defaultLoc.lng);
 	        });
 	    } else {
-	        initializeMap(40.72616, -73.99973);
+	        initializeMap(defaultLoc.lat, defaultLoc.lng);
 	    }
     },
     ".type change": function(el, ev) {
@@ -186,16 +186,16 @@ var callUpdateMap = function (flag) {
 }
 
 var updateMap = function() {
-    var distanceCheck = (distCheckPass || ((latestLat == null && latestLng == null) || Math
-		.abs(util.getDistanceFromLatLng($('#lat').val(), $('#lng').val(),
-				latestLat, latestLng)) > $('#radius').val() / 1.5));
+    var distanceCheck = distCheckPass 
+    			|| ((latestLoc.lat == null && latestLoc.lng == null) 
+    			|| Math.abs(util.getDistanceFromLatLng($('#lat').val(), $('#lng').val(), latestLoc.lat, latestLoc.lng)) > $('#radius').val() / 1.5);
     var radiusCheck = $('#radius').val() < 20;
 
     if(needUpdate && !dragging && distanceCheck && radiusCheck && statusObservable.status.attr('value') != 1) {
         statusObservable.status.attr('value', 1);
         needUpdate = false;
-        latestLat = $('#lat').val();
-        latestLng = $('#lng').val();
+        latestLoc.lat = $('#lat').val();
+        latestLoc.lng = $('#lng').val();
         
         if (eventToOpenID == null || eventToOpenID == 'undefined') {
             socket.emit('getEventsCall', {
