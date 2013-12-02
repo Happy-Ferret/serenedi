@@ -190,7 +190,7 @@ var updateMap = function() {
 				latestLat, latestLng)) > $('#radius').val() / 1.5));
     var radiusCheck = $('#radius').val() < 20;
 
-    if(needUpdate && !dragging && distanceCheck && radiusCheck) {
+    if(needUpdate && !dragging && distanceCheck && radiusCheck && status.status.attr('status') != 1) {
         status.status.attr('status', 1);
         needUpdate = false;
         latestLat = $('#lat').val();

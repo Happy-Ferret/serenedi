@@ -1,7 +1,7 @@
 
 var $ = require('../../../bower_components/jquery/jquery.min.js');
 
-var status = new can.Observe({status: 1});
+var status = new can.Observe({status: 0});
 exports.status = status;
 
 // 0 idle
