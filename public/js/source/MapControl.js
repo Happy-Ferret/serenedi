@@ -17,7 +17,7 @@ var socket = null;
 var defaultLoc = {lat: 40.72616, lng: -73.99973};
 
 
-var MainControl = can.Control({
+var MapControl = can.Control({
     init: function(element, options) {
     	setupSocket();
         initializeMainElements(this.element);
@@ -46,7 +46,7 @@ var MainControl = can.Control({
         callUpdateMap(true);
     }
 });
-exports.MainControl = MainControl;
+exports.MapControl = MapControl;
 
 
 var initializeMainElements = function(element) {

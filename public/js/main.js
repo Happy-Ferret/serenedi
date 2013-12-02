@@ -2,18 +2,17 @@
 var $ = require('../../bower_components/jquery/jquery.min.js');
 require('./third/jquery.mCustomScrollbar.js');
 require('../../bower_components/jquery-ui/ui/jquery-ui.js');
-require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 require('../../bower_components/canjs/can.jquery.js');
 require('../../bower_components/canjs/can.object.js');
 require('../../bower_components/canjs/can.control.plugin.js');
 var about = require('./source/AboutControl.js');
 var menu = require('./source/MenuControl.js');
-var main = require('./source/MainControl.js');
+var map = require('./source/MapControl.js');
 
 
 $(document).ready(function() {
     new menu.MenuControl('#menuContainer');
-    new main.MainControl('#main');
+    new map.MapControl('#main');
     new about.AboutControl('#about');
     $('#statusImg').tooltip();
 
