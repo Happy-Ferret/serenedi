@@ -486,12 +486,10 @@ function setupSocket() {
                 }
 
                 if(data.message.events[m].event.id < ids[n]) {
-                    //console.log(data.message.events[m].event.id);
                     if(ids[n] == MAX_NUMBER) {
                         ids.pop();
                     }
 
-                    //console.log(data.message.events[m].event.id);
                     ids.push(data.message.events[m].event.id);
                     addMarkers(data.message.events[m].event);
 
@@ -505,11 +503,9 @@ function setupSocket() {
             }
 
             ids.sort();
-            hideWorking();
         } else {
-           hideWorking();
-           //console.log("No events");
            showNoEvents();
-        }
+        }   
+        hideWorking();
     });
 }
