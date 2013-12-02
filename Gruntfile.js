@@ -76,5 +76,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
-    grunt.registerTask('default', ['jade', 'jshint', 'browserify', 'less']);
+    grunt.registerTask('default', ['jade', 'browserify', 'less', 'jshint']);
 };
