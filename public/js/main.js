@@ -1,8 +1,7 @@
 
 var $ = require('../../bower_components/jquery/jquery.min.js');
 require('./third/jquery.mCustomScrollbar.js');
-require('./third/jquery-ui-1.10.3.custom.js');
-require('./third/jquery-ui-1.10.3.custom.min.js');
+require('../../bower_components/jquery-ui/ui/jquery-ui.js');
 require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 require('../../bower_components/canjs/can.jquery.js');
 require('../../bower_components/canjs/can.object.js');
