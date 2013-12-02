@@ -289,105 +289,35 @@ var addMarkers = function (event) {
     }
 }
 
-//TODO again...  need better way of handling....
-function typeChanged() {
-	var result = "";
+var flagCheck = function(element) {
+	if ($(element).prop('checked')) {
+		return "1";
+	} else {
+		return "0";
+	}
+}
 
-	if ($('#typeConfFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeConvFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeEntFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeFairFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeFoodFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeFundFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeMeetFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeMusicFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typePerfFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeRecFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeReligFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeReunFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeSalesFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeSemiFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeSociFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeSportsFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeTradeFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeTravelFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
-	if ($('#typeOtherFlag').prop('checked')) {
-		result += "1";
-	} else {
-		result += "0";
-	}
+var typeChanged = function() {
+	var result = flagCheck('#typeConfFlag');
+
+	result += flagCheck('#typeConvFlag');
+	result += flagCheck('#typeEntFlag');
+	result += flagCheck('#typeFairFlag');
+	result += flagCheck('#typeFoodFlag');
+	result += flagCheck('#typeFundFlag');
+	result += flagCheck('#typeMeetFlag');
+	result += flagCheck('#typeMusicFlag');
+	result += flagCheck('#typePerfFlag');
+	result += flagCheck('#typeRecFlag');
+	result += flagCheck('#typeReligFlag');
+	result += flagCheck('#typeReunFlag');
+	result += flagCheck('#typeSalesFlag');
+	result += flagCheck('#typeSemiFlag');
+	result += flagCheck('#typeSociFlag');
+	result += flagCheck('#typeSportsFlag');
+	result += flagCheck('#typeTradeFlag');
+	result += flagCheck('#typeTravelFlag');
+	result += flagCheck('#typeOtherFlag');
 
 	$('#categories').val(result);
 }
