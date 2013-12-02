@@ -1,6 +1,7 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
 var util = require('./Util.js');
-var status = require('./StatusObservable.js');
+var statusObservable = require('./StatusObservable.js');
+require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
 var map;
 var ids = [];
@@ -172,9 +173,9 @@ function setupSocket() {
 
             ids.sort();
         } else {
-        	status.status.attr('status', 2);
+        	statusObservable.status.attr('value', 2);
         }
-        status.status.attr('status', 0);
+        statusObservable.status.attr('value', 0);
     });
 }
 
@@ -190,8 +191,8 @@ var updateMap = function() {
 				latestLat, latestLng)) > $('#radius').val() / 1.5));
     var radiusCheck = $('#radius').val() < 20;
 
-    if(needUpdate && !dragging && distanceCheck && radiusCheck && status.status.attr('status') != 1) {
-        status.status.attr('status', 1);
+    if(needUpdate && !dragging && distanceCheck && radiusCheck && statusObservable.status.attr('value') != 1) {
+        statusObservable.status.attr('value', 1);
         needUpdate = false;
         latestLat = $('#lat').val();
         latestLng = $('#lng').val();
@@ -214,7 +215,7 @@ var updateMap = function() {
      }
 
      if(!radiusCheck) {
-        status.status.attr('status', 3);
+        statusObservable.status.attr('value', 3);
      }
 
      setTimeout(updateMap, 1000);
