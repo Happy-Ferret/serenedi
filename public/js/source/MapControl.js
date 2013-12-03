@@ -261,31 +261,30 @@ var addMarkers = function (event) {
     markers.push(marker);
 
     google.maps.event.addListener(
-     marker,
-     'click',
-     function() {
-         closeLastOpen();
+        marker,
+        'click',
+        function() {
+            closeLastOpen();
 
-            //TODO USE CSS FOR THE LOVE OF MOTHER TERESA
-            var content = '<div id="infoTable" class="" style="font-size:10pt; font-family: Helvetica; width: 440px; height: 500px; overflow: hidden;">';
-            content += '<table width="100%" height="100%" cellpadding="0" cellspacing="0" style="overflow:hidden; padding-left: 5px; margin-left: 15px;" >';
-            content += '<tr><td colspan="2"><strong>' + marker.getTitle() + '</strong></td><br />';
-            content += '<tr><td width="75px">URL: </td><td><a href="' + event.url    + '" target="_blank">' + event.url + '</a><br /><a target="_blank" href=http://www.serenedi.com/?id=' + event.id + '>http://www.serenedi.com/?id=' + event.id + '</a>' + '</td></tr>';
-            content += '<tr><td>Start: </td><td>' + event.start_date.split(' ')[0] + '</td></tr>';
-            if (event.end_date != null) {
-                content += '<tr><td>End: </td><td>' + event.end_date.split(' ')[0] + '</td></tr>';
-            }
-            if (event.venue.address != null || event.venue.address != '') {
-             content += '<tr><td>Address: </td><td>' + event.venue.address + ' ' + event.venue.address_2 + '</td></tr>';
-             content += '<tr><td></td><td>' + event.venue.city + ', ' + event.venue.region + ' ' + event.venue.postalcode + '</td></tr>';
-            }
-            content += '<tr><td>Category: </td><td>' + event.category + '</td></tr>';
-            content += '<tr><td colspan="2" align="left"><div class="fb-like" data-href="http://www.serenedi.com/?id=' + event.id + '" data-send="true" data-layout="button_count" data-width="350" data-show-faces="true"></div></td></tr>';
-            content += '<tr><td colspan="2"><div> <script src="http://connect.facebook.net/en_US/all.js#appId=5006939796&amp;xfbml=1"></script><fb:comments href="www.serenedi.com/?id=' + event.id + '" num_posts="2" width="400"> </script></div></td></tr>';
-            content += '</table></div>';
+            //TODO Not the best way to convert document frag to string....  
+            var frag = can.view("infoPopUpTemplate",
+                {   
+                    title: marker.getTitle(), 
+                    url: {eventbrite: event.url, serenedi: 'http://www.serenedi.com/?id=' + event.id},
+                    start: event.start_date.split(' ')[0],
+                    end: event.end_date.split(' ')[0],
+                    showAddr: event.venue.address != null || event.venue.address != '',
+                    addr: event.venue.address + ' ' + event.venue.address_2,
+                    city: event.venue.city,
+                    region: event.venue.region,
+                    zip: event.venue.postalcode,
+                    category: event.category
+                });
+            $('#infoHidden').html(frag);
 
-            var info = new google.maps.InfoWindow();
-            info.setContent(content);
+            var info = new google.maps.InfoWindow({
+                content: $('#infoHidden').html()
+            });
 
             google.maps.event.addListenerOnce(info, 'closeclick', function() {
                 marker.setAnimation(null);
@@ -304,7 +303,8 @@ var addMarkers = function (event) {
                 } catch (ex) {
                 }
             } , 100);
-     });
+        }
+    );
 
     if (event.id == eventToOpenID) {
         google.maps.event.trigger(marker, 'click');
