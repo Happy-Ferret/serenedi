@@ -9,7 +9,7 @@ module.exports = function(grunt) {
             compile: {
                 options: {
                     data: { googleAPIKey: properties.googleAPIKey},
-                    pretty: true
+                    pretty: false
                 },
                 files: [ { 
                   expand: true, 
