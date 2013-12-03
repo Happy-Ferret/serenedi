@@ -266,24 +266,20 @@ var addMarkers = function (event) {
         function() {
             closeLastOpen();
 
-            //TODO Not the best way to convert document frag to string....  
-            var frag = can.view("infoPopUpTemplate",
-                {   
-                    title: marker.getTitle(), 
-                    url: {eventbrite: event.url, serenedi: 'http://www.serenedi.com/?id=' + event.id},
-                    start: event.start_date.split(' ')[0],
-                    end: event.end_date.split(' ')[0],
-                    showAddr: event.venue.address != null || event.venue.address != '',
-                    addr: event.venue.address + ' ' + event.venue.address_2,
-                    city: event.venue.city,
-                    region: event.venue.region,
-                    zip: event.venue.postalcode,
-                    category: event.category
-                });
-            $('#infoHidden').html(frag);
-
             var info = new google.maps.InfoWindow({
-                content: $('#infoHidden').html()
+                content: can.view.render("infoPopUpTemplate",
+                            {   
+                                title: marker.getTitle(), 
+                                url: {eventbrite: event.url, serenedi: 'http://www.serenedi.com/?id=' + event.id},
+                                start: event.start_date.split(' ')[0],
+                                end: event.end_date.split(' ')[0],
+                                showAddr: event.venue.address != null || event.venue.address != '',
+                                addr: event.venue.address + ' ' + event.venue.address_2,
+                                city: event.venue.city,
+                                region: event.venue.region,
+                                zip: event.venue.postalcode,
+                                category: event.category
+                            })
             });
 
             google.maps.event.addListenerOnce(info, 'closeclick', function() {
