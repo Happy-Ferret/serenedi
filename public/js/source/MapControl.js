@@ -5,11 +5,12 @@ require('../../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
 var map;
 var ids = [];
+var markers = [];
 var lastClickMarker = null;
+var lastOpen;
 var latestLoc = {lat: null, lng: null};
 var distCheckPass = null;
 var eventToOpenID = null;
-var lastOpen;
 var dragging = false;
 var needUpdate = true;
 var MAX_NUMBER = 9007199254740992;
@@ -19,30 +20,32 @@ var defaultLoc = {lat: 40.72616, lng: -73.99973};
 
 var MapControl = can.Control({
     init: function(element, options) {
-    	setupSocket();
+        setupSocket();
         initializeMainElements(this.element);
 
-	    if(navigator.geolocation) {
-	        navigator.geolocation.getCurrentPosition(function (position) {
-	            var lat = util.roundNumber(position.coords.latitude);
-	            var lng = util.roundNumber(position.coords.longitude);
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var lat = util.roundNumber(position.coords.latitude);
+                var lng = util.roundNumber(position.coords.longitude);
 
-	            $('#lat').val(lat);
-	            $('#lng').val(lng);
+                $('#lat').val(lat);
+                $('#lng').val(lng);
 
-	            initializeMap(lat, lng);
-	        }, function err() {
-	            initializeMap(defaultLoc.lat, defaultLoc.lng);
-	        });
-	    } else {
-	        initializeMap(defaultLoc.lat, defaultLoc.lng);
-	    }
+                initializeMap(lat, lng);
+            }, function err() {
+                initializeMap(defaultLoc.lat, defaultLoc.lng);
+            });
+        } else {
+            initializeMap(defaultLoc.lat, defaultLoc.lng);
+        }
     },
     ".type change": function(el, ev) {
         typeChanged();
+        clearMap();
         callUpdateMap(true);
     },
     ".datePicker change": function(el, ev) {
+        clearMap();
         callUpdateMap(true);
     }
 });
@@ -148,32 +151,32 @@ function setupSocket() {
                 $('#dateTo').val(data.date.endDate);
             }
 
-            while(m < data.message.events.length) {
+           while(m < data.message.events.length) {
 
-                if(n >= ids.length) {
-                    ids[n] = MAX_NUMBER;
-                }
+               if(n >= ids.length) {
+                   ids[n] = MAX_NUMBER;
+               }
 
-                if(data.message.events[m].event.id < ids[n]) {
-                    if(ids[n] == MAX_NUMBER) {
-                        ids.pop();
-                    }
+               if(data.message.events[m].event.id < ids[n]) {
+                   if(ids[n] == MAX_NUMBER) {
+                       ids.pop();
+                   }
 
-                    ids.push(data.message.events[m].event.id);
-                    addMarkers(data.message.events[m].event);
+                   ids.push(data.message.events[m].event.id);
+                   addMarkers(data.message.events[m].event);
 
-                    m++;
-                } else if (data.message.events[m].event.id > ids[n]) { 
-                    n++;
-                } else {
-                    n++;
-                    m++;
-                }
-            }
+                   m++;
+               } else if (data.message.events[m].event.id > ids[n]) { 
+                   n++;
+               } else {
+                   n++;
+                   m++;
+               }
+           }
 
-            ids.sort();
+           ids.sort();
         } else {
-        	statusObservable.status.attr('value', 2);
+           statusObservable.status.attr('value', 2);
         }
         statusObservable.status.attr('value', 0);
     });
@@ -187,8 +190,8 @@ var callUpdateMap = function (flag) {
 
 var updateMap = function() {
     var distanceCheck = distCheckPass 
-    			|| ((latestLoc.lat == null && latestLoc.lng == null) 
-    			|| Math.abs(util.getDistanceFromLatLng($('#lat').val(), $('#lng').val(), latestLoc.lat, latestLoc.lng)) > $('#radius').val() / 1.5);
+                || ((latestLoc.lat == null && latestLoc.lng == null) 
+                || Math.abs(util.getDistanceFromLatLng($('#lat').val(), $('#lng').val(), latestLoc.lat, latestLoc.lng)) > $('#radius').val() / 1.5);
     var radiusCheck = $('#radius').val() < 20;
 
     if(needUpdate && !dragging && distanceCheck && radiusCheck && statusObservable.status.attr('value') != 1) {
@@ -221,6 +224,28 @@ var updateMap = function() {
      setTimeout(updateMap, 1000);
 }
 
+var clearMap = function () {
+    closeLastOpen();
+ 
+    for(n = 0; n < markers.length; n++) {
+        markers[n].setMap(null);
+    }
+
+    markers = [];
+    ids = [];
+}
+
+var closeLastOpen = function () {
+    if (lastOpen != null) {
+       lastOpen.close();
+    }
+    if (lastClickMarker != null) {
+       lastClickMarker.setAnimation(null);
+    }
+    lastOpen = null;
+    lastClickMarker = null;
+}
+
 var addMarkers = function (event) {
     var point = new google.maps.LatLng(event.venue.latitude, event.venue.longitude);
    
@@ -233,24 +258,19 @@ var addMarkers = function (event) {
     });
 
    marker.info = new google.maps.InfoWindow({content: '<strong>' + event.title + '</strong><br />'});
-
+   markers.push(marker);
 
    google.maps.event.addListener(
        marker,
        'click',
        function() {
-           if (lastOpen != null) {
-               lastOpen.close();
-           }
-           if (lastClickMarker != null) {
-               lastClickMarker.setAnimation(null);
-           }
+           closeLastOpen();
            
-	//TODO USE CSS FOR THE LOVE OF MOTHER TERESA
+    //TODO USE CSS FOR THE LOVE OF MOTHER TERESA
            var content = '<div id="infoTable" class="" style="font-size:10pt; font-family: Helvetica; width: 440px; height: 500px; overflow: hidden;">';
            content += '<table width="100%" height="100%" cellpadding="0" cellspacing="0" style="overflow:hidden; padding-left: 5px; margin-left: 15px;" >';
            content += '<tr><td colspan="2"><strong>' + marker.getTitle() + '</strong></td><br />';
-           content += '<tr><td width="75px">URL: </td><td><a href="' + event.url	+ '" target="_blank">' + event.url + '</a><br /><a target="_blank" href=http://www.serenedi.com/?id=' + event.id + '>http://www.serenedi.com/?id=' + event.id + '</a>' + '</td></tr>';
+           content += '<tr><td width="75px">URL: </td><td><a href="' + event.url    + '" target="_blank">' + event.url + '</a><br /><a target="_blank" href=http://www.serenedi.com/?id=' + event.id + '>http://www.serenedi.com/?id=' + event.id + '</a>' + '</td></tr>';
            content += '<tr><td>Start: </td><td>' + event.start_date.split(' ')[0] + '</td></tr>';
            if (event.end_date != null) {
                content += '<tr><td>End: </td><td>' + event.end_date.split(' ')[0] + '</td></tr>';
@@ -284,7 +304,7 @@ var addMarkers = function (event) {
                } catch (ex) {
                }
            } , 100);
-       });
+        });
 
     if (event.id == eventToOpenID) {
         google.maps.event.trigger(marker, 'click');
@@ -292,34 +312,34 @@ var addMarkers = function (event) {
 }
 
 var flagCheck = function(element) {
-	if ($(element).prop('checked')) {
-		return "1";
-	} else {
-		return "0";
-	}
+    if ($(element).prop('checked')) {
+        return "1";
+    } else {
+        return "0";
+    }
 }
 
 var typeChanged = function() {
-	var result = flagCheck('#typeConfFlag');
+    var result = flagCheck('#typeConfFlag');
 
-	result += flagCheck('#typeConvFlag');
-	result += flagCheck('#typeEntFlag');
-	result += flagCheck('#typeFairFlag');
-	result += flagCheck('#typeFoodFlag');
-	result += flagCheck('#typeFundFlag');
-	result += flagCheck('#typeMeetFlag');
-	result += flagCheck('#typeMusicFlag');
-	result += flagCheck('#typePerfFlag');
-	result += flagCheck('#typeRecFlag');
-	result += flagCheck('#typeReligFlag');
-	result += flagCheck('#typeReunFlag');
-	result += flagCheck('#typeSalesFlag');
-	result += flagCheck('#typeSemiFlag');
-	result += flagCheck('#typeSociFlag');
-	result += flagCheck('#typeSportsFlag');
-	result += flagCheck('#typeTradeFlag');
-	result += flagCheck('#typeTravelFlag');
-	result += flagCheck('#typeOtherFlag');
+    result += flagCheck('#typeConvFlag');
+    result += flagCheck('#typeEntFlag');
+    result += flagCheck('#typeFairFlag');
+    result += flagCheck('#typeFoodFlag');
+    result += flagCheck('#typeFundFlag');
+    result += flagCheck('#typeMeetFlag');
+    result += flagCheck('#typeMusicFlag');
+    result += flagCheck('#typePerfFlag');
+    result += flagCheck('#typeRecFlag');
+    result += flagCheck('#typeReligFlag');
+    result += flagCheck('#typeReunFlag');
+    result += flagCheck('#typeSalesFlag');
+    result += flagCheck('#typeSemiFlag');
+    result += flagCheck('#typeSociFlag');
+    result += flagCheck('#typeSportsFlag');
+    result += flagCheck('#typeTradeFlag');
+    result += flagCheck('#typeTravelFlag');
+    result += flagCheck('#typeOtherFlag');
 
-	$('#categories').val(result);
+    $('#categories').val(result);
 }
