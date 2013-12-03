@@ -151,35 +151,35 @@ function setupSocket() {
                 $('#dateTo').val(data.date.endDate);
             }
 
-           while(m < data.message.events.length) {
+            while(m < data.message.events.length) {
 
-               if(n >= ids.length) {
-                   ids[n] = MAX_NUMBER;
-               }
+             if(n >= ids.length) {
+                 ids[n] = MAX_NUMBER;
+             }
 
-               if(data.message.events[m].event.id < ids[n]) {
-                   if(ids[n] == MAX_NUMBER) {
-                       ids.pop();
-                   }
+             if(data.message.events[m].event.id < ids[n]) {
+                 if(ids[n] == MAX_NUMBER) {
+                     ids.pop();
+                 }
 
-                   ids.push(data.message.events[m].event.id);
-                   addMarkers(data.message.events[m].event);
+                 ids.push(data.message.events[m].event.id);
+                 addMarkers(data.message.events[m].event);
 
-                   m++;
-               } else if (data.message.events[m].event.id > ids[n]) { 
-                   n++;
-               } else {
-                   n++;
-                   m++;
-               }
-           }
+                 m++;
+             } else if (data.message.events[m].event.id > ids[n]) { 
+                 n++;
+             } else {
+                 n++;
+                 m++;
+             }
+         }
 
-           ids.sort();
-        } else {
-           statusObservable.status.attr('value', 2);
-        }
-        statusObservable.status.attr('value', 0);
-    });
+         ids.sort();
+     } else {
+         statusObservable.status.attr('value', 2);
+     }
+     statusObservable.status.attr('value', 0);
+ });
 }
 
 
@@ -190,8 +190,8 @@ var callUpdateMap = function (flag) {
 
 var updateMap = function() {
     var distanceCheck = distCheckPass 
-                || ((latestLoc.lat == null && latestLoc.lng == null) 
-                || Math.abs(util.getDistanceFromLatLng($('#lat').val(), $('#lng').val(), latestLoc.lat, latestLoc.lng)) > $('#radius').val() / 1.5);
+    || ((latestLoc.lat == null && latestLoc.lng == null) 
+        || Math.abs(util.getDistanceFromLatLng($('#lat').val(), $('#lng').val(), latestLoc.lat, latestLoc.lng)) > $('#radius').val() / 1.5);
     var radiusCheck = $('#radius').val() < 20;
 
     if(needUpdate && !dragging && distanceCheck && radiusCheck && statusObservable.status.attr('value') != 1) {
@@ -203,30 +203,30 @@ var updateMap = function() {
         if (eventToOpenID == null || eventToOpenID == 'undefined') {
             socket.emit('getEventsCall', {
                 message: { lat : $('#lat').val(),
-                           lng : $('#lng').val(),
-                           dateFrom : $('#dateFrom').val(),
-                           dateTo : $('#dateTo').val(),
-                           type : $('#categories').val(),
-                           radius : $('#radius').val() }
+                                lng : $('#lng').val(),
+                                dateFrom : $('#dateFrom').val(),
+                                dateTo : $('#dateTo').val(),
+                                type : $('#categories').val(),
+                                radius : $('#radius').val() }
             });
         } else {
             socket.emit('getEventsByIDCall', {
                 message: { id : eventToOpenID,
-                           radius : $('#radius').val()}
-            });
+                 radius : $('#radius').val()}
+             });
         }
-     }
+    }
 
-     if(!radiusCheck) {
+    if(!radiusCheck) {
         statusObservable.status.attr('value', 3);
-     }
+    }
 
-     setTimeout(updateMap, 1000);
+    setTimeout(updateMap, 1000);
 }
 
 var clearMap = function () {
     closeLastOpen();
- 
+
     for(n = 0; n < markers.length; n++) {
         markers[n].setMap(null);
     }
@@ -237,10 +237,10 @@ var clearMap = function () {
 
 var closeLastOpen = function () {
     if (lastOpen != null) {
-       lastOpen.close();
+        lastOpen.close();
     }
     if (lastClickMarker != null) {
-       lastClickMarker.setAnimation(null);
+        lastClickMarker.setAnimation(null);
     }
     lastOpen = null;
     lastClickMarker = null;
@@ -248,7 +248,7 @@ var closeLastOpen = function () {
 
 var addMarkers = function (event) {
     var point = new google.maps.LatLng(event.venue.latitude, event.venue.longitude);
-   
+
     var marker = new google.maps.Marker({
         position: point,
         map : map,
@@ -257,59 +257,59 @@ var addMarkers = function (event) {
         clickable : true
     });
 
-   marker.info = new google.maps.InfoWindow({content: '<strong>' + event.title + '</strong><br />'});
-   markers.push(marker);
+    marker.info = new google.maps.InfoWindow({content: '<strong>' + event.title + '</strong><br />'});
+    markers.push(marker);
 
-   google.maps.event.addListener(
-       marker,
-       'click',
-       function() {
-           closeLastOpen();
-           
-    //TODO USE CSS FOR THE LOVE OF MOTHER TERESA
-           var content = '<div id="infoTable" class="" style="font-size:10pt; font-family: Helvetica; width: 440px; height: 500px; overflow: hidden;">';
-           content += '<table width="100%" height="100%" cellpadding="0" cellspacing="0" style="overflow:hidden; padding-left: 5px; margin-left: 15px;" >';
-           content += '<tr><td colspan="2"><strong>' + marker.getTitle() + '</strong></td><br />';
-           content += '<tr><td width="75px">URL: </td><td><a href="' + event.url    + '" target="_blank">' + event.url + '</a><br /><a target="_blank" href=http://www.serenedi.com/?id=' + event.id + '>http://www.serenedi.com/?id=' + event.id + '</a>' + '</td></tr>';
-           content += '<tr><td>Start: </td><td>' + event.start_date.split(' ')[0] + '</td></tr>';
-           if (event.end_date != null) {
-               content += '<tr><td>End: </td><td>' + event.end_date.split(' ')[0] + '</td></tr>';
-           }
-           if (event.venue.address != null || event.venue.address != '') {
-               content += '<tr><td>Address: </td><td>' + event.venue.address + ' ' + event.venue.address_2 + '</td></tr>';
-               content += '<tr><td></td><td>' + event.venue.city + ', ' + event.venue.region + ' ' + event.venue.postalcode + '</td></tr>';
-           }
-           content += '<tr><td>Category: </td><td>' + event.category + '</td></tr>';
-           content += '<tr><td colspan="2" align="left"><div class="fb-like" data-href="http://www.serenedi.com/?id=' + event.id + '" data-send="true" data-layout="button_count" data-width="350" data-show-faces="true"></div></td></tr>';
-           content += '<tr><td colspan="2"><div> <script src="http://connect.facebook.net/en_US/all.js#appId=5006939796&amp;xfbml=1"></script><fb:comments href="www.serenedi.com/?id=' + event.id + '" num_posts="2" width="400"> </script></div></td></tr>';
-           content += '</table></div>';
+    google.maps.event.addListener(
+     marker,
+     'click',
+     function() {
+         closeLastOpen();
 
-           var info = new google.maps.InfoWindow();
-           info.setContent(content);
+            //TODO USE CSS FOR THE LOVE OF MOTHER TERESA
+            var content = '<div id="infoTable" class="" style="font-size:10pt; font-family: Helvetica; width: 440px; height: 500px; overflow: hidden;">';
+            content += '<table width="100%" height="100%" cellpadding="0" cellspacing="0" style="overflow:hidden; padding-left: 5px; margin-left: 15px;" >';
+            content += '<tr><td colspan="2"><strong>' + marker.getTitle() + '</strong></td><br />';
+            content += '<tr><td width="75px">URL: </td><td><a href="' + event.url    + '" target="_blank">' + event.url + '</a><br /><a target="_blank" href=http://www.serenedi.com/?id=' + event.id + '>http://www.serenedi.com/?id=' + event.id + '</a>' + '</td></tr>';
+            content += '<tr><td>Start: </td><td>' + event.start_date.split(' ')[0] + '</td></tr>';
+            if (event.end_date != null) {
+                content += '<tr><td>End: </td><td>' + event.end_date.split(' ')[0] + '</td></tr>';
+            }
+            if (event.venue.address != null || event.venue.address != '') {
+             content += '<tr><td>Address: </td><td>' + event.venue.address + ' ' + event.venue.address_2 + '</td></tr>';
+             content += '<tr><td></td><td>' + event.venue.city + ', ' + event.venue.region + ' ' + event.venue.postalcode + '</td></tr>';
+            }
+            content += '<tr><td>Category: </td><td>' + event.category + '</td></tr>';
+            content += '<tr><td colspan="2" align="left"><div class="fb-like" data-href="http://www.serenedi.com/?id=' + event.id + '" data-send="true" data-layout="button_count" data-width="350" data-show-faces="true"></div></td></tr>';
+            content += '<tr><td colspan="2"><div> <script src="http://connect.facebook.net/en_US/all.js#appId=5006939796&amp;xfbml=1"></script><fb:comments href="www.serenedi.com/?id=' + event.id + '" num_posts="2" width="400"> </script></div></td></tr>';
+            content += '</table></div>';
 
-           google.maps.event.addListenerOnce(info, 'closeclick', function() {
-               marker.setAnimation(null);
-           });
+            var info = new google.maps.InfoWindow();
+            info.setContent(content);
 
-           info.open(map, marker);
+            google.maps.event.addListenerOnce(info, 'closeclick', function() {
+                marker.setAnimation(null);
+            });
 
-           marker.setAnimation(google.maps.Animation.BOUNCE);
+            info.open(map, marker);
 
-           lastClickMarker = marker;
-           lastOpen = info;
+            marker.setAnimation(google.maps.Animation.BOUNCE);
 
-           setTimeout(function() {
-               try {
-                   FB.XFBML.parse();
-               } catch (ex) {
-               }
-           } , 100);
-        });
+            lastClickMarker = marker;
+            lastOpen = info;
+
+            setTimeout(function() {
+                try {
+                    FB.XFBML.parse();
+                } catch (ex) {
+                }
+            } , 100);
+     });
 
     if (event.id == eventToOpenID) {
         google.maps.event.trigger(marker, 'click');
     }
-}
+} 
 
 var flagCheck = function(element) {
     if ($(element).prop('checked')) {
