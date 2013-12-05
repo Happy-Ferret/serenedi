@@ -143,19 +143,19 @@ block content
     #mapBox(style="float: right; height: 100%; margin: 0px 5px 0px 0px; max-width: none;")
 
   script#aboutTemplate(type="text/mustache")
-    div#bannerContainer(style="height: 300px; overflow: hidden; width: 1079px;")
-      img#banner0(style="align: center; position: fixed; opacity: 0;", src="/images/banners/firework_banner.JPG")
-      img#banner1(style="align: center; position: fixed; opacity: 0;", src="/images/banners/jazz_banner.JPG")
-      img#banner2(style="align: center; position: fixed; opacity: 0;", src="/images/banners/dance_banner.JPG")
-      img#banner3(style="align: center; position: fixed; opacity: 0;", src="/images/banners/concert_banner.JPG")
-
+    div#bannerContainer
+      div#bannerContainer(style="height: 300px; overflow: hidden; width: 1079px;")
+        img#banner4(style="position: fixed; opacity: 0;", src="/images/banners/firework_banner.JPG") 
+        img#banner1(style="position: fixed; opacity: 0;", src="/images/banners/jazz_banner.JPG") 
+        img#banner2(style="position: fixed; opacity: 0;", src="/images/banners/dance_banner.JPG") 
+        img#banner3(style="position: fixed; opacity: 0;", src="/images/banners/concert_banner.JPG") 
     div#tabs(style="margin: 10px 5px 15px 5px; min-height: 300px;")
       ul
         li
-          a#aboutMenu(href="#tab1")
+          a.aboutMenu(href="#tab1")
             | About
         li 
-          a#contactMenu(href="#tab2")
+          a.aboutMenu(href="#tab2")
             | Contact
       #tab1
         h2
