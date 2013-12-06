@@ -6,13 +6,10 @@ var MenuControl = can.Control({
         $('#about').hide();
     },
     '.brand click': function(el, ev) {
-        $('#main').show();
-        $('#about').hide();
+        $( "#aboutDialog" ).dialog( "close" );
     },
     '.sub-brand click': function(el, ev) {
-        $('#main').hide();
-        $('#about').show();
+        $( "#aboutDialog" ).dialog( "open" );
     }
 });
-
 exports.MenuControl = MenuControl;

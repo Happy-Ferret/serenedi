@@ -80,18 +80,19 @@ module.exports = function(grunt) {
       }
   });
 
-  var templateIncludeRegexp = /<!-- serenedi-import-template: "([^"^.])*.html"-->/gm;
+  var templateIncludeRegexp = /<!-- serenedi-import-[a-z]*Template: "([^"^.])*.html"-->/gm;
   grunt.registerTask('templates', 'Compiling templates', function() {
     function compileTemplate(inFilename, outFilename) {
       var template = fs.readFileSync(inFilename, 'utf8');
       var newTemplate = template.replace(templateIncludeRegexp, function(match) {
         var templateName = match.split("\"")[1];
-        console.log('Replcaing:  ' + templateName);
-        var templateFilename = path.join(path.dirname(inFilename), templateName);
-        var res = 
-          '<script type="text/mustache" id="' + templateName.substring(0, templateName.length - 5) + '">\n' +
-          fs.readFileSync(templateFilename, 'utf8') + '\n' +
-          '</script>';
+        console.log('Replacing:  ' + templateName);
+        var res = fs.readFileSync(path.join(path.dirname(inFilename), templateName), 'utf8');
+
+        if(match.indexOf('mustache') > 0) {
+          res = '<script type="text/mustache" id="' + templateName.substring(0, templateName.length - 5) + '">' + res + '</script>';
+        }
+
         return res;
       });
       fs.writeFileSync(outFilename, newTemplate);
