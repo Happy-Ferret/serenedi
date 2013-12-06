@@ -53,7 +53,7 @@ exports.MapControl = MapControl;
 
 
 var initializeMainElements = function(element) {
-    element.html(can.view('indexTemplate', {}));
+    element.html(can.view('mapTemplate', {}));
     eventToOpenID = util.getURLArgument.id;
 
     $("#dateFrom").datepicker({
