@@ -1,5 +1,4 @@
 var path = require('path');
-var path = require('path');
 var fs = require('fs');
 
 module.exports = function(grunt) {
@@ -11,7 +10,7 @@ module.exports = function(grunt) {
       jade: {
           compile: {
               options: {
-                  data: { googleAPIKey: properties.googleAPIKey},
+                  data: { googleAPIKey: properties.googleAPIKey },
                   pretty: false
               },
               files: [ { 
