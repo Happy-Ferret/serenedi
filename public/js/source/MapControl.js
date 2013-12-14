@@ -23,7 +23,7 @@ var MapControl = can.Control({
         setupSocket();
         initializeMainElements(this.element);
 
-	initializeMap();
+        initializeMap();
 
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -34,9 +34,10 @@ var MapControl = can.Control({
                 $('#lng').val(lng);
 
                 map.setCenter(new google.maps.LatLng(lat, lng));
-                callUpdateMap(true);
             });
         }
+        updateMap();
+        callUpdateMap(true);
     },
     ".type change": function(el, ev) {
         typeChanged();
@@ -102,8 +103,6 @@ var initializeMap = function () {
         $('#radius').val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 4);
         $('#lat').val(util.roundNumber(map.getCenter().lat()));
         $('#lng').val(util.roundNumber(map.getCenter().lng()));
-
-        updateMap();
     });
 
     google.maps.event.addListener(map, 'dragstart', function() {
