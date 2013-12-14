@@ -100,7 +100,7 @@ var initializeMap = function () {
         var ne = map.getBounds().getNorthEast();
         var sw = map.getBounds().getSouthWest();
 
-        $('#radius').val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 4);
+        $('#radius').val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
         $('#lat').val(util.roundNumber(map.getCenter().lat()));
         $('#lng').val(util.roundNumber(map.getCenter().lng()));
     });
