@@ -23,6 +23,8 @@ var MapControl = can.Control({
         setupSocket();
         initializeMainElements(this.element);
 
+	initializeMap();
+
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 var lat = util.roundNumber(position.coords.latitude);
@@ -31,12 +33,9 @@ var MapControl = can.Control({
                 $('#lat').val(lat);
                 $('#lng').val(lng);
 
-                initializeMap(lat, lng);
-            }, function err() {
-                initializeMap(defaultLoc.lat, defaultLoc.lng);
+                map.setCenter(new google.maps.LatLng(lat, lng));
+                callUpdateMap(true);
             });
-        } else {
-            initializeMap(defaultLoc.lat, defaultLoc.lng);
         }
     },
     ".type change": function(el, ev) {
@@ -89,13 +88,10 @@ var initializeMainElements = function(element) {
     typeChanged();
 }
 
-var initializeMap = function (lat, lng) {
-    var point = new google.maps.LatLng(lat, lng);
-
-
+var initializeMap = function () {
     map = new google.maps.Map(document.getElementById('mapBox'), {
         zoom : 15,
-        center : point,
+        center : new google.maps.LatLng(defaultLoc.lat, defaultLoc.lng),
         mapTypeId : google.maps.MapTypeId.ROADMAP
     });
 

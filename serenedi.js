@@ -41,7 +41,6 @@ io.sockets.on('connection', function( socket ) {
 	socket.on('getEventsByIDCall', function( data ) {
 		var params = {'id' : data.message.id};
 		var radius = Math.ceil(data.message.radius);
-		console.log(params);
 
 		eb_client.event_get(params, function(err, data){
 
