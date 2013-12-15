@@ -127,7 +127,16 @@ var initializeMap = function () {
 }
 
 function setupSocket() {
-    socket = io.connect('http://serenedi.com/');
+
+    var socketOptions = {
+        "transports" : [ "jsonp-polling" ],
+        "try multiple transports" : false,
+        "reconnect" : true,
+        "connect timeout" : 5000,
+        "reconnection limit attempts": 15
+    };
+
+    socket = io.connect('http://serenedi.com/', socketOptions);
 
     socket.on('getEventsResult', function(data) {
         var m = 1;  
