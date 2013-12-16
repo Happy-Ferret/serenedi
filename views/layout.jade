@@ -1,5 +1,5 @@
 !!!
-html(style="height:100%; overflow:hidden;")
+html
   head
     title= "Serenedi - What's happening?"
     meta(charset='utf-8')
@@ -14,10 +14,7 @@ html(style="height:100%; overflow:hidden;")
     script.
       (function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=5006939796"; fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));
 
-  body(style="height:100%; padding-top:3px; background-color: black;")
-    .navbar.navbar-fixed-top
-      .navbar-inner
-        .container-fluid#menuContainer
+  body
+    #menuContainer
       hr(style="margin-top: -3px;")
-    div(style="height:100%;").wrap
-      block content
+    block content
