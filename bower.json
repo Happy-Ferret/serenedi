@@ -6,7 +6,7 @@
     "CoodingTwinky <twinky@codingtwinky.com>"
   ],
   "description": "serenedi bower file",
-  "main": "../serenedi.js",
+  "main": "serenedi.js",
   "license": "MIT",
   "ignore": [
     "**/.*",
@@ -16,9 +16,9 @@
     "tests"
   ],
   "dependencies": {
-    "jquery-mousewheel": "~3.1.4",
-    "jquery": "~2.0.3",
+    "jquery": "latest",
     "jquery-ui": "latest",
-    "canjs": "latest"
+    "canjs": "latest",
+    "bootstrap": "latest"
   }
 }

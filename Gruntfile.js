@@ -58,8 +58,7 @@ module.exports = function(grunt) {
       less: {
         production: {
           files: {
-            "public/styles.css": ['public/css/d1rtb2g-0.1.css', 'public/css/jquery.mCustomScrollbar.css', 
-                          'public/css/bootstrap.css', 'public/css/Serenedi-Theme/jquery-ui-1.10.3.serenedi.min.css']
+            "public/styles.css": ['public/css/styles.css', 'public/css/jquery.mCustomScrollbar.css', 'public/css/Serenedi-Theme/jquery-ui-1.10.3.serenedi.min.css']
           }
         }
       },
