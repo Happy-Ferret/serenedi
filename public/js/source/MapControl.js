@@ -1,7 +1,6 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
 var util = require('./Util.js');
 var statusObservable = require('./StatusObservable.js');
-require('../../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
 var map;
 var ids = [];
@@ -36,8 +35,8 @@ var MapControl = can.Control({
                 map.setCenter(new google.maps.LatLng(lat, lng));
             });
         }
-        updateMap();
         callUpdateMap(true);
+        updateMap();
     },
     ".type change": function(el, ev) {
         typeChanged();
