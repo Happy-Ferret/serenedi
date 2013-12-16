@@ -22,3 +22,7 @@
   position: fixed; 
   padding-right: 5px;
 }
+#mapBox {
+  height: 100%; 
+  left: 15px;
+}
