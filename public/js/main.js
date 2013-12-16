@@ -27,10 +27,21 @@ $(document).ready(function() {
 
   $("#optionButton").click(function() {
     var element = $(".optionButtonDirection");
+    var shiftElement = $(".optionShiftElement");
+
+
     if (element.hasClass("glyphicon-chevron-right")) {
       element.removeClass("glyphicon-chevron-right").addClass("glyphicon-chevron-left");
+
+      shiftElement.animate({
+        left: "+=300"
+      });
+
     } else {
       element.removeClass("glyphicon-chevron-left").addClass("glyphicon-chevron-right");
+      shiftElement.animate({
+        left: "-=300"
+      });
     }
   });
 });
