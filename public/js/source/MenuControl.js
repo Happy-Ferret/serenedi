@@ -5,10 +5,10 @@ var MenuControl = can.Control({
         this.element.html(can.view('menuTemplate'), {});
         $('#about').hide();
     },
-    '.brand click': function(el, ev) {
+    '#homeLink click': function(el, ev) {
         $( "#aboutDialog" ).dialog( "close" );
     },
-    '.sub-brand click': function(el, ev) {
+    '#aboutLink click': function(el, ev) {
         $( "#aboutDialog" ).dialog( "open" );
     }
 });

@@ -92,7 +92,9 @@ var initializeMap = function () {
     map = new google.maps.Map(document.getElementById('mapBox'), {
         zoom : 15,
         center : new google.maps.LatLng(defaultLoc.lat, defaultLoc.lng),
-        mapTypeId : google.maps.MapTypeId.ROADMAP
+        mapTypeId : google.maps.MapTypeId.ROADMAP,
+        disableDefaultUI: true,
+        mapTypeControl: true
     });
 
     google.maps.event.addListenerOnce(map, 'idle', function() {
