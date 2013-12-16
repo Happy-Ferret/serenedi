@@ -13,15 +13,24 @@ var map = require('./source/MapControl.js');
 
 $(document).ready(function() {
 
-    $( "#aboutDialog" ).dialog({
-          autoOpen: false,
-          width: 600,
-          modal: true,
-          hide: 'drop',
-          show: 'drop',
-      });
+  $( "#aboutDialog" ).dialog({
+    autoOpen: false,
+    width: 600,
+    modal: true,
+    hide: 'drop',
+    show: 'drop',
+  });
 
-    new menu.MenuControl('#menuContainer');
-    new map.MapControl('#main');
-    $('#statusImg').tooltip();
+  new menu.MenuControl('#menuContainer');
+  new map.MapControl('#main');
+  $('#statusImg').tooltip();
+
+  $("#optionButton").click(function() {
+    var element = $(".optionButtonDirection");
+    if (element.hasClass("glyphicon-chevron-right")) {
+      element.removeClass("glyphicon-chevron-right").addClass("glyphicon-chevron-left");
+    } else {
+      element.removeClass("glyphicon-chevron-left").addClass("glyphicon-chevron-right");
+    }
+  });
 });
