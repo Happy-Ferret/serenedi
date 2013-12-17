@@ -179,10 +179,10 @@ function setupSocket() {
          }
 
          ids.sort();
+         statusObservable.status.attr('value', 0);
      } else {
          statusObservable.status.attr('value', 2);
      }
-     statusObservable.status.attr('value', 0);
  });
 }
 
