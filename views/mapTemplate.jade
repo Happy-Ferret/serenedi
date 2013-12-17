@@ -1,2 +1,131 @@
 .row.mapContainer
+  #sideMenu.optionShiftElement(style="position:absolute; left: -285px; width: 300px; height: 100%; overflow-y: auto;")
+    input#categories(type='hidden') 
+    input#radius(type='hidden')
+    table(cellpadding="0px", style="margin-left:20px;")
+      tr
+        td(colspan="4", style="text-align: center;")
+          h1
+            | Event Search Settings
+      tr
+        td(colspan="3")
+          h3
+            | Map Center
+        td(align="center")
+          img#statusImg(title="Working....", src='images/ajax-loader.gif', width='20px')
+      tr
+        td(colspan="2")
+          h4
+            | Longitude:
+        td(colspan="2")
+          input#lng(type="text", style="width: 100px; margin-left: -40px;")
+      tr
+        td(colspan="2")
+          h4
+            | Latitude:
+        td(colspan="2")
+          input#lat(type="text", style="width: 100px; margin-left: -40px;")
+      tr
+        td(colspan="4")
+          h3
+            | Event Types
+      tr
+        td
+          input#typeConfFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Conference
+        td
+          input#typeConvFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Conventions
+      tr
+        td
+          input#typeEntFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Entertainment
+        td
+          input#typeFairFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Fair
+      tr
+        td
+          input#typeFoodFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Food
+        td
+          input#typeFundFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Fundraisers
+      tr
+        td
+          input#typeMeetFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Meetings
+        td
+          input#typeMusicFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Music
+      tr
+        td
+          input#typePerfFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Performance
+        td
+          input#typeRecFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Recreations
+      tr
+        td
+          input#typeReligFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Religion
+        td
+          input#typeReunFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Reunions
+      tr
+        td
+          input#typeSalesFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Sales
+        td
+          input#typeSemiFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Seminar
+      tr
+        td
+          input#typeSociFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Social
+        td
+          input#typeSportsFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Sports
+      tr
+        td
+          input#typeTradeFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Trade Show
+        td
+          input#typeTravelFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Travel
+      tr
+        td
+          input#typeOtherFlag.type(type="checkbox", checked="checked")
+        td
+          h5 Other
+      tr
+        td(colspan="4")
+          h3
+            | Dates
+      tr
+        td(colspan="4")
+          h5(style="float:left;") From&nbsp;
+          input#dateFrom.datePicker(type="text", style="width: 90px; float:left;")
+          h5(style="float:left;") &nbsp;to&nbsp;
+          input#dateTo.datePicker(type="text", style="width: 90px; float:left")
+      tr 
+        td
+          | <br/><br/><br/>&nbsp;
   #mapBox.optionShiftElement
