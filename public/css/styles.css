@@ -42,3 +42,12 @@
   margin-left:20px; 
   margin-right:20px;
 } 
+
+#statusImg {
+  width: 20px; 
+  margin-right: 10px;
+}
+
+.popover-content {
+  color: black;
+}
