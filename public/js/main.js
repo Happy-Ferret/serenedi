@@ -12,15 +12,6 @@ var map = require('./source/MapControl.js');
 
 
 $(document).ready(function() {
-
-  $( "#aboutDialog" ).dialog({
-    autoOpen: false,
-    width: 600,
-    modal: true,
-    hide: 'drop',
-    show: 'drop',
-  });
-
   new menu.MenuControl('#menuContainer');
   new map.MapControl('#main');
   $('#statusImg').tooltip();
