@@ -9,8 +9,9 @@ exports.status = status;
 // 2 no events
 // 3 radius check fail
 status.bind('change', function(event, attr, how, newVal, oldVal) {
+    console.log(newVal);
     if (newVal == 0) {
-    	hideWorking();
+    	showNormal();
     } else if (newVal == 1) {
     	showWorking();
     } else if (newVal == 2) {
@@ -22,22 +23,20 @@ status.bind('change', function(event, attr, how, newVal, oldVal) {
 
 var showWorking = function () {
     $('#statusImg').attr('title', 'Working...')
-        .attr('src', 'images/ajax-loader.gif')
-        .show();
+        .attr('src', '/images/ajax-loader.gif');
 }
 
 var showZoomCheckFail = function () {
     $('#statusImg').attr('title', 'Zoom level is too high. Please zoom in to load events.')
-        .attr('src', 'images/warning.png')
-        .show();
+        .attr('src', '/images/warning.png');
 }
 
 var showNoEvents = function () {
     $('#statusImg').attr('title', 'There are no events with given criterias.')
-        .attr('src', 'images/warning.png')
-        .show();
+        .attr('src', '/images/warning.png');
 }
 
-var hideWorking = function () {
-    $('#statusImg').hide();
+var showNormal = function () {
+    $('#statusImg').attr('title', 'There are no events with given criterias.')
+        .attr('src', '/images/serenedi3.ico');
 }

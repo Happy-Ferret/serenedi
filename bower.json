@@ -17,7 +17,6 @@
   ],
   "dependencies": {
     "jquery": "latest",
-    "jquery-ui": "latest",
     "canjs": "latest",
     "bootstrap": "latest"
   }
