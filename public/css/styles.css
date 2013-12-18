@@ -20,9 +20,12 @@
   top: 70px; 
   left: -5px; 
   position: fixed; 
-  padding-right: 5px;
-  padding-left: 5px;
+  padding-right: 0px;
+  padding-left: 0px;
   width: 40px;
+  border-width: 3px;
+  border-color: black;
+  border-left-color: white;
 }
 
 #mapBox {
