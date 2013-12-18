@@ -23,6 +23,7 @@
   padding-right: 0px;
   padding-left: 0px;
   width: 40px;
+  border: solid;
   border-width: 3px;
   border-color: black;
   border-left-color: white;
@@ -39,6 +40,9 @@
   width: 300px; 
   height: 100%; 
   overflow-y: auto;
+  border: solid;
+  border-color: black;
+  border-width: 3px;
 }
 
 #sideMenu table{
