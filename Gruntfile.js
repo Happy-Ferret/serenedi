@@ -75,6 +75,16 @@ module.exports = function(grunt) {
         options: {
           spawn: false,
         },
+      },
+      clean: ["public/template", "public/fonts", "public/jquery.min.map"],
+      copy: {
+        main: {
+          files: [
+            // includes files within path and its sub-directories
+            {expand: true, flatten: true, filter: 'isFile', src: 'bower_components/bootstrap/dist/fonts/*', dest: 'public/fonts/'},
+            {expand: true, flatten: true, src: 'bower_components/jquery/jquery.min.map', dest: 'public/'}
+          ]
+        }
       }
   });
 
@@ -102,6 +112,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
-  grunt.registerTask('default', ['jade', 'browserify', 'less', 'jshint', 'templates']);
+  grunt.registerTask('default', ['clean', 'copy', 'jade', 'browserify', 'less', 'jshint', 'templates']);
 };

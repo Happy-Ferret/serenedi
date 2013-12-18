@@ -19,6 +19,8 @@
     "grunt-browserify" : "latest",
     "grunt-contrib-less" : "latest",
     "grunt-contrib-jshint" : "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-copy": "latest",
     "socket.io" : "latest",
     "eventbrite" : "latest",
     "path"    : "latest",
