@@ -16,6 +16,8 @@ npm-debug.log
 node_modules
 bower_components/*
 public/*.js
+public/fonts/*
+public/jquery.min.map
 public/*.css
 public/index.html
 public/template/*
