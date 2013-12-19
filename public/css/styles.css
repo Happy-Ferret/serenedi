@@ -38,11 +38,11 @@
   position:absolute; 
   left: -285px; 
   width: 300px; 
-  height: 100%; 
   overflow-y: auto;
   border: solid;
   border-color: black;
   border-width: 3px;
+  padding-bottom: 20px;
 }
 
 #sideMenu table{
@@ -57,4 +57,11 @@
 
 .popover-content {
   color: black;
+}
+
+#menuBarStrike {
+  position: fixed; 
+  top: 25px; 
+  width: 100%; 
+  z-index: 9999;
 }
