@@ -6,6 +6,7 @@ require('../../bower_components/canjs/can.jquery.js');
 require('../../bower_components/canjs/can.object.js');
 require('../../bower_components/canjs/can.control.plugin.js');
 require('../../bower_components/bootstrap/dist/js/bootstrap.min.js');
+require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
 var menu = require('./source/MenuControl.js');
 var map = require('./source/MapControl.js');

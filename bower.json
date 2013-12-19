@@ -18,6 +18,7 @@
   "dependencies": {
     "jquery": "latest",
     "canjs": "latest",
-    "bootstrap": "latest"
+    "bootstrap": "latest",
+    " jquery-mousewheel": "latest"
   }
 }
