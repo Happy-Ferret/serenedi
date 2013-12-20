@@ -32,7 +32,7 @@ var MapControl = can.Control({
                 $('#lat').val(lat);
                 $('#lng').val(lng);
 
-                map.setCenter(new google.maps.LatLng(lat, lng));
+                reCenter();
             });
         }
         callUpdateMap(true);
@@ -46,6 +46,12 @@ var MapControl = can.Control({
     ".datePicker change": function(el, ev) {
         clearMap();
         callUpdateMap(true);
+    },
+    ".location change": function(el, ev) {
+        if(validateLatLng()) {
+            callUpdateMap(true);
+            reCenter();
+        }
     }
 });
 exports.MapControl = MapControl;
@@ -342,4 +348,12 @@ var typeChanged = function() {
     result += flagCheck('#typeOtherFlag');
 
     $('#categories').val(result);
+}
+
+var validateLatLng = function() {
+    return util.isNumber($("#lat").val()) && util.isNumber($("#lng").val());
+}
+
+var reCenter = function() {
+    map.setCenter(new google.maps.LatLng($("#lat").val(), $("#lng").val()));
 }

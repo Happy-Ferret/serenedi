@@ -58,3 +58,8 @@ var getURLArgument = function () {
     return query_string;
 } ();
 exports.getURLArgument = getURLArgument;
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+exports.isNumber = isNumber;
