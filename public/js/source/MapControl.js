@@ -34,9 +34,13 @@ var MapControl = can.Control({
                 $('#lng').val(lng);
 
                 reCenter();
+
+                callUpdateMap(true);
             });
+        } else {
+                callUpdateMap(true);
         }
-        callUpdateMap(true);
+
         updateMap();
     },
     ".type change": function(el, ev) {
