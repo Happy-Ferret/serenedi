@@ -38,6 +38,7 @@
   position:absolute; 
   left: -285px; 
   width: 300px; 
+  height: ~"calc(100% - 48px)";
   overflow-y: auto;
   border: solid;
   border-color: black;
