@@ -15,7 +15,6 @@ var map = require('./source/MapControl.js');
 $(document).ready(function() {
   new menu.MenuControl('#menuContainer');
   new map.MapControl('#main');
-  $('#statusImg').tooltip();
 
   $("#optionButton").click(function() {
     var element = $(".optionButtonDirection");
