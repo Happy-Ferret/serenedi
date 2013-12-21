@@ -24,23 +24,7 @@ var MapControl = can.Control({
         initializeMainElements(this.element);
 
         initializeMap();
-
-        if(navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var lat = util.roundNumber(position.coords.latitude);
-                var lng = util.roundNumber(position.coords.longitude);
-
-                $('#lat').val(lat);
-                $('#lng').val(lng);
-
-                reCenter();
-
-                callUpdateMap(true);
-            });
-        } else {
-                callUpdateMap(true);
-        }
-
+        loadMyLocation();
         updateMap();
     },
     ".type change": function(el, ev) {
@@ -57,9 +41,33 @@ var MapControl = can.Control({
             callUpdateMap(true);
             reCenter();
         }
+    },
+    "#loadMyLocation click": function(el, ev) {
+        loadMyLocation();
     }
 });
 exports.MapControl = MapControl;
+
+var loadMyLocation = function() {
+    if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var lat = util.roundNumber(position.coords.latitude);
+            var lng = util.roundNumber(position.coords.longitude);
+
+            $('#lat').val(lat);
+            $('#lng').val(lng);
+
+            reCenter();
+            callUpdateMap(true);
+        });
+    } else {
+        $('#lat').val(defaultLoc.lat);
+        $('#lng').val(defaultLoc.lng);
+
+        reCenter();
+        callUpdateMap(true);
+    }
+}
 
 
 var initializeMainElements = function(element) {
@@ -95,7 +103,8 @@ var initializeMainElements = function(element) {
     $("#dateTo").val(util.getPrettyDate(todayPlusOne));
     $("#dateFrom").datepicker("option", "maxDate", todayPlusOne);
     $("#sideMenu").mCustomScrollbar();
-    typeChanged();
+
+    $('#loadMyLocation').popover();
 }
 
 var initializeMap = function () {
@@ -203,7 +212,7 @@ var callUpdateMap = function (flag) {
     needUpdate = true;
 
     waitedSinceLastChange = false;
-    setTimeout(function() {waitedSinceLastChange = true;}, 1000);
+    setTimeout(function() {waitedSinceLastChange = true;}, 400);
 }
 
 var updateMap = function() {
@@ -239,7 +248,7 @@ var updateMap = function() {
         statusObservable.status.attr('value', 3);
     }
 
-    setTimeout(updateMap, 2000);
+    setTimeout(updateMap, 1500);
 }
 
 var clearMap = function () {

@@ -10,7 +10,8 @@
       tr
         td(colspan="4")
           h3
-            | Map Center
+            | Map Center 
+            span#loadMyLocation.glyphicon.glyphicon-map-marker(data-content="Go to My Location", data-placement="bottom", data-trigger="hover", rel="popover")
       tr
         td(colspan="2")
           h4
@@ -119,7 +120,6 @@
             | Dates
       tr
         td(colspan="4")
-          h5(style="float:left;") From&nbsp;
           input#dateFrom.datePicker(type="text", style="width: 90px; float:left;")
           h5(style="float:left;") &nbsp;to&nbsp;
           input#dateTo.datePicker(type="text", style="width: 90px; float:left")

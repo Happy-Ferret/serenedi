@@ -58,6 +58,7 @@
 
 .popover-content {
   color: black;
+  font-size: medium;
 }
 
 #menuBarStrike {
@@ -65,4 +66,13 @@
   top: 25px; 
   width: 100%; 
   z-index: 9999;
+}
+
+#loadMyLocation {
+  color: black;
+}
+
+#loadMyLocation:hover {
+  cursor: pointer;
+  color: grey;
 }
