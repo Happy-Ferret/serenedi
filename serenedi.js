@@ -45,9 +45,10 @@ io.sockets.on("connection", function(socket) {
     var radius = Math.ceil(data.message.radius);
 
     eb_client.event_get(params, function(err, data) {
-      if (data) {
+      if (!data) {
         return;
       }
+
       var lat = data.event.venue.latitude;
       var lng = data.event.venue.longitude;
 
@@ -68,19 +69,17 @@ io.sockets.on("connection", function(socket) {
       }
 
       endDate = endDateMonth + "/" + endDateDay + "/" + endDate.getFullYear();
-
+      
       var params = {"longitude": lng,
       "latitude" : lat, 
       "within_unit" : "K", 
-      "date" : "", 
       "max" : READ_SIZE, 
       "page" : 1, 
       "sort_by" : "id", 
-      "data" : getEventbriteDateRange(startDate, endDate), 
+      "date" : getEventbriteDateRange(startDate, endDate), 
       "within" : radius};
 
       eb_client.event_search(params, function(err, data) {
-
         socket.emit("getEventsResult", {message: data, center:{lat: lat, lng: lng}, date:{startDate : startDate, endDate : endDate}});
       });
     });
