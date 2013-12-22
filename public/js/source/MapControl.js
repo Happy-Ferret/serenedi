@@ -1,6 +1,6 @@
-var $ = require('../../../bower_components/jquery/jquery.min.js');
-var util = require('./Util.js');
-var statusObservable = require('./StatusObservable.js');
+var $ = require("../../../bower_components/jquery/jquery.min.js");
+var util = require("./Util.js");
+var statusObservable = require("./StatusObservable.js");
 
 var map;
 var ids = [];
@@ -37,7 +37,7 @@ var MapControl = can.Control({
     callUpdateMap(true);
   },
   ".location change": function(el, ev) {
-    if(validateLatLng()) {
+    if (validateLatLng()) {
       callUpdateMap(true);
       reCenter();
     }
@@ -49,20 +49,20 @@ var MapControl = can.Control({
 exports.MapControl = MapControl;
 
 var loadMyLocation = function() {
-  if(navigator.geolocation) {
+  if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
       var lat = util.roundNumber(position.coords.latitude);
       var lng = util.roundNumber(position.coords.longitude);
 
-      $('#lat').val(lat);
-      $('#lng').val(lng);
+      $("#lat").val(lat);
+      $("#lng").val(lng);
 
       reCenter();
       callUpdateMap(true);
     });
   } else {
-    $('#lat').val(defaultLoc.lat);
-    $('#lng').val(defaultLoc.lng);
+    $("#lat").val(defaultLoc.lat);
+    $("#lng").val(defaultLoc.lng);
 
     reCenter();
     callUpdateMap(true);
@@ -70,7 +70,7 @@ var loadMyLocation = function() {
 };
 
 var initializeMainElements = function(element) {
-  element.html(can.view('mapTemplate', {}));
+  element.html(can.view("mapTemplate", {}));
   eventToOpenID = util.getURLArgument.id;
 
   $("#dateFrom").datepicker({
@@ -103,11 +103,11 @@ var initializeMainElements = function(element) {
   $("#dateFrom").datepicker("option", "maxDate", todayPlusOne);
   $("#sideMenu").mCustomScrollbar();
 
-  $('#loadMyLocation').popover();
+  $("#loadMyLocation").popover();
 };
 
 var initializeMap = function () {
-  map = new google.maps.Map(document.getElementById('mapBox'), {
+  map = new google.maps.Map(document.getElementById("mapBox"), {
     zoom : 15,
     center : new google.maps.LatLng(defaultLoc.lat, defaultLoc.lng),
     mapTypeId : google.maps.MapTypeId.ROADMAP,
@@ -115,31 +115,31 @@ var initializeMap = function () {
     mapTypeControl: true
   });
 
-  google.maps.event.addListenerOnce(map, 'idle', function() {
+  google.maps.event.addListenerOnce(map, "idle", function() {
     var ne = map.getBounds().getNorthEast();
     var sw = map.getBounds().getSouthWest();
 
-    $('#radius').val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
-    $('#lat').val(util.roundNumber(map.getCenter().lat()));
-    $('#lng').val(util.roundNumber(map.getCenter().lng()));
+    $("#radius").val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
+    $("#lat").val(util.roundNumber(map.getCenter().lat()));
+    $("#lng").val(util.roundNumber(map.getCenter().lng()));
   });
 
-  google.maps.event.addListener(map, 'dragstart', function() {
+  google.maps.event.addListener(map, "dragstart", function() {
     dragging = true;
   });
 
-  google.maps.event.addListener(map, 'dragend', function() {
-    $('#lat').val(util.roundNumber(map.getCenter().lat()));
-    $('#lng').val(util.roundNumber(map.getCenter().lng()));
+  google.maps.event.addListener(map, "dragend", function() {
+    $("#lat").val(util.roundNumber(map.getCenter().lat()));
+    $("#lng").val(util.roundNumber(map.getCenter().lng()));
     dragging = false;
     callUpdateMap(false);
   });
 
-  google.maps.event.addListener(map, 'zoom_changed', function() {
+  google.maps.event.addListener(map, "zoom_changed", function() {
     var ne = map.getBounds().getNorthEast();
     var sw = map.getBounds().getSouthWest();
 
-    $('#radius').val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()));
+    $("#radius").val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()));
 
     callUpdateMap(true);
   });
@@ -154,32 +154,32 @@ var setupSocket = function() {
     "reconnection limit attempts": 15
   };
 
-  socket = io.connect('http://serenedi.com/', socketOptions);
+  socket = io.connect("http://serenedi.com/", socketOptions);
 
-  socket.on('getEventsResult', function(data) {
+  socket.on("getEventsResult", function(data) {
     var m = 1;  
     var n = 0;
 
-    if(data.message !== null) {
-      if(data.center){
+    if (data.message !== null) {
+      if (data.center) {
         map.setCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
       }
 
-      if(data.date) {
+      if (data.date) {
         $("#dateFrom").datepicker("option", "maxDate", data.date.endDate);
-        $('#dateFrom').val(data.date.startDate);
+        $("#dateFrom").val(data.date.startDate);
         $("#dateTo").datepicker("option", "minDate", data.date.startDate);
-        $('#dateTo').val(data.date.endDate);
+        $("#dateTo").val(data.date.endDate);
       }
 
-      while(m < data.message.events.length) {
+      while (m < data.message.events.length) {
 
-        if(n >= ids.length) {
+        if (n >= ids.length) {
           ids[n] = MAX_NUMBER;
         }
 
-        if(data.message.events[m].event.id < ids[n]) {
-          if(ids[n] == MAX_NUMBER) {
+        if (data.message.events[m].event.id < ids[n]) {
+          if (ids[n] == MAX_NUMBER) {
             ids.pop();
           }
 
@@ -196,9 +196,9 @@ var setupSocket = function() {
       }
 
       ids.sort();
-      statusObservable.status.attr('value', 0);
+      statusObservable.status.attr("value", 0);
     } else {
-      statusObservable.status.attr('value', 2);
+      statusObservable.status.attr("value", 2);
     }
   });
 };
@@ -214,34 +214,34 @@ var callUpdateMap = function (flag) {
 
 var updateMap = function() {
   var distanceCheck = distCheckPass || 
-    ((latestLoc.lat && latestLoc.lng) || Math.abs(util.getDistanceFromLatLng($('#lat').val(), $('#lng').val(), latestLoc.lat, latestLoc.lng)) > $('#radius').val() / 1.5);
-  var radiusCheck = $('#radius').val() < 20;
+    ((latestLoc.lat && latestLoc.lng) || Math.abs(util.getDistanceFromLatLng($("#lat").val(), $("#lng").val(), latestLoc.lat, latestLoc.lng)) > $("#radius").val() / 1.5);
+  var radiusCheck = $("#radius").val() < 20;
 
-  if(needUpdate && !dragging && distanceCheck && radiusCheck && statusObservable.status.attr('value') !== 1 && waitedSinceLastChange) {
-    statusObservable.status.attr('value', 1);
+  if (needUpdate && !dragging && distanceCheck && radiusCheck && statusObservable.status.attr("value") !== 1 && waitedSinceLastChange) {
+    statusObservable.status.attr("value", 1);
     needUpdate = false;
-    latestLoc.lat = $('#lat').val();
-    latestLoc.lng = $('#lng').val();
+    latestLoc.lat = $("#lat").val();
+    latestLoc.lng = $("#lng").val();
 
     if (eventToOpenID) {
-      socket.emit('getEventsByIDCall', {
+      socket.emit("getEventsByIDCall", {
         message: { id : eventToOpenID,
-          radius : $('#radius').val()}
+          radius : $("#radius").val()}
         });
     } else {
-      socket.emit('getEventsCall', {
-        message: { lat : $('#lat').val(),
-        lng : $('#lng').val(),
-        dateFrom : $('#dateFrom').val(),
-        dateTo : $('#dateTo').val(),
-        type : $('#categories').val(),
-        radius : $('#radius').val() }
+      socket.emit("getEventsCall", {
+        message: { lat : $("#lat").val(),
+        lng : $("#lng").val(),
+        dateFrom : $("#dateFrom").val(),
+        dateTo : $("#dateTo").val(),
+        type : $("#categories").val(),
+        radius : $("#radius").val() }
       });
     }
   }
 
-  if(!radiusCheck) {
-    statusObservable.status.attr('value', 3);
+  if (!radiusCheck) {
+    statusObservable.status.attr("value", 3);
   }
 
   setTimeout(updateMap, 1500);
@@ -250,7 +250,7 @@ var updateMap = function() {
 var clearMap = function () {
   closeLastOpen();
 
-  for(n = 0; n < markers.length; n++) {
+  for (n = 0; n < markers.length; n++) {
     markers[n].setMap(null);
   }
 
@@ -280,12 +280,12 @@ var addMarkers = function (event) {
     clickable : true
   });
 
-  marker.info = new google.maps.InfoWindow({content: '<strong>' + event.title + '</strong><br />'});
+  marker.info = new google.maps.InfoWindow({content: "<strong>" + event.title + "</strong><br />"});
   markers.push(marker);
 
   google.maps.event.addListener(
     marker,
-    'click',
+    "click",
     function() {
       closeLastOpen();
 
@@ -293,11 +293,11 @@ var addMarkers = function (event) {
         content: can.view.render("infoPopUpTemplate",
         {   
           title: marker.getTitle(), 
-          url: {eventbrite: event.url, serenedi: 'http://www.serenedi.com/?id=' + event.id},
-          start: event.start_date.split(' ')[0],
-          end: event.end_date.split(' ')[0],
+          url: {eventbrite: event.url, serenedi: "http://www.serenedi.com/?id=" + event.id},
+          start: event.start_date.split(" ")[0],
+          end: event.end_date.split(" ")[0],
           showAddr: event.venue.address !== null || event.venue.address !== "",
-          addr: event.venue.address + ' ' + event.venue.address_2,
+          addr: event.venue.address + " " + event.venue.address_2,
           city: event.venue.city,
           region: event.venue.region,
           zip: event.venue.postalcode,
@@ -305,7 +305,7 @@ var addMarkers = function (event) {
         })
       });
 
-      google.maps.event.addListenerOnce(info, 'closeclick', function() {
+      google.maps.event.addListenerOnce(info, "closeclick", function() {
         marker.setAnimation(null);
       });
 
@@ -326,12 +326,12 @@ var addMarkers = function (event) {
   );
 
   if (event.id == eventToOpenID) {
-    google.maps.event.trigger(marker, 'click');
+    google.maps.event.trigger(marker, "click");
   }
 };
 
 var flagCheck = function(element) {
-  if ($(element).prop('checked')) {
+  if ($(element).prop("checked")) {
     return "1";
   } else {
     return "0";
@@ -339,28 +339,28 @@ var flagCheck = function(element) {
 };
 
 var typeChanged = function() {
-  var result = flagCheck('#typeConfFlag');
+  var result = flagCheck("#typeConfFlag");
 
-  result += flagCheck('#typeConvFlag');
-  result += flagCheck('#typeEntFlag');
-  result += flagCheck('#typeFairFlag');
-  result += flagCheck('#typeFoodFlag');
-  result += flagCheck('#typeFundFlag');
-  result += flagCheck('#typeMeetFlag');
-  result += flagCheck('#typeMusicFlag');
-  result += flagCheck('#typePerfFlag');
-  result += flagCheck('#typeRecFlag');
-  result += flagCheck('#typeReligFlag');
-  result += flagCheck('#typeReunFlag');
-  result += flagCheck('#typeSalesFlag');
-  result += flagCheck('#typeSemiFlag');
-  result += flagCheck('#typeSociFlag');
-  result += flagCheck('#typeSportsFlag');
-  result += flagCheck('#typeTradeFlag');
-  result += flagCheck('#typeTravelFlag');
-  result += flagCheck('#typeOtherFlag');
+  result += flagCheck("#typeConvFlag");
+  result += flagCheck("#typeEntFlag");
+  result += flagCheck("#typeFairFlag");
+  result += flagCheck("#typeFoodFlag");
+  result += flagCheck("#typeFundFlag");
+  result += flagCheck("#typeMeetFlag");
+  result += flagCheck("#typeMusicFlag");
+  result += flagCheck("#typePerfFlag");
+  result += flagCheck("#typeRecFlag");
+  result += flagCheck("#typeReligFlag");
+  result += flagCheck("#typeReunFlag");
+  result += flagCheck("#typeSalesFlag");
+  result += flagCheck("#typeSemiFlag");
+  result += flagCheck("#typeSociFlag");
+  result += flagCheck("#typeSportsFlag");
+  result += flagCheck("#typeTradeFlag");
+  result += flagCheck("#typeTravelFlag");
+  result += flagCheck("#typeOtherFlag");
 
-  $('#categories').val(result);
+  $("#categories").val(result);
 };
 
 var validateLatLng = function() {
