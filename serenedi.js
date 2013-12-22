@@ -45,7 +45,7 @@ io.sockets.on("connection", function(socket) {
     var radius = Math.ceil(data.message.radius);
 
     eb_client.event_get(params, function(err, data) {
-      if (data === null || data === "") {
+      if (data) {
         return;
       }
       var lat = data.event.venue.latitude;
