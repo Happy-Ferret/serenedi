@@ -160,13 +160,12 @@ var setupSocket = function() {
     var m = 1;  
     var n = 0;
 
-    if(data.message != null) {
-
-      if(typeof(data.center) != 'undefined' || data.center != null){
+    if(data.message !== null) {
+      if(data.center){
         map.setCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
       }
 
-      if(typeof(data.date) != 'undefined' || data.date != null) {
+      if(data.date) {
         $("#dateFrom").datepicker("option", "maxDate", data.date.endDate);
         $('#dateFrom').val(data.date.startDate);
         $("#dateTo").datepicker("option", "minDate", data.date.startDate);
@@ -214,18 +213,22 @@ var callUpdateMap = function (flag) {
 };
 
 var updateMap = function() {
-  var distanceCheck = distCheckPass 
-  || ((latestLoc.lat == null && latestLoc.lng == null) 
-    || Math.abs(util.getDistanceFromLatLng($('#lat').val(), $('#lng').val(), latestLoc.lat, latestLoc.lng)) > $('#radius').val() / 1.5);
+  var distanceCheck = distCheckPass || 
+    ((latestLoc.lat && latestLoc.lng) || Math.abs(util.getDistanceFromLatLng($('#lat').val(), $('#lng').val(), latestLoc.lat, latestLoc.lng)) > $('#radius').val() / 1.5);
   var radiusCheck = $('#radius').val() < 20;
 
-  if(needUpdate && !dragging && distanceCheck && radiusCheck && statusObservable.status.attr('value') != 1 && waitedSinceLastChange) {
+  if(needUpdate && !dragging && distanceCheck && radiusCheck && statusObservable.status.attr('value') !== 1 && waitedSinceLastChange) {
     statusObservable.status.attr('value', 1);
     needUpdate = false;
     latestLoc.lat = $('#lat').val();
     latestLoc.lng = $('#lng').val();
 
-    if (eventToOpenID == null || eventToOpenID == 'undefined') {
+    if (eventToOpenID) {
+      socket.emit('getEventsByIDCall', {
+        message: { id : eventToOpenID,
+          radius : $('#radius').val()}
+        });
+    } else {
       socket.emit('getEventsCall', {
         message: { lat : $('#lat').val(),
         lng : $('#lng').val(),
@@ -234,11 +237,6 @@ var updateMap = function() {
         type : $('#categories').val(),
         radius : $('#radius').val() }
       });
-    } else {
-      socket.emit('getEventsByIDCall', {
-        message: { id : eventToOpenID,
-          radius : $('#radius').val()}
-        });
     }
   }
 
@@ -261,10 +259,10 @@ var clearMap = function () {
 };
 
 var closeLastOpen = function () {
-  if (lastOpen != null) {
+  if (lastOpen) {
     lastOpen.close();
   }
-  if (lastClickMarker != null) {
+  if (lastClickMarker) {
     lastClickMarker.setAnimation(null);
   }
   lastOpen = null;
@@ -298,7 +296,7 @@ var addMarkers = function (event) {
           url: {eventbrite: event.url, serenedi: 'http://www.serenedi.com/?id=' + event.id},
           start: event.start_date.split(' ')[0],
           end: event.end_date.split(' ')[0],
-          showAddr: event.venue.address != null || event.venue.address != '',
+          showAddr: event.venue.address !== null || event.venue.address !== "",
           addr: event.venue.address + ' ' + event.venue.address_2,
           city: event.venue.city,
           region: event.venue.region,
