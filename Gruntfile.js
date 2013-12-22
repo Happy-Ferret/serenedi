@@ -61,7 +61,7 @@ module.exports = function(grunt) {
       browserify: {
         dist: {
           files: {
-            'public/serenedi.js': ['public/js/main.js']
+            'public/main.js': ['public/js/main.js']
           }
         }
       },
