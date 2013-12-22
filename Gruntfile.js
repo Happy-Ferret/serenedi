@@ -25,10 +25,6 @@ module.exports = function(grunt) {
       jshint: {
         options: {
           undef: true, // check for usage of undefined variables
-          '-W033': true, // ignore Missing semicolon
-          '-W099': true, // ignore Mixed spaces and tabs
-          '-W041': true, // ignore Use '===' to compare with '0'
-          '-W065': true, // ignore Missing radix parameter
           '-W069': true, // ignore ['HEAD'] is better written in dot notation        
         },
         web: {
@@ -42,7 +38,7 @@ module.exports = function(grunt) {
               'can': true
             }
           },
-          src: ['public/js/main.js']
+          src: ['public/js/main.js', 'public/js/source/MapControl.js', 'public/js/source/MenuControl.js', 'public/js/source/SatusObservable.js', 'public/js/source/Util.js']
         },
         node: {
           options: {
@@ -85,9 +81,6 @@ module.exports = function(grunt) {
             {expand: true, flatten: true, src: 'bower_components/jquery/jquery.min.map', dest: 'public/'}
           ]
         }
-      },
-      jshint: {
-        all: ['serenedi.js', 'public/js/main.js', 'public/js/source/MapControl.js', 'public/js/source/MenuControl.js', 'public/js/source/SatusObservable.js', 'public/js/source/Util.js']
       }
   });
 
@@ -117,7 +110,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   grunt.registerTask('default', ['clean', 'copy', 'jade', 'browserify', 'less', 'jshint', 'templates', ]);
 };
