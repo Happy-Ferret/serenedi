@@ -24,7 +24,13 @@ var MapControl = can.Control({
     initializeMainElements(this.element);
 
     initializeMap();
-    loadMyLocation();
+
+    if (!eventToOpenID) {
+      loadMyLocation();
+    } else {
+      callUpdateMap(true);
+    }
+
     updateMap();
   },
   ".type change": function(el, ev) {
