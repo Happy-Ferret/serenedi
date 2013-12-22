@@ -71,7 +71,7 @@ var loadMyLocation = function() {
 
 var initializeMainElements = function(element) {
   element.html(can.view("mapTemplate", {}));
-  eventToOpenID = util.getURLArgument.id;
+  eventToOpenID = parseInt(util.getURLArgument.id, 10);
 
   $("#dateFrom").datepicker({
     defaultDate : "",
@@ -179,7 +179,7 @@ var setupSocket = function() {
         }
 
         if (data.message.events[m].event.id < ids[n]) {
-          if (ids[n] == MAX_NUMBER) {
+          if (ids[n] === MAX_NUMBER) {
             ids.pop();
           }
 
@@ -324,8 +324,9 @@ var addMarkers = function (event) {
     }
   );
 
-  if (event.id == eventToOpenID) {
+  if (event.id === eventToOpenID) {
     google.maps.event.trigger(marker, "click");
+    eventToOpenID = null;
   }
 };
 
