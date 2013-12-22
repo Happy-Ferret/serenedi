@@ -10,7 +10,7 @@ var getPrettyDate = function(date) {
     day = "0" + day;
   } 
 
-  return month + '/' + day + '/' + date.getFullYear();
+  return month + "/" + day + "/" + date.getFullYear();
 };   
 exports.getPrettyDate = getPrettyDate;
 

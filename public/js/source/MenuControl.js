@@ -1,15 +1,15 @@
-var $ = require('../../../bower_components/jquery/jquery.min.js');
+var $ = require("../../../bower_components/jquery/jquery.min.js");
 
 var MenuControl = can.Control({
   init: function(element, options) {
-    this.element.html(can.view('menuTemplate'), {});
-    $('#about').hide();
+    this.element.html(can.view("menuTemplate"), {});
+    $("#about").hide();
     $("#statusImg").popover();
   },
-  '#homeLink click': function(el, ev) {
+  "#homeLink click": function(el, ev) {
     $( "#aboutDialog" ).dialog( "close" );
   },
-  '#aboutLink click': function(el, ev) {
+  "#aboutLink click": function(el, ev) {
     $( "#aboutDialog" ).dialog( "open" );
   }
 });
