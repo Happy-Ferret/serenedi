@@ -249,7 +249,7 @@ var updateMap = function() {
 var clearMap = function () {
   closeLastOpen();
 
-  for (n = 0; n < markers.length; n++) {
+  for (var n = 0; n < markers.length; n++) {
     markers[n].setMap(null);
   }
 
