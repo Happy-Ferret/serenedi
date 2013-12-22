@@ -72,7 +72,7 @@ module.exports = function(grunt) {
           spawn: false,
         },
       },
-      clean: ["public/template", "public/fonts", "public/jquery.min.map"],
+      clean: ["public/template", "public/fonts", "public/jquery.min.map", "public/*.css", "public/*.js"],
       copy: {
         main: {
           files: [
