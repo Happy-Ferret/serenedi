@@ -11,7 +11,7 @@ var latestLoc = {lat: null, lng: null};
 var distCheckPass = null;
 var eventToOpenID = null;
 var dragging = false;
-var needUpdate = true;
+var needUpdate = false;
 var MAX_NUMBER = 9007199254740992;
 var socket = null;
 var defaultLoc = {lat: 40.72616, lng: -73.99973};
@@ -202,7 +202,6 @@ var setupSocket = function() {
     }
   });
 };
-
 
 var callUpdateMap = function (flag) {
   distCheckPass = flag;
