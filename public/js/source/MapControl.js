@@ -333,6 +333,9 @@ var addMarkers = function (event) {
   if (event.id === eventToOpenID) {
     google.maps.event.trigger(marker, "click");
     eventToOpenID = null;
+    var center = map.getCenter();
+    $("#lat").val(center.lat());
+    $("#lng").val(center.lng());
   }
 };
 
