@@ -209,6 +209,35 @@ var setupSocket = function() {
   });
 };
 
+var getDistanceFromLastLoc = function() {
+  return util.getDistanceFromLatLng($("#lat").val(), $("#lng").val(), latestLoc.lat, latestLoc.lng);
+};
+
+var isNeedUpdate = function() {
+  if (!needUpdate) {
+    return false;
+  }
+  if (dragging) {
+    return false;
+  }
+  // Is it current working?
+  if (statusObservable.status.attr("value") === 1) {
+    return false;
+  }
+  if (!waitedSinceLastChange) {
+    return false;
+  }
+  if ($("#radius").val() > 19) {
+    statusObservable.status.attr("value", 3);
+    return false;
+  } 
+  if (!validateLatLng) {
+    return false;
+  }
+
+  return distCheckPass || Math.abs(getDistanceFromLastLoc()) > $("#radius").val() / 1.5;
+};
+
 var callUpdateMap = function (flag) {
   distCheckPass = flag;
   needUpdate = true;
@@ -218,11 +247,7 @@ var callUpdateMap = function (flag) {
 };
 
 var updateMap = function() {
-  var distanceCheck = distCheckPass || 
-    ((latestLoc.lat && latestLoc.lng) || Math.abs(util.getDistanceFromLatLng($("#lat").val(), $("#lng").val(), latestLoc.lat, latestLoc.lng)) > $("#radius").val() / 1.5);
-  var radiusCheck = $("#radius").val() < 20;
-
-  if (needUpdate && !dragging && distanceCheck && radiusCheck && statusObservable.status.attr("value") !== 1 && waitedSinceLastChange) {
+  if (isNeedUpdate()) {
     statusObservable.status.attr("value", 1);
     needUpdate = false;
     latestLoc.lat = $("#lat").val();
@@ -243,10 +268,6 @@ var updateMap = function() {
         radius : $("#radius").val() }
       });
     }
-  }
-
-  if (!radiusCheck) {
-    statusObservable.status.attr("value", 3);
   }
 
   setTimeout(updateMap, 1500);
