@@ -19,6 +19,7 @@
     "jquery": "latest",
     "canjs": "latest",
     "bootstrap": "latest",
-    " jquery-mousewheel": "latest"
+    " jquery-mousewheel": "latest",
+    " jquery-ui": "latest"
   }
 }
