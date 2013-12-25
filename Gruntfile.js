@@ -26,6 +26,7 @@ module.exports = function(grunt) {
         options: {
           undef: true, // check for usage of undefined variables
           '-W069': true, // ignore ['HEAD'] is better written in dot notation        
+          '-W079': true
         },
         web: {
           options: {
@@ -38,7 +39,7 @@ module.exports = function(grunt) {
               'can': true
             }
           },
-          src: ['public/js/main.js', 'public/js/source/MapControl.js', 'public/js/source/MenuControl.js', 'public/js/source/SatusObservable.js', 'public/js/source/Util.js']
+          src: ['public/js/main.js', 'public/js/source/*', '*.js']
         },
         node: {
           options: {
