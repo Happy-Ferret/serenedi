@@ -8,14 +8,19 @@ exports.status = status;
 // 2 no events
 // 3 radius check fail
 status.bind("change", function(event, attr, how, newVal, oldVal) {
-  if (newVal == 0) {
-    showNormal();
-  } else if (newVal == 1) {
-    showWorking();
-  } else if (newVal == 2) {
-    showNoEvents();
-  } else if (newVal == 3) {
-    showZoomCheckFail();
+  switch (newVal) {
+    case 0: 
+      showNormal();
+      break;
+    case 1:
+      showWorking();
+      break;
+    case 2:
+      showNoEvents();
+      break;
+    case 3:
+      showZoomCheckFail();
+      break;
   }
 });
 
