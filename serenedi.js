@@ -7,7 +7,7 @@ var express = require("express");
 var app = express();
 var eventbrite = require("eventbrite");
 
-var configFile = fs.readFileSync(path.join(process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE, ".serenedirc"), "utf-8");
+var configFile = fs.readFileSync(".serenedirc", "utf-8");
 if (!configFile) {
   throw new Error("Missing .serenedirc");
 }

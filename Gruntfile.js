@@ -3,8 +3,7 @@ var fs = require('fs');
 
 module.exports = function(grunt) {
   var packageJson = grunt.file.readJSON('package.json');
-  var HOME = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
-  var properties = grunt.file.readJSON(path.join(HOME, '.serenedirc'));
+  var properties = grunt.file.readJSON('.serenedirc');
   grunt.initConfig({
       pkg: packageJson,
       jade: {
