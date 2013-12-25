@@ -22,3 +22,5 @@ public/*.css
 public/index.html
 public/template/*
 .serenedirc
+npm-shrinkwrap.json
+manifest.yml
