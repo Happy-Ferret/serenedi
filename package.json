@@ -11,7 +11,6 @@
     "type": "git",
     "url": "https://github.com/serenedi/"
   },
-  "main": "./Serenedi",
   "dependencies" : {
     "express" : "latest",
     "grunt"   : "latest",
