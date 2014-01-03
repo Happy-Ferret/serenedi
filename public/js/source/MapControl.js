@@ -160,7 +160,7 @@ var setupSocket = function() {
     "reconnection limit attempts": 15
   };
 
-  socket = io.connect("http://serenedi.com/", socketOptions);
+  socket = io.connect(URL, socketOptions);
 
   socket.on("getEventsResult", function(data) {
     var m = 1;  
@@ -319,7 +319,7 @@ var addMarkers = function (event) {
         content: can.view.render("infoPopUpTemplate",
         {   
           title: marker.getTitle(), 
-          url: {eventbrite: event.url, serenedi: "http://www.serenedi.com/?id=" + event.id},
+          url: {eventbrite: event.url, serenedi: URL + "/?id=" + event.id},
           start: event.start_date.split(" ")[0],
           end: event.end_date.split(" ")[0],
           showAddr: event.venue.address !== null || event.venue.address !== "",

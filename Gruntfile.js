@@ -9,7 +9,7 @@ module.exports = function(grunt) {
       jade: {
           compile: {
               options: {
-                  data: { googleAPIKey: properties.googleAPIKey },
+                  data: { googleAPIKey: properties.googleAPIKey, url: properties.url },
                   pretty: false
               },
               files: [ { 
