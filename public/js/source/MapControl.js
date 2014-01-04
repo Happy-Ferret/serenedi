@@ -15,7 +15,7 @@ var needUpdate = false;
 var MAX_NUMBER = 9007199254740992;
 var socket = null;
 var defaultLoc = {lat: 40.72616, lng: -73.99973};
-var waitedSinceLastChange = true;
+var waitedSinceLastChange;
 
 
 var MapControl = can.Control({
@@ -224,9 +224,6 @@ var isNeedUpdate = function() {
   if (statusObservable.status.attr("value") === 1) {
     return false;
   }
-  if (!waitedSinceLastChange) {
-    return false;
-  }
   if ($("#radius").val() > 19) {
     statusObservable.status.attr("value", 3);
     return false;
@@ -242,8 +239,8 @@ var callUpdateMap = function (flag) {
   distCheckPass = flag;
   needUpdate = true;
 
-  waitedSinceLastChange = false;
-  setTimeout(function() {waitedSinceLastChange = true;}, 400);
+  clearTimeout(waitedSinceLastChange);
+  waitedSinceLastChange = setTimeout(updateMap, 500);
 };
 
 var updateMap = function() {
@@ -269,8 +266,6 @@ var updateMap = function() {
       });
     }
   }
-
-  setTimeout(updateMap, 1500);
 };
 
 var clearMap = function () {
