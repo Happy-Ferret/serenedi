@@ -228,7 +228,7 @@ var isNeedUpdate = function() {
     statusObservable.status.attr("value", 3);
     return false;
   } 
-  if (!validateLatLng) {
+  if (!validateLatLng()) {
     return false;
   }
 
