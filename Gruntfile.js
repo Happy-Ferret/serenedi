@@ -38,16 +38,15 @@ module.exports = function(grunt) {
               'can': true
             }
           },
-          src: ['public/js/main.js', 'public/js/source/*', '*.js']
+          src: ['public/js/main.js', 'public/js/source/*', './*.js', 'source/*.js']
         },
         node: {
           options: {
             node: true
           },
           src: [
-            'Gruntfile.js',
-            'bin/*',
-            'serenedi.js',
+            'source/*.js',
+            './*.js',
           ]
         }
       },

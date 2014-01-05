@@ -4,7 +4,7 @@ exports.getEventbriteDateRange = function (from, to) {
   var toArray = to.split("/");
 
   return fromArray[2] + "-" + fromArray[0] + "-" + fromArray[1] + " " + toArray[2] + "-" + toArray[0] + "-" + toArray[1];
-}
+};
 
 //TODO There is a better way of handling this...  
 exports.getTypeString = function(type) {
@@ -83,4 +83,4 @@ exports.getTypeString = function(type) {
   }
 
   return typeStr;
-}
+};
