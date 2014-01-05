@@ -81,6 +81,13 @@ module.exports = function(grunt) {
             {expand: true, flatten: true, src: 'bower_components/jquery/jquery.min.map', dest: 'public/'}
           ]
         }
+      },
+      simplemocha: {
+        options: {
+          reporter: 'spec'
+        },
+
+        all: { src: 'test/*.js' }
       }
   });
 
@@ -110,6 +117,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-simple-mocha');
+
+  grunt.registerTask('unittest', ['simplemocha']);
+  grunt.registerTask('test', ['unittest']);
 
   grunt.registerTask('default', ['clean', 'copy', 'jade', 'browserify', 'less', 'jshint', 'templates', ]);
 };
