@@ -6,6 +6,7 @@ var path = require("path");
 var express = require("express");
 var app = express();
 var eventbrite = require("eventbrite");
+var util = require("./source/Util");
 
 var configFile = fs.readFileSync(".serenedirc", "utf-8");
 if (!configFile) {
@@ -31,8 +32,8 @@ io.sockets.on("connection", function(socket) {
       "max" : READ_SIZE,
       "page" : 1,
       "within" : Math.ceil(data.message.radius),
-      "date" : getEventbriteDateRange(data.message.dateFrom, data.message.dateTo),
-      "category" : getTypeString(data.message.type),
+      "date" : util.getEventbriteDateRange(data.message.dateFrom, data.message.dateTo),
+      "category" : util.getTypeString(data.message.type),
       "sort_by" : "id"};
 
     eb_client.event_search(params, function(err, data) {
@@ -76,7 +77,7 @@ io.sockets.on("connection", function(socket) {
       "max" : READ_SIZE, 
       "page" : 1, 
       "sort_by" : "id", 
-      "date" : getEventbriteDateRange(startDate, endDate), 
+      "date" : util.getEventbriteDateRange(startDate, endDate), 
       "within" : radius};
 
       eb_client.event_search(params, function(err, data) {
@@ -85,106 +86,3 @@ io.sockets.on("connection", function(socket) {
     });
   });
 });
-
-function getPrettyDate(date) {
-  var month = date.getMonth() + 1;
-  var day = date.getDate();
-
-  if (month < 10) {
-    month = month + "0";
-  } 
-  if (day < 10) {
-    day = day + "0";
-  } 
-
-  return month + "/" + day + "/" + date.getFullYear();
-}
-
-
-
-function getEventbriteDateRange(from, to) {
-  var fromArray = from.split("/");
-  var toArray = to.split("/");
-
-  return fromArray[2] + "-" + fromArray[0] + "-" + fromArray[1] + " " + toArray[2] + "-" + toArray[0] + "-" + toArray[1];
-}
-
-//TODO There is a better way of handling this...  
-function getTypeString(type) {
-  var typeStr = "";
-
-  if (type.charAt(0) == "1") {
-    typeStr += "conference, ";
-  }
-
-  if (type.charAt(1) == "1") {
-    typeStr += "conventions, ";
-  }
-
-  if (type.charAt(2) == "1") {
-    typeStr += "entertainment, ";
-  }
-
-  if (type.charAt(3) == "1") {
-    typeStr += "fairs, ";
-  }
-
-  if (type.charAt(4) == "1") {
-    typeStr += "food, ";
-  }
-
-  if (type.charAt(5) == "1") {
-    typeStr += "fundraisers, ";
-  }
-
-  if (type.charAt(6) == "1") {
-    typeStr += "meetings, ";
-  }
-
-  if (type.charAt(7) == "1") {
-    typeStr += "music, ";
-  }
-
-  if (type.charAt(8) == "1") {
-    typeStr += "performances, ";
-  }
-
-  if (type.charAt(9) == "1") {
-    typeStr += "recreation, ";
-  }
-
-  if (type.charAt(10) == "1") {
-    typeStr += "religion, ";
-  }
-
-  if (type.charAt(11) == "1") {
-    typeStr += "reunions, ";
-  }
-
-  if (type.charAt(12) == "1") {
-    typeStr += "sales, ";
-  }
-
-  if (type.charAt(13) == "1") {
-    typeStr += "social, ";
-  }
-
-  if (type.charAt(14) == "1") {
-    typeStr += "sports, ";
-  }
-
-  if (type.charAt(15) == "1") {
-    typeStr += "tradeshows, ";
-  }
-
-  if (type.charAt(16) == "1") {
-    typeStr += "travel, ";
-  }
-
-  if (type.charAt(17) == "1") {
-    typeStr += "other";
-  }
-
-  return typeStr;
-}
-
