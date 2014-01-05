@@ -20,17 +20,20 @@ Maybe [serenedi](http://serenedi.com) is not the solution but it is a twisted so
 Running
 -------
 
-1. Create `.serenedirc` at home directory that looks like below.
+1. Pull the via git clone `git clone http://github.com/codingtwinky/serenedi`
+
+2. `cd serenedi`
+
+2. Create `.serenedirc` at cloned repo that looks like below.
 
     ```
     {
         "port": 3080,
         "eventbriteAPIkey": "[YOUR EVENTBRITE API KEY]",
-        "googleAPIKey": "[YOUR GOOGLE MAP API KEY]"
+        "googleAPIKey": "[YOUR GOOGLE MAP API KEY]",
+        "url" : "127.0.0.1:3080"
     }
     ```
-
-2. Pull the via git clone
 
 3. Run below commands
 
