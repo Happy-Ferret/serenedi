@@ -3,9 +3,9 @@
   "author" : "CodingTwinky <twinky@codingtwinky.com>",
   "description" : "What's Happening?",
   "version" : "0.0.5",
-  "main" : "serenedi.js",
+  "main" : "server.js",
   "scripts": {
-    "start": "node serenedi.js",
+    "start": "node server.js",
     "test": "grunt test"
   },
   "repository": {
