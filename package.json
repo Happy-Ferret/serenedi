@@ -1,9 +1,9 @@
 {
-  "name" : "serenedi",
-  "author" : "CodingTwinky <twinky@codingtwinky.com>",
-  "description" : "What's Happening?",
-  "version" : "0.0.5",
-  "main" : "server.js",
+  "name": "serenedi",
+  "author": "CodingTwinky <twinky@codingtwinky.com>",
+  "description": "What's Happening?",
+  "version": "0.0.5",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "grunt test"
@@ -12,21 +12,21 @@
     "type": "git",
     "url": "https://github.com/serenedi/"
   },
-  "dependencies" : {
-    "express" : "latest",
-    "socket.io" : "latest",
-    "eventbrite" : "latest",
-    "path"    : "latest"
+  "dependencies": {
+    "express": "latest",
+    "socket.io": "latest",
+    "eventbrite": "latest",
+    "path": "latest"
   },
   "devDependencies": {
     "mocha": "latest",
     "expect.js": "latest",
-    "grunt"   : "latest",
-    "bower"   : "latest",
-    "grunt-contrib-jade" : "latest",
-    "grunt-browserify" : "latest",
-    "grunt-contrib-less" : "latest",
-    "grunt-contrib-jshint" : "latest",
+    "grunt": "latest",
+    "bower": "latest",
+    "grunt-contrib-jade": "latest",
+    "grunt-browserify": "latest",
+    "grunt-contrib-less": "latest",
+    "grunt-contrib-jshint": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-copy": "latest",
     "grunt-simple-mocha": "latest"
