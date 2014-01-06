@@ -1,9 +1,10 @@
 
-exports.getEventbriteDateRange = function (from, to) {
-  var fromArray = from.split("/");
-  var toArray = to.split("/");
-
-  return fromArray[2] + "-" + fromArray[0] + "-" + fromArray[1] + " " + toArray[2] + "-" + toArray[0] + "-" + toArray[1];
+exports.getEventbriteDateRange = function (date) {
+  if(date) {
+    var dateArray = date.split("/");
+    return dateArray[2] + "-" + dateArray[0] + "-" + dateArray[1];
+  }
+  return null;
 };
 
 //TODO There is a better way of handling this...  

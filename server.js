@@ -32,7 +32,7 @@ io.sockets.on("connection", function(socket) {
       "max" : READ_SIZE,
       "page" : 1,
       "within" : Math.ceil(data.message.radius),
-      "date" : util.getEventbriteDateRange(data.message.dateFrom, data.message.dateTo),
+      "date" : util.getEventbriteDateRange(data.message.dateFrom) + " " + util.getEventbriteDateRange(data.message.dateTo),
       "category" : util.getTypeString(data.message.type),
       "sort_by" : "id"};
 
@@ -77,7 +77,7 @@ io.sockets.on("connection", function(socket) {
       "max" : READ_SIZE, 
       "page" : 1, 
       "sort_by" : "id", 
-      "date" : util.getEventbriteDateRange(startDate, endDate), 
+      "date" : util.getEventbriteDateRange(startDate) + " " + util.getEventbriteDateRange(endDate), 
       "within" : radius};
 
       eb_client.event_search(params, function(err, data) {
