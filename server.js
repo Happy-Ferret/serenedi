@@ -16,7 +16,6 @@ else {
   config = JSON.parse(configFile);
 }
 
-
 var io = require("socket.io").listen(app.listen(config.port));
 var eb_client = eventbrite({"app_key" : config.eventbriteAPIkey});
 
@@ -86,3 +85,5 @@ io.sockets.on("connection", function(socket) {
     });
   });
 });
+
+console.log("## Serenedi started ##");
