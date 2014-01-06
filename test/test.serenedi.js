@@ -27,4 +27,10 @@ describe('Testing Util class.', function () {
     expect(Util.getTypeString("110000000000000001")).to.be("conference, conventions, other");
     done();
   });
+
+  it("getEventbriteDateRange test", function(done) {
+    expect(Util.getEventbriteDateRange("01/02/2012")).to.be("2012-01-02");
+    expect(Util.getEventbriteDateRange(null)).to.be(null);
+    done();
+  });
 });
