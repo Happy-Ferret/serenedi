@@ -1,5 +1,5 @@
 
-var getPrettyDate = function(date) {
+exports.getPrettyDate = function(date) {
   var month = date.getMonth() + 1;
   var day = date.getDate();
 
@@ -12,15 +12,12 @@ var getPrettyDate = function(date) {
 
   return month + "/" + day + "/" + date.getFullYear();
 };   
-exports.getPrettyDate = getPrettyDate;
 
-
-var roundNumber = function (val) {
+exports.roundNumber = function (val) {
   return Math.round(val * 100000) / 100000;
 };
-exports.roundNumber = roundNumber;
 
-var getDistanceFromLatLng = function(lat1, lng1, lat2, lng2) {
+exports.getDistanceFromLatLng = function(lat1, lng1, lat2, lng2) {
   var R = 6371;   // Radius of the earth in KM
   var dLat = deg2rad(lat2 - lat1);
   var dLng = deg2rad(lng2 - lng1);
@@ -28,14 +25,12 @@ var getDistanceFromLatLng = function(lat1, lng1, lat2, lng2) {
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return  R * c;
 };
-exports.getDistanceFromLatLng = getDistanceFromLatLng;
 
 var deg2rad = function (deg) { 
   return deg * (Math.PI / 180);
 };
 
-
-var getURLArgument = function () {
+exports.getURLArgument = function () {
   // This function is anonymous, is executed immediately and 
   // the return value is assigned to QueryString!
   var query_string = {};
@@ -57,9 +52,7 @@ var getURLArgument = function () {
   } 
   return query_string;
 } ();
-exports.getURLArgument = getURLArgument;
 
-var isNumber = function(n) {
+exports.isNumber = function(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
-exports.isNumber = isNumber;

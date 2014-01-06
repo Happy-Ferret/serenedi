@@ -1,6 +1,6 @@
 var $ = require("../../../bower_components/jquery/jquery.min.js");
 
-var MenuControl = can.Control({
+exports.MenuControl = can.Control({
   init: function(element, options) {
     this.element.html(can.view("menuTemplate"), {});
     $("#about").hide();
@@ -13,4 +13,3 @@ var MenuControl = can.Control({
     $( "#aboutDialog" ).dialog( "open" );
   }
 });
-exports.MenuControl = MenuControl;
