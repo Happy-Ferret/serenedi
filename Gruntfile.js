@@ -1,5 +1,7 @@
 var path = require('path');
 var fs = require('fs');
+var phantomjs = require('phantomjs');
+var childProcess = require('child_process');
 
 module.exports = function(grunt) {
   var packageJson = grunt.file.readJSON('package.json');
@@ -48,6 +50,30 @@ module.exports = function(grunt) {
             'source/*.js',
             './*.js',
           ]
+        },
+        phantomjs: {
+          options: {
+            phantom: true,
+            browser: true,
+            globals: {
+              '$': true,
+            }
+          },
+          src: ['clicktests/**/*.js']
+        },
+        mocha: {
+          options: {
+            node: true,
+            globals: {
+              'it': true,
+              'describe': true,
+              'before': true,
+              'after': true,
+              'window': true,
+              'document': true,
+              'navigator': true
+            }
+          } 
         }
       },
       less: {
@@ -110,6 +136,21 @@ module.exports = function(grunt) {
     compileTemplate('public/template/index.html', 'public/index.html');
   });
 
+  grunt.registerTask('clicktest', 'Run clicktests.', function() {
+    var done = this.async();
+    grunt.log.writeln('Running clicktests...');
+    var child = childProcess.execFile(phantomjs.path, [path.join(__dirname, 'clicktests', 'clicktests.js')]);
+    child.stdout.on('data', function(data) {
+      grunt.log.write(data);
+    });
+    child.stderr.on('data', function(data) {
+      grunt.log.error(data);
+    });
+    child.on('exit', function(code) {
+      done(code === 0);
+    });
+  });
+
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-browserify');
@@ -119,7 +160,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-simple-mocha');
 
   grunt.registerTask('unittest', ['simplemocha']);
-  grunt.registerTask('test', ['unittest']);
+  grunt.registerTask('test', ['unittest', 'clicktest']);
 
   grunt.registerTask('default', ['clean', 'copy', 'jade', 'browserify', 'less', 'jshint', 'templates', ]);
 };
