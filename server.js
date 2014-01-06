@@ -1,6 +1,9 @@
+// main serenedi server js file
+// !must pass in two arguments!
+// ex: `node server.js 3080 [Eventbrite api key]`
+
 var READ_SIZE = 100;
 
-var config;
 var fs = require("fs");
 var path = require("path");
 var express = require("express");
@@ -8,16 +11,8 @@ var app = express();
 var eventbrite = require("eventbrite");
 var util = require("./source/Util");
 
-var configFile = fs.readFileSync(".serenedirc", "utf-8");
-if (!configFile) {
-  throw new Error("Missing .serenedirc");
-}
-else {
-  config = JSON.parse(configFile);
-}
-
-var io = require("socket.io").listen(app.listen(config.port));
-var eb_client = eventbrite({"app_key" : config.eventbriteAPIkey});
+var io = require("socket.io").listen(app.listen(process.argv[2]));
+var eb_client = eventbrite({"app_key" : process.argv[3]});
 
 
 app.use(express.static(__dirname + "/public"));

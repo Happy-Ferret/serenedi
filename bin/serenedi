@@ -37,6 +37,7 @@ var child = new (forever.Monitor)(path.join(__dirname, '..', 'server.js'), {
   minUptime: 2000,
   max: config.maxNAutoRestartOnCrash,
   cwd: path.join(process.cwd(), '..'),
+  options:  [config.port, config.eventbriteAPIkey],
   env: { LANG: 'en_US', LC_ALL: 'C' }
 });
 
