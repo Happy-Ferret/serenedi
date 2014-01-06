@@ -1,8 +1,8 @@
-
 var expect = require('expect.js');
+
 var Util = require('../source/Util.js');
 
-describe('Testing Util class.', function () {
+describe('Testing Server side Util class.', function () {
   it("getTypeString test", function(done) {
     expect(Util.getTypeString("000000000000000000")).to.be("");
     expect(Util.getTypeString("100000000000000000")).to.be("conference");
