@@ -5,7 +5,7 @@
   "version": "0.0.5",
   "main": "server.js",
   "scripts": {
-    "start": "node ./bin/serenedi",
+    "start": "node ./bin/serenedi --launch",
     "test": "grunt test"
   },
   "repository": {
@@ -19,7 +19,9 @@
     "path": "latest",
     "async": "latest",
     "forever-monitor": "latest",
-    "open": "0.0.4"
+    "open": "0.0.4",
+    "ansi-color": "~0.2.1",
+    "optimist": "~0.6.0"
   },
   "devDependencies": {
     "mocha": "latest",

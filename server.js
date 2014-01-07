@@ -10,9 +10,10 @@ var express = require("express");
 var app = express();
 var eventbrite = require("eventbrite");
 var util = require("./source/Util");
+var argv = require('optimist').argv;
 
-var io = require("socket.io").listen(app.listen(process.argv[2]));
-var eb_client = eventbrite({"app_key" : process.argv[3]});
+var io = require("socket.io").listen(app.listen(argv.port));
+var eb_client = eventbrite({"app_key" : argv.eventbriteKey});
 
 
 app.use(express.static(__dirname + "/public"));
