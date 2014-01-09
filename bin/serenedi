@@ -7,21 +7,7 @@ var child_process = require('child_process');
 var async = require('async');
 var fs = require("fs");
 var argv = require('optimist').argv;
-var config = {};
-
-if (!argv.port || !argv.eventbriteAPIkey) {
-  config = fs.readFileSync(".serenedirc", "utf-8");
-  if (!config) {
-    throw new Error("Missing .serenedirc");
-  }
-  else {
-    config = JSON.parse(config);
-  }
-}
-
-config.port = argv.port || config.port;
-config.eventbriteAPIkey = argv.eventbriteAPIkey || config.eventbriteAPIkey; 
-config.launch = argv.launch;
+var config = require("../source/Config").config;
 
 function launch(callback) {
   console.log('Browse to ' + config.url);
