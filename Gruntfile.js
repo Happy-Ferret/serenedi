@@ -2,16 +2,16 @@ var path = require('path');
 var fs = require('fs');
 var phantomjs = require('phantomjs');
 var childProcess = require('child_process');
+var config = require("./source/Config").config;
 
 module.exports = function(grunt) {
   var packageJson = grunt.file.readJSON('package.json');
-  var properties = grunt.file.readJSON('.serenedirc');
   grunt.initConfig({
       pkg: packageJson,
       jade: {
           compile: {
               options: {
-                  data: { googleAPIKey: properties.googleAPIKey, url: properties.url },
+                  data: { googleAPIKey: config.googleAPIKey, url: config.url },
                   pretty: false
               },
               files: [ { 

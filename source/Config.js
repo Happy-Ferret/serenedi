@@ -19,6 +19,6 @@ if (!argv || !argv.port || !argv.eventbriteAPIkey || !argv.url) {
 config.port = argv.port || configFile.port;
 config.eventbriteAPIkey = argv.eventbriteAPIkey || configFile.eventbriteAPIkey; 
 config.launch = argv.launch === undefined ? true : argv.launch;
-console.log(configFile);
+config.googleAPIKey = argv.googleAPIKey || configFile.googleAPIKey;
 config.url = argv.url || configFile.url;
 exports.config = config;
