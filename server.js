@@ -4,14 +4,12 @@
 
 var READ_SIZE = 100;
 
-var fs = require("fs");
 var path = require("path");
 var express = require("express");
 var app = express();
 var eventbrite = require("eventbrite");
 var util = require("./source/Util");
 var argv = require('optimist').argv;
-
 var io = require("socket.io").listen(app.listen(argv.port));
 var eb_client = eventbrite({"app_key" : argv.eventbriteKey});
 
