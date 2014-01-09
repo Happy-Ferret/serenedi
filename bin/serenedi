@@ -27,7 +27,7 @@ function startupListener(data) {
   }
 }
 
-var child = new (forever.Monitor)(path.join(__dirname, '..', 'server.js'), {
+var child = new (forever.Monitor)(path.join(__dirname, '../source/', 'server.js'), {
   silent: false,
   minUptime: 2000,
   max: config.maxNAutoRestartOnCrash,

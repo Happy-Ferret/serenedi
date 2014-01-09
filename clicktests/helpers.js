@@ -67,7 +67,7 @@ var prependLines = function(pre, text) {
 helpers.startSerenediServer = function(callback) {
   helpers.log('Starting serenedi server...');
   var hasStarted = false;
-  var options = ['server.js', 
+  var options = ['./source/server.js', 
                     '--port=' + config.port, 
                     '--eventbriteAPIkey=notAvalidKey', 
                     '--no-launch']

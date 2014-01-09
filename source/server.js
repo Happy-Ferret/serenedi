@@ -8,14 +8,14 @@ var path = require("path");
 var express = require("express");
 var app = express();
 var eventbrite = require("eventbrite");
-var util = require("./source/Util");
+var util = require("./Util");
 var argv = require('optimist').argv;
 var io = require("socket.io").listen(app.listen(argv.port));
 var eb_client = eventbrite({"app_key" : argv.eventbriteKey});
 
-
-app.use(express.static(__dirname + "/public"));
-app.get("/", function (req, res) { res.redirect("/index.html"); });
+console.log(__dirname);
+app.use(express.static(path.join(__dirname, "../public")));
+app.get("/", function (req, res) { res.redirect("../index.html"); });
 
 io.sockets.on("connection", function(socket) {
   socket.on("getEventsCall", function(data) {
