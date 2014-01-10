@@ -5,13 +5,6 @@ var child_process = require('child_process');
 var async = require('../node_modules/async/lib/async');
 var cliColor = require('../node_modules/ansi-color/lib/ansi-color');
 
-var config = {
-  port: 3080,
-  testTimeout: 10000,
-  serverTimeout: 10000,
-  viewportSize: { width: 800, height: 1600 }
-};
-
 var helpers = exports;
 
 helpers.config = config;

@@ -1,6 +1,6 @@
 
 var expect = require('expect.js');
-var helpers = require('./helpers');
+var helpers = require('./configuredHelpers');
 var server;
 
 var backgroundAction = function(method, url, callback) {

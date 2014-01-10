@@ -138,6 +138,10 @@ module.exports = function(grunt) {
 
   grunt.registerTask('clicktest', 'Run clicktests.', function() {
     var done = this.async();
+
+    fs.writeFileSync("./clicktests/configuredHelpers.js", "var config = " + JSON.stringify(config) + ";");
+    fs.appendFileSync("./clicktests/configuredHelpers.js", fs.readFileSync("./clicktests/helpers.js", "utf-8"));
+
     grunt.log.writeln('Running clicktests...');
     var child = childProcess.execFile(phantomjs.path, [path.join(__dirname, 'clicktests', 'clicktests.js')]);
     child.stdout.on('data', function(data) {
