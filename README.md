@@ -14,7 +14,7 @@ Maybe [serenedi](http://serenedi.com) is not the solution but it is a twisted so
  * Connect via Facebook
  * Google map API 
 
-![Screenshot](/screenshot.png)
+![Screenshot](./screenshot.png)
 
 
 Running
