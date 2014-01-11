@@ -18,12 +18,6 @@ helpers.createPage = function(onError) {
   page.viewportSize = config.viewportSize;
   page.onConsoleMessage = function(msg, lineNum, sourceId) {
     console.log('[ui] ' + sourceId + ':' + lineNum + ' ' + msg);
-    if (msg.indexOf('git-error') != -1) {
-      setTimeout(function() {
-        console.log('git-error found, page rendered to error.png');
-        phantom.exit(1);
-      }, 20);
-    }
   };
   page.onError = function(msg, trace) {
     console.log(msg);
