@@ -59,7 +59,7 @@ module.exports = function(grunt) {
               '$': true,
             }
           },
-          src: ['clicktests/**/*.js']
+          src: ['clicktests/clicktests.js', 'configuredHelpers.js']
         },
         mocha: {
           options: {
