@@ -2,7 +2,7 @@ var $ = require("../../../bower_components/jquery/jquery.min.js");
 var util = require("./Util.js");
 var statusObservable = require("./StatusObservable.js");
 
-var mapNS = {
+var mapModel = {
   map: null,
   ids: [],
   markers: [],
@@ -26,7 +26,7 @@ var MapControl = can.Control({
 
     initializeMap();
 
-    if (!mapNS.eventToOpenID) {
+    if (!mapModel.eventToOpenID) {
       loadMyLocation();
     } else {
       callUpdateMap(true);
@@ -68,8 +68,8 @@ var loadMyLocation = function() {
       callUpdateMap(true);
     });
   } else {
-    $("#lat").val(mapNS.defaultLoc.lat);
-    $("#lng").val(mapNS.defaultLoc.lng);
+    $("#lat").val(mapModel.defaultLoc.lat);
+    $("#lng").val(mapModel.defaultLoc.lng);
 
     reCenter();
     callUpdateMap(true);
@@ -78,7 +78,7 @@ var loadMyLocation = function() {
 
 var initializeMainElements = function(element) {
   element.html(can.view("mapTemplate", {}));
-  mapNS.eventToOpenID = parseInt(util.getURLArgument.id, 10);
+  mapModel.eventToOpenID = parseInt(util.getURLArgument.id, 10);
 
   $("#dateFrom").datepicker({
     defaultDate : "",
@@ -114,37 +114,37 @@ var initializeMainElements = function(element) {
 };
 
 var initializeMap = function () {
-  mapNS.map = new google.maps.Map(document.getElementById("mapBox"), {
+  mapModel.map = new google.maps.Map(document.getElementById("mapBox"), {
     zoom : 15,
-    center : new google.maps.LatLng(mapNS.defaultLoc.lat, mapNS.defaultLoc.lng),
+    center : new google.maps.LatLng(mapModel.defaultLoc.lat, mapModel.defaultLoc.lng),
     mapTypeId : google.maps.MapTypeId.ROADMAP,
     disableDefaultUI: true,
     mapTypeControl: true
   });
 
-  google.maps.event.addListenerOnce(mapNS.map, "idle", function() {
-    var ne = mapNS.map.getBounds().getNorthEast();
-    var sw = mapNS.map.getBounds().getSouthWest();
+  google.maps.event.addListenerOnce(mapModel.map, "idle", function() {
+    var ne = mapModel.map.getBounds().getNorthEast();
+    var sw = mapModel.map.getBounds().getSouthWest();
 
     $("#radius").val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
-    $("#lat").val(util.roundNumber(mapNS.map.getCenter().lat()));
-    $("#lng").val(util.roundNumber(mapNS.map.getCenter().lng()));
+    $("#lat").val(util.roundNumber(mapModel.map.getCenter().lat()));
+    $("#lng").val(util.roundNumber(mapModel.map.getCenter().lng()));
   });
 
-  google.maps.event.addListener(mapNS.map, "dragstart", function() {
-    mapNS.dragging = true;
+  google.maps.event.addListener(mapModel.map, "dragstart", function() {
+    mapModel.dragging = true;
   });
 
-  google.maps.event.addListener(mapNS.map, "dragend", function() {
-    $("#lat").val(util.roundNumber(mapNS.map.getCenter().lat()));
-    $("#lng").val(util.roundNumber(mapNS.map.getCenter().lng()));
-    mapNS.dragging = false;
+  google.maps.event.addListener(mapModel.map, "dragend", function() {
+    $("#lat").val(util.roundNumber(mapModel.map.getCenter().lat()));
+    $("#lng").val(util.roundNumber(mapModel.map.getCenter().lng()));
+    mapModel.dragging = false;
     callUpdateMap(false);
   });
 
-  google.maps.event.addListener(mapNS.map, "zoom_changed", function() {
-    var ne = mapNS.map.getBounds().getNorthEast();
-    var sw = mapNS.map.getBounds().getSouthWest();
+  google.maps.event.addListener(mapModel.map, "zoom_changed", function() {
+    var ne = mapModel.map.getBounds().getNorthEast();
+    var sw = mapModel.map.getBounds().getSouthWest();
 
     $("#radius").val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()));
 
@@ -161,15 +161,15 @@ var setupSocket = function() {
     "reconnection limit attempts": 15
   };
 
-  mapNS.socket = io.connect(URL, socketOptions);
+  mapModel.socket = io.connect(URL, socketOptions);
 
-  mapNS.socket.on("getEventsResult", function(data) {
+  mapModel.socket.on("getEventsResult", function(data) {
     var m = 1;  
     var n = 0;
 
     if (data.message !== null) {
       if (data.center) {
-        mapNS.map.setCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
+        mapModel.map.setCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
       }
 
       if (data.date) {
@@ -181,20 +181,20 @@ var setupSocket = function() {
 
       while (m < data.message.events.length) {
 
-        if (n >= mapNS.ids.length) {
-          mapNS.ids[n] = mapNS.MAX_NUMBER;
+        if (n >= mapModel.ids.length) {
+          mapModel.ids[n] = mapModel.MAX_NUMBER;
         }
 
-        if (data.message.events[m].event.id < mapNS.ids[n]) {
-          if (mapNS.ids[n] === mapNS.MAX_NUMBER) {
-            mapNS.ids.pop();
+        if (data.message.events[m].event.id < mapModel.ids[n]) {
+          if (mapModel.ids[n] === mapModel.MAX_NUMBER) {
+            mapModel.ids.pop();
           }
 
-          mapNS.ids.push(data.message.events[m].event.id);
+          mapModel.ids.push(data.message.events[m].event.id);
           addMarkers(data.message.events[m].event);
 
           m++;
-        } else if (data.message.events[m].event.id > mapNS.ids[n]) { 
+        } else if (data.message.events[m].event.id > mapModel.ids[n]) { 
           n++;
         } else {
           n++;
@@ -202,7 +202,7 @@ var setupSocket = function() {
         }
       }
 
-      mapNS.ids.sort();
+      mapModel.ids.sort();
       statusObservable.status.attr("value", 0);
     } else {
       statusObservable.status.attr("value", 2);
@@ -211,11 +211,11 @@ var setupSocket = function() {
 };
 
 var getDistanceFromLastLoc = function() {
-  return util.getDistanceFromLatLng($("#lat").val(), $("#lng").val(), mapNS.latestLoc.lat, mapNS.latestLoc.lng);
+  return util.getDistanceFromLatLng($("#lat").val(), $("#lng").val(), mapModel.latestLoc.lat, mapModel.latestLoc.lng);
 };
 
 var isNeedUpdate = function() {
-  if (mapNS.dragging) {
+  if (mapModel.dragging) {
     return false;
   }
   // Is it current working?
@@ -230,29 +230,29 @@ var isNeedUpdate = function() {
     return false;
   }
 
-  return mapNS.distCheckPass || Math.abs(getDistanceFromLastLoc()) > $("#radius").val() / 1.5;
+  return mapModel.distCheckPass || Math.abs(getDistanceFromLastLoc()) > $("#radius").val() / 1.5;
 };
 
 var callUpdateMap = function (flag) {
-  mapNS.distCheckPass = flag;
+  mapModel.distCheckPass = flag;
 
-  clearTimeout(mapNS.waitedSinceLastChange);
-  mapNS.waitedSinceLastChange = setTimeout(updateMap, 500);
+  clearTimeout(mapModel.waitedSinceLastChange);
+  mapModel.waitedSinceLastChange = setTimeout(updateMap, 500);
 };
 
 var updateMap = function() {
   if (isNeedUpdate()) {
     statusObservable.status.attr("value", 1);
-    mapNS.latestLoc.lat = $("#lat").val();
-    mapNS.latestLoc.lng = $("#lng").val();
+    mapModel.latestLoc.lat = $("#lat").val();
+    mapModel.latestLoc.lng = $("#lng").val();
 
-    if (mapNS.eventToOpenID) {
-      mapNS.socket.emit("getEventsByIDCall", {
-        message: { id : mapNS.eventToOpenID,
+    if (mapModel.eventToOpenID) {
+      mapModel.socket.emit("getEventsByIDCall", {
+        message: { id : mapModel.eventToOpenID,
           radius : $("#radius").val()}
         });
     } else {
-      mapNS.socket.emit("getEventsCall", {
+      mapModel.socket.emit("getEventsCall", {
         message: { lat : $("#lat").val(),
         lng : $("#lng").val(),
         dateFrom : $("#dateFrom").val(),
@@ -267,23 +267,23 @@ var updateMap = function() {
 var clearMap = function () {
   closeLastOpen();
 
-  for (var n = 0; n < mapNS.markers.length; n++) {
-    mapNS.markers[n].setMap(null);
+  for (var n = 0; n < mapModel.markers.length; n++) {
+    mapModel.markers[n].setMap(null);
   }
 
-  mapNS.markers = [];
-  mapNS.ids = [];
+  mapModel.markers = [];
+  mapModel.ids = [];
 };
 
 var closeLastOpen = function () {
-  if (mapNS.lastOpen) {
-    mapNS.lastOpen.close();
+  if (mapModel.lastOpen) {
+    mapModel.lastOpen.close();
   }
-  if (mapNS.lastClickMarker) {
-    mapNS.lastClickMarker.setAnimation(null);
+  if (mapModel.lastClickMarker) {
+    mapModel.lastClickMarker.setAnimation(null);
   }
-  mapNS.lastOpen = null;
-  mapNS.lastClickMarker = null;
+  mapModel.lastOpen = null;
+  mapModel.lastClickMarker = null;
 };
 
 var addMarkers = function (event) {
@@ -291,14 +291,14 @@ var addMarkers = function (event) {
 
   var marker = new google.maps.Marker({
     position: point,
-    map : mapNS.map,
+    map : mapModel.map,
     title : event.title,
     animation : google.maps.Animation.DROP,
     clickable : true
   });
 
   marker.info = new google.maps.InfoWindow({content: "<strong>" + event.title + "</strong><br />"});
-  mapNS.markers.push(marker);
+  mapModel.markers.push(marker);
 
   google.maps.event.addListener(
     marker,
@@ -326,12 +326,12 @@ var addMarkers = function (event) {
         marker.setAnimation(null);
       });
 
-      info.open(mapNS.map, marker);
+      info.open(mapModel.map, marker);
 
       marker.setAnimation(google.maps.Animation.BOUNCE);
 
-      mapNS.lastClickMarker = marker;
-      mapNS.lastOpen = info;
+      mapModel.lastClickMarker = marker;
+      mapModel.lastOpen = info;
 
       setTimeout(function() {
         try {
@@ -342,10 +342,10 @@ var addMarkers = function (event) {
     }
   );
 
-  if (event.id === mapNS.eventToOpenID) {
+  if (event.id === mapModel.eventToOpenID) {
     google.maps.event.trigger(marker, "click");
-    mapNS.eventToOpenID = null;
-    var center = mapNS.map.getCenter();
+    mapModel.eventToOpenID = null;
+    var center = mapModel.map.getCenter();
     $("#lat").val(center.lat());
     $("#lng").val(center.lng());
   }
@@ -389,5 +389,5 @@ var validateLatLng = function() {
 };
 
 var reCenter = function() {
-  mapNS.map.setCenter(new google.maps.LatLng($("#lat").val(), $("#lng").val()));
+  mapModel.map.setCenter(new google.maps.LatLng($("#lat").val(), $("#lng").val()));
 };
