@@ -12,7 +12,6 @@ var mapNS = {
   distCheckPass: null,
   eventToOpenID: null,
   dragging: false,
-  needUpdate: false,
   MAX_NUMBER: 9007199254740992,
   socket: null,
   defaultLoc: {lat: 40.72616, lng: -73.99973},
@@ -216,9 +215,6 @@ var getDistanceFromLastLoc = function() {
 };
 
 var isNeedUpdate = function() {
-  if (!mapNS.needUpdate) {
-    return false;
-  }
   if (mapNS.dragging) {
     return false;
   }
@@ -239,7 +235,6 @@ var isNeedUpdate = function() {
 
 var callUpdateMap = function (flag) {
   mapNS.distCheckPass = flag;
-  mapNS.needUpdate = true;
 
   clearTimeout(mapNS.waitedSinceLastChange);
   mapNS.waitedSinceLastChange = setTimeout(updateMap, 500);
@@ -248,7 +243,6 @@ var callUpdateMap = function (flag) {
 var updateMap = function() {
   if (isNeedUpdate()) {
     statusObservable.status.attr("value", 1);
-    mapNS.needUpdate = false;
     mapNS.latestLoc.lat = $("#lat").val();
     mapNS.latestLoc.lng = $("#lng").val();
 
