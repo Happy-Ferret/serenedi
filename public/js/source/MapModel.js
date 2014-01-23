@@ -11,7 +11,6 @@ var mapModel = {
   distCheckPass: null,
   eventToOpenID: null,
   dragging: false,
-  MAX_NUMBER: 9007199254740992,
   socket: null,
   defaultLoc: {lat: 40.72616, lng: -73.99973},
   waitedSinceLastChange: undefined
