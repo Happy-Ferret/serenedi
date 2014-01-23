@@ -164,8 +164,6 @@ var setupSocket = function() {
   mapModel.socket = io.connect(URL, socketOptions);
 
   mapModel.socket.on("getEventsResult", function(data) {
-    var m = 1;  
-    var n = 0;
 
     if (data.message !== null) {
       if (data.center) {
@@ -179,30 +177,15 @@ var setupSocket = function() {
         $("#dateTo").val(data.date.endDate);
       }
 
-      while (m < data.message.events.length) {
+      for (var n = 1; n < data.message.events.length; n++) {
+        var currentEvent = data.message.events[n].event;
 
-        if (n >= mapModel.ids.length) {
-          mapModel.ids[n] = mapModel.MAX_NUMBER;
-        }
-
-        if (data.message.events[m].event.id < mapModel.ids[n]) {
-          if (mapModel.ids[n] === mapModel.MAX_NUMBER) {
-            mapModel.ids.pop();
-          }
-
-          mapModel.ids.push(data.message.events[m].event.id);
-          addMarkers(data.message.events[m].event);
-
-          m++;
-        } else if (data.message.events[m].event.id > mapModel.ids[n]) { 
-          n++;
-        } else {
-          n++;
-          m++;
+        if (mapModel.ids[currentEvent.id] !== 1) {
+          mapModel.ids[currentEvent.id] = 1;
+          addMarkers(currentEvent);
         }
       }
 
-      mapModel.ids.sort();
       statusObservable.status.attr("value", 0);
     } else {
       statusObservable.status.attr("value", 2);
