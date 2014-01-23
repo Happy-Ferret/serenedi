@@ -1,23 +1,7 @@
 var $ = require("../../../bower_components/jquery/jquery.min.js");
 var util = require("./Util.js");
 var statusObservable = require("./StatusObservable.js");
-
-var mapModel = {
-  map: null,
-  ids: [],
-  markers: [],
-  lastClickMarker: null,
-  lastOpen: null,
-  latestLoc: {lat: null, lng: null},
-  distCheckPass: null,
-  eventToOpenID: null,
-  dragging: false,
-  MAX_NUMBER: 9007199254740992,
-  socket: null,
-  defaultLoc: {lat: 40.72616, lng: -73.99973},
-  waitedSinceLastChange: undefined
-};
-
+var mapModel = require("./MapModel.js").mapModel;
 
 var MapControl = can.Control({
   init: function(element, options) {
@@ -36,17 +20,17 @@ var MapControl = can.Control({
   },
   ".type change": function(el, ev) {
     typeChanged();
-    clearMap();
+    mapModel.clearMap();
     callUpdateMap(true);
   },
   ".datePicker change": function(el, ev) {
-    clearMap();
+    mapModel.clearMap();
     callUpdateMap(true);
   },
   ".location change": function(el, ev) {
     if (validateLatLng()) {
       callUpdateMap(true);
-      reCenter();
+      mapModel.reCenter();
     }
   },
   "#loadMyLocation click": function(el, ev) {
@@ -64,14 +48,14 @@ var loadMyLocation = function() {
       $("#lat").val(lat);
       $("#lng").val(lng);
 
-      reCenter();
+      mapModel.reCenter();
       callUpdateMap(true);
     });
   } else {
     $("#lat").val(mapModel.defaultLoc.lat);
     $("#lng").val(mapModel.defaultLoc.lng);
 
-    reCenter();
+    mapModel.reCenter();
     callUpdateMap(true);
   }
 };
@@ -193,10 +177,6 @@ var setupSocket = function() {
   });
 };
 
-var getDistanceFromLastLoc = function() {
-  return util.getDistanceFromLatLng($("#lat").val(), $("#lng").val(), mapModel.latestLoc.lat, mapModel.latestLoc.lng);
-};
-
 var isNeedUpdate = function() {
   if (mapModel.dragging) {
     return false;
@@ -213,7 +193,7 @@ var isNeedUpdate = function() {
     return false;
   }
 
-  return mapModel.distCheckPass || Math.abs(getDistanceFromLastLoc()) > $("#radius").val() / 1.5;
+  return mapModel.distCheckPass || Math.abs(mapModel.getScreenTravelDistance()) > $("#radius").val() / 1.5;
 };
 
 var callUpdateMap = function (flag) {
@@ -247,28 +227,6 @@ var updateMap = function() {
   }
 };
 
-var clearMap = function () {
-  closeLastOpen();
-
-  for (var n = 0; n < mapModel.markers.length; n++) {
-    mapModel.markers[n].setMap(null);
-  }
-
-  mapModel.markers = [];
-  mapModel.ids = [];
-};
-
-var closeLastOpen = function () {
-  if (mapModel.lastOpen) {
-    mapModel.lastOpen.close();
-  }
-  if (mapModel.lastClickMarker) {
-    mapModel.lastClickMarker.setAnimation(null);
-  }
-  mapModel.lastOpen = null;
-  mapModel.lastClickMarker = null;
-};
-
 var addMarkers = function (event) {
   var point = new google.maps.LatLng(event.venue.latitude, event.venue.longitude);
 
@@ -287,7 +245,7 @@ var addMarkers = function (event) {
     marker,
     "click",
     function() {
-      closeLastOpen();
+      mapModel.closeLastOpen();
 
       var info = new google.maps.InfoWindow({
         content: can.view.render("infoPopUpTemplate",
@@ -369,8 +327,4 @@ var typeChanged = function() {
 
 var validateLatLng = function() {
   return util.isNumber($("#lat").val()) && util.isNumber($("#lng").val());
-};
-
-var reCenter = function() {
-  mapModel.map.setCenter(new google.maps.LatLng($("#lat").val(), $("#lng").val()));
 };
