@@ -266,8 +266,8 @@ var addMarkers = function (event) {
 
       marker.setAnimation(google.maps.Animation.BOUNCE);
 
-      mapModel.lastClickMarker = marker;
-      mapModel.lastOpen = info;
+      mapModel.lastClick.marker = marker;
+      mapModel.lastClick.info = info;
 
       setTimeout(function() {
         try {

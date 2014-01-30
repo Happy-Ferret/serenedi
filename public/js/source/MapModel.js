@@ -5,8 +5,7 @@ var mapModel = {
   map: null,
   ids: [],
   markers: [],
-  lastClickMarker: null,
-  lastOpen: null,
+  lastClick: {marker: null, info: null},
   latestLoc: {lat: null, lng: null},
   eventToOpenID: null,
   dragging: false,
@@ -36,14 +35,14 @@ mapModel.getScreenTravelDistance = function() {
 };
 
 mapModel.closeLastOpen = function () {
-  if (this.lastOpen) {
-    this.lastOpen.close();
+  if (this.lastClick.info) {
+    this.lastClick.info.close();
   }
-  if (this.lastClickMarker) {
-    this.lastClickMarker.setAnimation(null);
+  if (this.lastClick.marker) {
+    this.lastClick.marker.setAnimation(null);
   }
-  this.lastOpen = null;
-  this.lastClickMarker = null;
+  this.lastClick.info = null;
+  this.lastClick.marker = null;
 };
 
 mapModel.validateLatLng = function() {
