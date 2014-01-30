@@ -13,11 +13,11 @@ var mapModel = {
   dragging: false,
   socket: null,
   defaultLoc: {lat: 40.72616, lng: -73.99973},
-  waitedSinceLastChange: undefined,
+  waitedSinceLastChange: undefined
 };
 exports.mapModel = mapModel;
 
-mapModel.reCenter = function() {
+mapModel.centerToLatLng = function() {
   this.map.setCenter(new google.maps.LatLng($("#lat").val(), $("#lng").val()));
 };
 

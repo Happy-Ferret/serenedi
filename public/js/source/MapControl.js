@@ -27,7 +27,7 @@ var MapControl = can.Control({
     callUpdateMap(true);
   },
   ".location change": function(el, ev) {
-    mapModel.reCenter();
+    mapModel.centerToLatLng();
     callUpdateMap(true);
   },
   "#loadMyLocation click": function(el, ev) {
@@ -45,14 +45,14 @@ var loadMyLocation = function() {
       $("#lat").val(lat);
       $("#lng").val(lng);
 
-      mapModel.reCenter();
+      mapModel.centerToLatLng();
       callUpdateMap(true);
     });
   } else {
     $("#lat").val(mapModel.defaultLoc.lat);
     $("#lng").val(mapModel.defaultLoc.lng);
 
-    mapModel.reCenter();
+    mapModel.centerToLatLng();
     callUpdateMap(true);
   }
 };
