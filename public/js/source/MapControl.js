@@ -194,10 +194,8 @@ var isNeedUpdate = function() {
 };
 
 var callUpdateMap = function (flag) {
-  mapModel.distCheckPass = flag;
-
   clearTimeout(mapModel.waitedSinceLastChange);
-  mapModel.waitedSinceLastChange = setTimeout(updateMap, 500);
+  mapModel.waitedSinceLastChange = setTimeout(updateMap(flag), 500);
 };
 
 var updateMap = function() {

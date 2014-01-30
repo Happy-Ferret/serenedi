@@ -8,7 +8,6 @@ var mapModel = {
   lastClickMarker: null,
   lastOpen: null,
   latestLoc: {lat: null, lng: null},
-  distCheckPass: null,
   eventToOpenID: null,
   dragging: false,
   socket: null,
