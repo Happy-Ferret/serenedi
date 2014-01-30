@@ -233,7 +233,6 @@ var addMarkers = function (event) {
     clickable : true
   });
 
-  marker.info = new google.maps.InfoWindow({content: "<strong>" + event.title + "</strong><br />"});
   mapModel.markers.push(marker);
 
   google.maps.event.addListener(
@@ -262,6 +261,10 @@ var addMarkers = function (event) {
         marker.setAnimation(null);
       });
 
+      google.maps.event.addListenerOnce(info, 'domready', function() {
+          FB.XFBML.parse();
+      }); 
+
       info.open(mapModel.map, marker);
 
       marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -270,8 +273,7 @@ var addMarkers = function (event) {
       mapModel.lastClick.info = info;
 
       FB.XFBML.parse();
-    }
-  );
+    });
 
   if (event.id === mapModel.eventToOpenID) {
     google.maps.event.trigger(marker, "click");
