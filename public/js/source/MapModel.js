@@ -13,7 +13,7 @@ var mapModel = {
   dragging: false,
   socket: null,
   defaultLoc: {lat: 40.72616, lng: -73.99973},
-  waitedSinceLastChange: undefined
+  waitedSinceLastChange: undefined,
 };
 exports.mapModel = mapModel;
 
@@ -36,7 +36,7 @@ mapModel.getScreenTravelDistance = function() {
   return util.getDistanceFromLatLng($("#lat").val(), $("#lng").val(), this.latestLoc.lat, this.latestLoc.lng);
 };
 
-var closeLastOpen = function () {
+mapModel.closeLastOpen = function () {
   if (this.lastOpen) {
     this.lastOpen.close();
   }
@@ -45,4 +45,8 @@ var closeLastOpen = function () {
   }
   this.lastOpen = null;
   this.lastClickMarker = null;
+};
+
+mapModel.validateLatLng = function() {
+  return util.isNumber($("#lat").val()) && util.isNumber($("#lng").val());
 };

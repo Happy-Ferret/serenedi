@@ -7,7 +7,6 @@ var MapControl = can.Control({
   init: function(element, options) {
     setupSocket();
     initializeMainElements(this.element);
-
     initializeMap();
 
     if (!mapModel.eventToOpenID) {
@@ -28,7 +27,7 @@ var MapControl = can.Control({
     callUpdateMap(true);
   },
   ".location change": function(el, ev) {
-    if (validateLatLng()) {
+    if (mapModel.validateLatLng()) {
       callUpdateMap(true);
       mapModel.reCenter();
     }
@@ -189,7 +188,7 @@ var isNeedUpdate = function() {
     statusObservable.status.attr("value", 3);
     return false;
   } 
-  if (!validateLatLng()) {
+  if (!mapModel.validateLatLng()) {
     return false;
   }
 
@@ -323,8 +322,4 @@ var typeChanged = function() {
   result += flagCheck("#typeOtherFlag");
 
   $("#categories").val(result);
-};
-
-var validateLatLng = function() {
-  return util.isNumber($("#lat").val()) && util.isNumber($("#lng").val());
 };
