@@ -27,10 +27,8 @@ var MapControl = can.Control({
     callUpdateMap(true);
   },
   ".location change": function(el, ev) {
-    if (mapModel.validateLatLng()) {
-      callUpdateMap(true);
-      mapModel.reCenter();
-    }
+    mapModel.reCenter();
+    callUpdateMap(true);
   },
   "#loadMyLocation click": function(el, ev) {
     loadMyLocation();
