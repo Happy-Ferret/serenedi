@@ -269,12 +269,7 @@ var addMarkers = function (event) {
       mapModel.lastClick.marker = marker;
       mapModel.lastClick.info = info;
 
-      setTimeout(function() {
-        try {
-          FB.XFBML.parse();
-        } catch (ex) {
-        }
-      } , 100);
+      FB.XFBML.parse();
     }
   );
 
