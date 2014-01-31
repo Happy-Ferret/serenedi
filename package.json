@@ -17,11 +17,21 @@
     "socket.io": "latest",
     "eventbrite": "latest",
     "path": "latest",
-    "async": "latest",
+    "async": "~0.2.10",
     "forever-monitor": "latest",
     "open": "0.0.4",
     "ansi-color": "~0.2.1",
-    "optimist": "~0.6.0"
+    "optimist": "~0.6.0",
+    "merge-descriptors": "0.0.2",
+    "connect": "~2.12.0",
+    "buffer-crc32": "~0.2.1",
+    "methods": "~0.1.0",
+    "debug": "~0.7.4",
+    "fresh": "~0.2.1",
+    "range-parser": "~1.0.0",
+    "cookie-signature": "~1.0.3",
+    "cookie": "~0.1.0",
+    "send": "~0.2.0"
   },
   "devDependencies": {
     "mocha": "latest",
