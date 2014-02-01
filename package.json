@@ -2,10 +2,10 @@
   "name": "serenedi",
   "author": "CodingTwinky <twinky@codingtwinky.com>",
   "description": "What's Happening?",
-  "version": "0.0.5",
+  "version": "0.0.5-3",
   "main": "bin/serenedi",
   "scripts": {
-    "start": "node ./bin/serenedi",
+    "start": "node ./bin/serenedi --no-launch",
     "test": "grunt test"
   },
   "repository": {
@@ -50,5 +50,6 @@
   "engines": {
     "node": ">=0.10"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "subdomain": "serenedi"
 }
