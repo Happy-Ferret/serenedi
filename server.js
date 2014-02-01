@@ -7,7 +7,7 @@ var child_process = require('child_process');
 var async = require('async');
 var fs = require("fs");
 var argv = require('optimist').argv;
-var config = require("../source/Config").config;
+var config = require("./source/Config").config;
 
 function launch(callback) {
   console.log('Browse to ' + config.url);
@@ -27,7 +27,7 @@ function startupListener(data) {
   }
 }
 
-var child = new (forever.Monitor)(path.join(__dirname, '../source/', 'server.js'), {
+var child = new (forever.Monitor)(path.join(__dirname, './source/', 'Main.js'), {
   silent: false,
   minUptime: 2000,
   max: config.maxNAutoRestartOnCrash,
