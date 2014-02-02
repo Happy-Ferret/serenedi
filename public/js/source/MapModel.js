@@ -2,6 +2,7 @@ var $ = require("../../../bower_components/jquery/jquery.min.js");
 var util = require("./Util.js");
 
 var MapModel = function() {
+  this.location = new can.Observe({lat: null, lng: null});
 
   this.map = null;
   this.ids = [];
@@ -13,11 +14,19 @@ var MapModel = function() {
   this.socket = null;
   this.defaultLoc = {lat: 40.72616, lng: -73.99973};
   this.waitedSinceLastChange = undefined;
+
+  this.location.bind("change", function(event, attr, how, newVal, oldVal) {
+    if (attr === 'lat') {
+      $('#lat').val(newVal);
+    } else if (attr === 'lng') {
+      $('#lng').val(newVal);
+    }
+  });
 };
 exports.mapModel = new MapModel();
 
 MapModel.prototype.centerToLatLng = function() {
-  this.map.setCenter(new google.maps.LatLng($("#lat").val(), $("#lng").val()));
+  this.map.setCenter(new google.maps.LatLng(this.location.lat, this.location.lng));
 };
 
 MapModel.prototype.clearMap = function () {
@@ -32,7 +41,7 @@ MapModel.prototype.clearMap = function () {
 };
 
 MapModel.prototype.getScreenTravelDistance = function() {
-  return util.getDistanceFromLatLng($("#lat").val(), $("#lng").val(), this.latestLoc.lat, this.latestLoc.lng);
+  return util.getDistanceFromLatLng(this.location.lat, this.location.lng, this.latestLoc.lat, this.latestLoc.lng);
 };
 
 MapModel.prototype.closeLastOpen = function () {
@@ -47,5 +56,5 @@ MapModel.prototype.closeLastOpen = function () {
 };
 
 MapModel.prototype.validateLatLng = function() {
-  return util.isNumber($("#lat").val()) && util.isNumber($("#lng").val());
+  return util.isNumber(this.location.lat) && util.isNumber(this.location.lng);
 };

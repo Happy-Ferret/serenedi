@@ -27,6 +27,14 @@ var MapControl = can.Control({
     callUpdateMap(true);
   },
   ".location change": function(el, ev) {
+    var elementId = el.attr('id');
+
+    if (elementId === 'lat') {
+      mapModel.location.attr('lat', el.val());
+    } else if (elementId === 'lng') {
+      mapModel.location.attr('lng', el.val());
+    } 
+
     mapModel.centerToLatLng();
     callUpdateMap(true);
   },
@@ -42,15 +50,15 @@ var loadMyLocation = function() {
       var lat = util.roundNumber(position.coords.latitude);
       var lng = util.roundNumber(position.coords.longitude);
 
-      $("#lat").val(lat);
-      $("#lng").val(lng);
+      mapModel.location.attr('lat', lat);
+      mapModel.location.attr('lng', lng);
 
       mapModel.centerToLatLng();
       callUpdateMap(true);
     });
   } else {
-    $("#lat").val(mapModel.defaultLoc.lat);
-    $("#lng").val(mapModel.defaultLoc.lng);
+    mapModel.location.attr('lat', mapModel.defaultLoc.lat);
+    mapModel.location.attr('lng', mapModel.defaultLoc.lng);
 
     mapModel.centerToLatLng();
     callUpdateMap(true);
@@ -108,8 +116,9 @@ var initializeMap = function () {
     var sw = mapModel.map.getBounds().getSouthWest();
 
     $("#radius").val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
-    $("#lat").val(util.roundNumber(mapModel.map.getCenter().lat()));
-    $("#lng").val(util.roundNumber(mapModel.map.getCenter().lng()));
+
+    mapModel.location.attr('lat', util.roundNumber(mapModel.map.getCenter().lat()));
+    mapModel.location.attr('lng', util.roundNumber(mapModel.map.getCenter().lng()));
   });
 
   google.maps.event.addListener(mapModel.map, "dragstart", function() {
@@ -117,8 +126,8 @@ var initializeMap = function () {
   });
 
   google.maps.event.addListener(mapModel.map, "dragend", function() {
-    $("#lat").val(util.roundNumber(mapModel.map.getCenter().lat()));
-    $("#lng").val(util.roundNumber(mapModel.map.getCenter().lng()));
+    mapModel.location.attr('lat', util.roundNumber(mapModel.map.getCenter().lat()));
+    mapModel.location.attr('lng', util.roundNumber(mapModel.map.getCenter().lng()));
     mapModel.dragging = false;
     callUpdateMap(false);
   });
@@ -201,8 +210,8 @@ var callUpdateMap = function (flag) {
 var updateMap = function() {
   if (isNeedUpdate()) {
     statusObservable.status.attr("value", 1);
-    mapModel.latestLoc.lat = $("#lat").val();
-    mapModel.latestLoc.lng = $("#lng").val();
+    mapModel.latestLoc.lat = mapModel.location.lat;
+    mapModel.latestLoc.lng = mapModel.location.lng;
 
     if (mapModel.eventToOpenID) {
       mapModel.socket.emit("getEventsByIDCall", {
@@ -211,12 +220,14 @@ var updateMap = function() {
         });
     } else {
       mapModel.socket.emit("getEventsCall", {
-        message: { lat : $("#lat").val(),
-        lng : $("#lng").val(),
-        dateFrom : $("#dateFrom").val(),
-        dateTo : $("#dateTo").val(),
-        type : $("#categories").val(),
-        radius : $("#radius").val() }
+        message: { 
+          lat : mapModel.location.lat,
+          lng : mapModel.location.lng,
+          dateFrom : $("#dateFrom").val(),
+          dateTo : $("#dateTo").val(),
+          type : $("#categories").val(),
+          radius : $("#radius").val() 
+        }
       });
     }
   }
@@ -279,8 +290,8 @@ var addMarkers = function (event) {
     google.maps.event.trigger(marker, "click");
     mapModel.eventToOpenID = null;
     var center = mapModel.map.getCenter();
-    $("#lat").val(center.lat());
-    $("#lng").val(center.lng());
+    mapModel.location.attr('lat', util.roundNumber(center.lat()));
+    mapModel.location.attr('lng', util.roundNumber(center.lng()));
   }
 };
 
