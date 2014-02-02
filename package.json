@@ -5,7 +5,7 @@
   "version": "0.0.5-3",
   "main": "bin/serenedi",
   "scripts": {
-    "start": "node ./server --no-launch",
+    "start": "node ./server",
     "test": "grunt test"
   },
   "repository": {
