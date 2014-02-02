@@ -12,19 +12,17 @@ var MapControl = can.Control({
     if (!mapModel.eventToOpenID) {
       loadMyLocation();
     } else {
-      callUpdateMap(true);
+      callUpdateMap();
     }
-
-    updateMap();
   },
   ".type change": function(el, ev) {
     typeChanged();
     mapModel.clearMap();
-    callUpdateMap(true);
+    callUpdateMap();
   },
   ".datePicker change": function(el, ev) {
     mapModel.clearMap();
-    callUpdateMap(true);
+    callUpdateMap();
   },
   ".location change": function(el, ev) {
     var elementId = el.attr('id');
@@ -36,7 +34,7 @@ var MapControl = can.Control({
     } 
 
     mapModel.centerToLatLng();
-    callUpdateMap(true);
+    callUpdateMap();
   },
   "#loadMyLocation click": function(el, ev) {
     loadMyLocation();
@@ -51,11 +49,11 @@ var loadMyLocation = function() {
       mapModel.location.attr('lng', util.roundNumber(position.coords.longitude));
 
       mapModel.centerToLatLng();
-      callUpdateMap(true);
+      callUpdateMap();
     });
   } else {
     mapModel.centerToLatLng();
-    callUpdateMap(true);
+    callUpdateMap();
   }
 };
 
@@ -123,7 +121,7 @@ var initializeMap = function () {
     mapModel.location.attr('lat', util.roundNumber(mapModel.map.getCenter().lat()));
     mapModel.location.attr('lng', util.roundNumber(mapModel.map.getCenter().lng()));
     mapModel.dragging = false;
-    callUpdateMap(false);
+    callUpdateMap();
   });
 
   google.maps.event.addListener(mapModel.map, "zoom_changed", function() {
@@ -132,7 +130,7 @@ var initializeMap = function () {
 
     $("#radius").val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()));
 
-    callUpdateMap(true);
+    callUpdateMap();
   });
 };
 
@@ -196,9 +194,9 @@ var isNeedUpdate = function() {
   return mapModel.distCheckPass || Math.abs(mapModel.getScreenTravelDistance()) > $("#radius").val() / 1.5;
 };
 
-var callUpdateMap = function (flag) {
+var callUpdateMap = function () {
   clearTimeout(mapModel.waitedSinceLastChange);
-  mapModel.waitedSinceLastChange = setTimeout(updateMap(flag), 500);
+  mapModel.waitedSinceLastChange = setTimeout(updateMap(), 500);
 };
 
 var updateMap = function() {
