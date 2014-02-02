@@ -47,19 +47,13 @@ exports.MapControl = MapControl;
 var loadMyLocation = function() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
-      var lat = util.roundNumber(position.coords.latitude);
-      var lng = util.roundNumber(position.coords.longitude);
-
-      mapModel.location.attr('lat', lat);
-      mapModel.location.attr('lng', lng);
+      mapModel.location.attr('lat', util.roundNumber(position.coords.latitude));
+      mapModel.location.attr('lng', util.roundNumber(position.coords.longitude));
 
       mapModel.centerToLatLng();
       callUpdateMap(true);
     });
   } else {
-    mapModel.location.attr('lat', mapModel.defaultLoc.lat);
-    mapModel.location.attr('lng', mapModel.defaultLoc.lng);
-
     mapModel.centerToLatLng();
     callUpdateMap(true);
   }
@@ -105,7 +99,7 @@ var initializeMainElements = function(element) {
 var initializeMap = function () {
   mapModel.map = new google.maps.Map(document.getElementById("mapBox"), {
     zoom : 15,
-    center : new google.maps.LatLng(mapModel.defaultLoc.lat, mapModel.defaultLoc.lng),
+    center : new google.maps.LatLng(mapModel.location.lat, mapModel.location.lng),
     mapTypeId : google.maps.MapTypeId.ROADMAP,
     disableDefaultUI: true,
     mapTypeControl: true

@@ -2,7 +2,7 @@ var $ = require("../../../bower_components/jquery/jquery.min.js");
 var util = require("./Util.js");
 
 var MapModel = function() {
-  this.location = new can.Observe({lat: null, lng: null});
+  this.location = new can.Observe({lat: 40.72616, lng: -73.99973});
 
   this.map = null;
   this.ids = [];
@@ -12,7 +12,6 @@ var MapModel = function() {
   this.eventToOpenID = null;
   this.dragging = false;
   this.socket = null;
-  this.defaultLoc = {lat: 40.72616, lng: -73.99973};
   this.waitedSinceLastChange = undefined;
 
   this.location.bind("change", function(event, attr, how, newVal, oldVal) {
