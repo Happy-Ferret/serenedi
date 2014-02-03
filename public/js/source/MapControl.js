@@ -18,9 +18,8 @@ var MapControl = can.Control({
     }
   },
   '.type change': function(el, ev) {
-    typeChanged();
+    mapModel.typeChanged();
     mapModel.clearMap();
-    callUpdateMap();
   },
   '.datePicker change': function(el, ev) {
     mapModel.clearMap();
@@ -52,6 +51,8 @@ var loadMyLocation = function() {
 
       mapModel.centerToLatLng();
     });
+  } else {
+
   }
 };
 
@@ -283,37 +284,4 @@ var addMarkers = function (event) {
     mapModel.prop.attr('lat', util.roundNumber(center.lat()));
     mapModel.prop.attr('lng', util.roundNumber(center.lng()));
   }
-};
-
-var flagCheck = function(element) {
-  if ($(element).prop('checked')) {
-    return '1';
-  } else {
-    return '0';
-  }
-};
-
-var typeChanged = function() {
-  var result = flagCheck('#typeConfFlag');
-
-  result += flagCheck('#typeConvFlag');
-  result += flagCheck('#typeEntFlag');
-  result += flagCheck('#typeFairFlag');
-  result += flagCheck('#typeFoodFlag');
-  result += flagCheck('#typeFundFlag');
-  result += flagCheck('#typeMeetFlag');
-  result += flagCheck('#typeMusicFlag');
-  result += flagCheck('#typePerfFlag');
-  result += flagCheck('#typeRecFlag');
-  result += flagCheck('#typeReligFlag');
-  result += flagCheck('#typeReunFlag');
-  result += flagCheck('#typeSalesFlag');
-  result += flagCheck('#typeSemiFlag');
-  result += flagCheck('#typeSociFlag');
-  result += flagCheck('#typeSportsFlag');
-  result += flagCheck('#typeTradeFlag');
-  result += flagCheck('#typeTravelFlag');
-  result += flagCheck('#typeOtherFlag');
-
-  mapModel.prop.attr('types', result);
 };

@@ -14,22 +14,27 @@ var MapModel = function(callUpdateMap) {
   this.socket = null;
   this.waitedSinceLastChange = undefined;
   this.ready = false;
+  this.distCheckPass = true;
 
   this.prop.bind('lat', function(event, newVal, oldVal) {
     $('#lat').val(newVal);
+    this.distCheckPass = false;
     callUpdateMap();
   });
 
   this.prop.bind('lng', function(event, newVal, oldVal) {
     $('#lng').val(newVal);
+    this.distCheckPass = false;
     callUpdateMap();
   });
 
   this.prop.bind('radius', function(event, newVal, oldVal) {
+    this.distCheckPass = true;
     callUpdateMap();
   });
 
-  this.prop.bind('type', function(event, newVal, oldVal) {
+  this.prop.bind('types', function(event, newVal, oldVal) {
+    this.distCheckPass = true;
     callUpdateMap();
   });
 };
@@ -67,4 +72,36 @@ MapModel.prototype.closeLastOpen = function () {
 
 MapModel.prototype.validateLatLng = function() {
   return util.isNumber(this.prop.lat) && util.isNumber(this.prop.lng);
+};
+
+MapModel.prototype.flagCheck = function(element) {
+  if ($(element).prop('checked')) {
+    return '1';
+  } else {
+    return '0';
+  }
+};
+
+MapModel.prototype.typeChanged = function() {
+  var result = this.flagCheck('#typeConfFlag');
+  result += this.flagCheck('#typeConvFlag');
+  result += this.flagCheck('#typeEntFlag');
+  result += this.flagCheck('#typeFairFlag');
+  result += this.flagCheck('#typeFoodFlag');
+  result += this.flagCheck('#typeFundFlag');
+  result += this.flagCheck('#typeMeetFlag');
+  result += this.flagCheck('#typeMusicFlag');
+  result += this.flagCheck('#typePerfFlag');
+  result += this.flagCheck('#typeRecFlag');
+  result += this.flagCheck('#typeReligFlag');
+  result += this.flagCheck('#typeReunFlag');
+  result += this.flagCheck('#typeSalesFlag');
+  result += this.flagCheck('#typeSemiFlag');
+  result += this.flagCheck('#typeSociFlag');
+  result += this.flagCheck('#typeSportsFlag');
+  result += this.flagCheck('#typeTradeFlag');
+  result += this.flagCheck('#typeTravelFlag');
+  result += this.flagCheck('#typeOtherFlag');
+
+  this.prop.attr('types', result);
 };
