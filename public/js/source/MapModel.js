@@ -14,12 +14,12 @@ var MapModel = function() {
   this.socket = null;
   this.waitedSinceLastChange = undefined;
 
-  this.location.bind("change", function(event, attr, how, newVal, oldVal) {
-    if (attr === 'lat') {
-      $('#lat').val(newVal);
-    } else if (attr === 'lng') {
-      $('#lng').val(newVal);
-    }
+  this.location.bind('lat', function(event, newVal, oldVal) {
+    $('#lat').val(newVal);
+  });
+
+  this.location.bind('lng', function(event, newVal, oldVal) {
+    $('#lng').val(newVal);
   });
 };
 exports.mapModel = new MapModel();
