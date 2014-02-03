@@ -7,6 +7,7 @@ exports.status = status;
 // 1 working
 // 2 no events
 // 3 radius check fail
+// 4 geo location fail
 status.bind('change', function(event, attr, how, newVal, oldVal) {
   switch (newVal) {
     case 0: 
@@ -20,6 +21,9 @@ status.bind('change', function(event, attr, how, newVal, oldVal) {
       break;
     case 3:
       showZoomCheckFail();
+      break;
+    case 4:
+      showGeoLocationFail();
       break;
   }
 });
@@ -38,4 +42,8 @@ var showNoEvents = function () {
 
 var showNormal = function () {
   $('#statusImg').attr({'data-content': 'Welcome to Serenedi!', src: '/images/serenedi3.ico'});
+};
+
+var showGeoLocationFail = function() {
+  $('#statusImg').attr({'data-content': 'Geo location attrival failed, have you checked security setting?', src: '/images/warning.png'});
 };

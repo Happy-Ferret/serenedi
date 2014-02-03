@@ -52,7 +52,7 @@ var loadMyLocation = function() {
       mapModel.centerToLatLng();
     });
   } else {
-
+    statusObservable.status.attr('value', 4);
   }
 };
 
