@@ -2,7 +2,7 @@ var $ = require("../../../bower_components/jquery/jquery.min.js");
 var util = require("./Util.js");
 
 var MapModel = function(callUpdateMap) {
-  this.prop = new can.Observe({lat: 40.72616, lng: -73.99973, radius: undefined, types: '1111111111111111111'});
+  this.prop = new can.Observe({lat: 40.72616, lng: -73.99973, radius: undefined, types: '1111111111111111111', ready: false});
 
   this.map = null;
   this.ids = [];
@@ -13,29 +13,42 @@ var MapModel = function(callUpdateMap) {
   this.dragging = false;
   this.socket = null;
   this.waitedSinceLastChange = undefined;
-  this.ready = false;
   this.distCheckPass = true;
+
+  this.prop.bind('ready', function(event, newVal, oldVal) {
+    if (newVal === true) {
+      callUpdateMap();
+    }
+  });
 
   this.prop.bind('lat', function(event, newVal, oldVal) {
     $('#lat').val(newVal);
     this.distCheckPass = false;
-    callUpdateMap();
+    if (this.ready) {
+      callUpdateMap();
+    }
   });
 
   this.prop.bind('lng', function(event, newVal, oldVal) {
     $('#lng').val(newVal);
     this.distCheckPass = false;
-    callUpdateMap();
+    if (this.ready) {
+      callUpdateMap();
+    }
   });
 
   this.prop.bind('radius', function(event, newVal, oldVal) {
     this.distCheckPass = true;
-    callUpdateMap();
+    if (this.ready) {
+      callUpdateMap();
+    }
   });
 
   this.prop.bind('types', function(event, newVal, oldVal) {
     this.distCheckPass = true;
-    callUpdateMap();
+    if (this.ready) {
+      callUpdateMap();
+    }
   });
 };
 exports.MapModel = MapModel;

@@ -11,7 +11,7 @@ var MapControl = can.Control({
     initializeMap();
 
     if (mapModel.eventToOpenID) {
-      mapModel.ready = true;
+      mapModel.prop.attr('ready', true);
       callUpdateMap();
     } else {
       loadMyLocation();
@@ -46,10 +46,12 @@ var loadMyLocation = function() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
       mapModel.prop.attr('lat', util.roundNumber(position.coords.latitude));
-      mapModel.ready = true;
       mapModel.prop.attr('lng', util.roundNumber(position.coords.longitude));
+      mapModel.prop.attr('ready', true);
 
       mapModel.centerToLatLng();
+    }, function(error) {
+      mapModel.prop.attr('ready', true);
     });
   } else {
     statusObservable.status.attr('value', 4);
@@ -91,6 +93,8 @@ var initializeMainElements = function(element) {
   $('#sideMenu').mCustomScrollbar();
 
   $('#loadMyLocation').popover();
+  $('#lat').val(mapModel.prop.lat);
+  $('#lng').val(mapModel.prop.lng);
 };
 
 var initializeMap = function () {
@@ -171,9 +175,6 @@ var setupSocket = function() {
 };
 
 var isNeedUpdate = function() {
-  if (!mapModel.ready) {
-    return false;
-  }
   if (mapModel.dragging) {
     return false;
   }

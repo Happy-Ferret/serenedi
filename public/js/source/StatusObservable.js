@@ -45,5 +45,5 @@ var showNormal = function () {
 };
 
 var showGeoLocationFail = function() {
-  $('#statusImg').attr({'data-content': 'Geo location attrival failed, have you checked security setting?', src: '/images/warning.png'});
+  $('#statusImg').attr({'data-content': 'Geo location attrival is not avaliable for this browser.', src: '/images/warning.png'});
 };
