@@ -28,9 +28,9 @@ var MapControl = can.Control({
     var elementId = el.attr('id');
 
     if (elementId === 'lat') {
-      mapModel.location.attr('lat', el.val());
+      mapModel.prop.attr('lat', el.val());
     } else if (elementId === 'lng') {
-      mapModel.location.attr('lng', el.val());
+      mapModel.prop.attr('lng', el.val());
     } 
 
     mapModel.centerToLatLng();
@@ -45,8 +45,8 @@ exports.MapControl = MapControl;
 var loadMyLocation = function() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
-      mapModel.location.attr('lat', util.roundNumber(position.coords.latitude));
-      mapModel.location.attr('lng', util.roundNumber(position.coords.longitude));
+      mapModel.prop.attr('lat', util.roundNumber(position.coords.latitude));
+      mapModel.prop.attr('lng', util.roundNumber(position.coords.longitude));
 
       mapModel.centerToLatLng();
       callUpdateMap();
@@ -97,7 +97,7 @@ var initializeMainElements = function(element) {
 var initializeMap = function () {
   mapModel.map = new google.maps.Map(document.getElementById("mapBox"), {
     zoom : 15,
-    center : new google.maps.LatLng(mapModel.location.lat, mapModel.location.lng),
+    center : new google.maps.LatLng(mapModel.prop.lat, mapModel.prop.lng),
     mapTypeId : google.maps.MapTypeId.ROADMAP,
     disableDefaultUI: true,
     mapTypeControl: true
@@ -109,8 +109,8 @@ var initializeMap = function () {
 
     $("#radius").val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
 
-    mapModel.location.attr('lat', util.roundNumber(mapModel.map.getCenter().lat()));
-    mapModel.location.attr('lng', util.roundNumber(mapModel.map.getCenter().lng()));
+    mapModel.prop.attr('lat', util.roundNumber(mapModel.map.getCenter().lat()));
+    mapModel.prop.attr('lng', util.roundNumber(mapModel.map.getCenter().lng()));
   });
 
   google.maps.event.addListener(mapModel.map, "dragstart", function() {
@@ -118,8 +118,8 @@ var initializeMap = function () {
   });
 
   google.maps.event.addListener(mapModel.map, "dragend", function() {
-    mapModel.location.attr('lat', util.roundNumber(mapModel.map.getCenter().lat()));
-    mapModel.location.attr('lng', util.roundNumber(mapModel.map.getCenter().lng()));
+    mapModel.prop.attr('lat', util.roundNumber(mapModel.map.getCenter().lat()));
+    mapModel.prop.attr('lng', util.roundNumber(mapModel.map.getCenter().lng()));
     mapModel.dragging = false;
     callUpdateMap();
   });
@@ -202,8 +202,8 @@ var callUpdateMap = function () {
 var updateMap = function() {
   if (isNeedUpdate()) {
     statusObservable.status.attr("value", 1);
-    mapModel.latestLoc.lat = mapModel.location.lat;
-    mapModel.latestLoc.lng = mapModel.location.lng;
+    mapModel.latestLoc.lat = mapModel.prop.lat;
+    mapModel.latestLoc.lng = mapModel.prop.lng;
 
     if (mapModel.eventToOpenID) {
       mapModel.socket.emit("getEventsByIDCall", {
@@ -213,8 +213,8 @@ var updateMap = function() {
     } else {
       mapModel.socket.emit("getEventsCall", {
         message: { 
-          lat : mapModel.location.lat,
-          lng : mapModel.location.lng,
+          lat : mapModel.prop.lat,
+          lng : mapModel.prop.lng,
           dateFrom : $("#dateFrom").val(),
           dateTo : $("#dateTo").val(),
           type : $("#categories").val(),
@@ -282,8 +282,8 @@ var addMarkers = function (event) {
     google.maps.event.trigger(marker, "click");
     mapModel.eventToOpenID = null;
     var center = mapModel.map.getCenter();
-    mapModel.location.attr('lat', util.roundNumber(center.lat()));
-    mapModel.location.attr('lng', util.roundNumber(center.lng()));
+    mapModel.prop.attr('lat', util.roundNumber(center.lat()));
+    mapModel.prop.attr('lng', util.roundNumber(center.lng()));
   }
 };
 
