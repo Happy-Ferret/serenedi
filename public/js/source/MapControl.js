@@ -11,6 +11,7 @@ var MapControl = can.Control({
     initializeMap();
 
     if (mapModel.eventToOpenID) {
+      mapModel.ready = true;
       callUpdateMap();
     } else {
       loadMyLocation();
@@ -46,6 +47,7 @@ var loadMyLocation = function() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
       mapModel.prop.attr('lat', util.roundNumber(position.coords.latitude));
+      mapModel.ready = true;
       mapModel.prop.attr('lng', util.roundNumber(position.coords.longitude));
 
       mapModel.centerToLatLng();
@@ -168,6 +170,9 @@ var setupSocket = function() {
 };
 
 var isNeedUpdate = function() {
+  if (!mapModel.ready) {
+    return false;
+  }
   if (mapModel.dragging) {
     return false;
   }

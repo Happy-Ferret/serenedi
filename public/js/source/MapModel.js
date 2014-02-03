@@ -13,6 +13,7 @@ var MapModel = function(callUpdateMap) {
   this.dragging = false;
   this.socket = null;
   this.waitedSinceLastChange = undefined;
+  this.ready = false;
 
   this.prop.bind('lat', function(event, newVal, oldVal) {
     $('#lat').val(newVal);
