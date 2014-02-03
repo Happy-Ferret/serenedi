@@ -188,7 +188,7 @@ var isNeedUpdate = function() {
 
 function callUpdateMap() {
   clearTimeout(mapModel.waitedSinceLastChange);
-  mapModel.waitedSinceLastChange = setTimeout(updateMap(), 500);
+  mapModel.waitedSinceLastChange = setTimeout(updateMap, 800);
 }
 
 var updateMap = function() {
@@ -210,7 +210,7 @@ var updateMap = function() {
           lng : mapModel.prop.lng,
           dateFrom : $('#dateFrom').val(),
           dateTo : $('#dateTo').val(),
-          type : $('#categories').val(),
+          type : mapModel.prop.types,
           radius : mapModel.prop.radius
         }
       });
@@ -310,5 +310,5 @@ var typeChanged = function() {
   result += flagCheck('#typeTravelFlag');
   result += flagCheck('#typeOtherFlag');
 
-  $('#categories').val(result);
+  mapModel.prop.attr('types', result);
 };

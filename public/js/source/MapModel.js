@@ -2,7 +2,7 @@ var $ = require("../../../bower_components/jquery/jquery.min.js");
 var util = require("./Util.js");
 
 var MapModel = function(callUpdateMap) {
-  this.prop = new can.Observe({lat: 40.72616, lng: -73.99973, radius: undefined});
+  this.prop = new can.Observe({lat: 40.72616, lng: -73.99973, radius: undefined, types: '1111111111111111111'});
 
   this.map = null;
   this.ids = [];
@@ -25,6 +25,10 @@ var MapModel = function(callUpdateMap) {
   });
 
   this.prop.bind('radius', function(event, newVal, oldVal) {
+    callUpdateMap();
+  });
+
+  this.prop.bind('type', function(event, newVal, oldVal) {
     callUpdateMap();
   });
 };
