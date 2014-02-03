@@ -1,4 +1,4 @@
-var $ = require("../../../bower_components/jquery/jquery.min.js");
+var $ = require('../../../bower_components/jquery/jquery.min.js');
 
 var status = new can.Observe({value: 0});
 exports.status = status;
@@ -7,7 +7,7 @@ exports.status = status;
 // 1 working
 // 2 no events
 // 3 radius check fail
-status.bind("change", function(event, attr, how, newVal, oldVal) {
+status.bind('change', function(event, attr, how, newVal, oldVal) {
   switch (newVal) {
     case 0: 
       showNormal();
@@ -25,17 +25,17 @@ status.bind("change", function(event, attr, how, newVal, oldVal) {
 });
 
 var showWorking = function () {
-  $("#statusImg").attr({"data-content": "Working...", src: "/images/ajax-loader.gif"});
+  $('#statusImg').attr({'data-content': 'Working...', src: '/images/ajax-loader.gif'});
 };
 
 var showZoomCheckFail = function () {
-  $("#statusImg").attr({"data-content": "Zoom level is too high. Please zoom in to load events.", src: "/images/warning.png"});
+  $('#statusImg').attr({'data-content': 'Zoom level is too high. Please zoom in to load events.', src: '/images/warning.png'});
 };
 
 var showNoEvents = function () {
-  $("#statusImg").attr({"data-content": "There are no events with given criterias.", src: "/images/warning.png"});
+  $('#statusImg').attr({'data-content': 'There are no events with given criterias.', src: '/images/warning.png'});
 };
 
 var showNormal = function () {
-  $("#statusImg").attr({"data-content": "Welcome to Serenedi!", src: "/images/serenedi3.ico"});
+  $('#statusImg').attr({'data-content': 'Welcome to Serenedi!', src: '/images/serenedi3.ico'});
 };
