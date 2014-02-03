@@ -10,10 +10,10 @@ var MapControl = can.Control({
     initializeMainElements(this.element);
     initializeMap();
 
-    if (!mapModel.eventToOpenID) {
-      loadMyLocation();
-    } else {
+    if (mapModel.eventToOpenID) {
       callUpdateMap();
+    } else {
+      loadMyLocation();
     }
   },
   '.type change': function(el, ev) {
@@ -50,8 +50,6 @@ var loadMyLocation = function() {
 
       mapModel.centerToLatLng();
     });
-  } else {
-    mapModel.centerToLatLng();
   }
 };
 
@@ -105,8 +103,7 @@ var initializeMap = function () {
     var ne = mapModel.map.getBounds().getNorthEast();
     var sw = mapModel.map.getBounds().getSouthWest();
 
-    $('#radius').val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
-
+    mapModel.prop.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
     mapModel.prop.attr('lat', util.roundNumber(mapModel.map.getCenter().lat()));
     mapModel.prop.attr('lng', util.roundNumber(mapModel.map.getCenter().lng()));
   });
@@ -125,7 +122,7 @@ var initializeMap = function () {
     var ne = mapModel.map.getBounds().getNorthEast();
     var sw = mapModel.map.getBounds().getSouthWest();
 
-    $('#radius').val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()));
+    mapModel.prop.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
   });
 };
 
@@ -178,7 +175,7 @@ var isNeedUpdate = function() {
   if (statusObservable.status.attr('value') === 1) {
     return false;
   }
-  if ($('#radius').val() > 19) {
+  if (mapModel.prop.radius > 19) {
     statusObservable.status.attr('value', 3);
     return false;
   } 
@@ -186,7 +183,7 @@ var isNeedUpdate = function() {
     return false;
   }
 
-  return mapModel.distCheckPass || Math.abs(mapModel.getScreenTravelDistance()) > $('#radius').val() / 1.5;
+  return mapModel.distCheckPass || Math.abs(mapModel.getScreenTravelDistance()) > mapModel.prop.radius / 1.5;
 };
 
 function callUpdateMap() {
@@ -203,8 +200,9 @@ var updateMap = function() {
     if (mapModel.eventToOpenID) {
       mapModel.socket.emit('getEventsByIDCall', {
         message: { id : mapModel.eventToOpenID,
-          radius : $('#radius').val()}
-        });
+          radius : mapModel.prop.radius
+        }
+      });
     } else {
       mapModel.socket.emit('getEventsCall', {
         message: { 
@@ -213,7 +211,7 @@ var updateMap = function() {
           dateFrom : $('#dateFrom').val(),
           dateTo : $('#dateTo').val(),
           type : $('#categories').val(),
-          radius : $('#radius').val() 
+          radius : mapModel.prop.radius
         }
       });
     }
