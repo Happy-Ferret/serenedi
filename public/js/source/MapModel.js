@@ -1,7 +1,7 @@
 var $ = require("../../../bower_components/jquery/jquery.min.js");
 var util = require("./Util.js");
 
-var MapModel = function() {
+var MapModel = function(callUpdateMap) {
   this.prop = new can.Observe({lat: 40.72616, lng: -73.99973});
 
   this.map = null;
@@ -16,13 +16,15 @@ var MapModel = function() {
 
   this.prop.bind('lat', function(event, newVal, oldVal) {
     $('#lat').val(newVal);
+    callUpdateMap();
   });
 
   this.prop.bind('lng', function(event, newVal, oldVal) {
     $('#lng').val(newVal);
+    callUpdateMap();
   });
 };
-exports.mapModel = new MapModel();
+exports.MapModel = MapModel;
 
 MapModel.prototype.centerToLatLng = function() {
   this.map.setCenter(new google.maps.LatLng(this.prop.lat, this.prop.lng));

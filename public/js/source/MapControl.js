@@ -1,7 +1,8 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
 var util = require('./Util.js');
 var statusObservable = require('./StatusObservable.js');
-var mapModel = require('./MapModel.js').mapModel;
+var MapModel = require('./MapModel.js').MapModel;
+var mapModel = new MapModel(callUpdateMap);
 
 var MapControl = can.Control({
   init: function(element, options) {
@@ -34,7 +35,6 @@ var MapControl = can.Control({
     } 
 
     mapModel.centerToLatLng();
-    callUpdateMap();
   },
   '#loadMyLocation click': function(el, ev) {
     loadMyLocation();
@@ -49,11 +49,9 @@ var loadMyLocation = function() {
       mapModel.prop.attr('lng', util.roundNumber(position.coords.longitude));
 
       mapModel.centerToLatLng();
-      callUpdateMap();
     });
   } else {
     mapModel.centerToLatLng();
-    callUpdateMap();
   }
 };
 
@@ -118,10 +116,9 @@ var initializeMap = function () {
   });
 
   google.maps.event.addListener(mapModel.map, 'dragend', function() {
+    mapModel.dragging = false;
     mapModel.prop.attr('lat', util.roundNumber(mapModel.map.getCenter().lat()));
     mapModel.prop.attr('lng', util.roundNumber(mapModel.map.getCenter().lng()));
-    mapModel.dragging = false;
-    callUpdateMap();
   });
 
   google.maps.event.addListener(mapModel.map, 'zoom_changed', function() {
@@ -129,8 +126,6 @@ var initializeMap = function () {
     var sw = mapModel.map.getBounds().getSouthWest();
 
     $('#radius').val(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()));
-
-    callUpdateMap();
   });
 };
 
@@ -194,10 +189,10 @@ var isNeedUpdate = function() {
   return mapModel.distCheckPass || Math.abs(mapModel.getScreenTravelDistance()) > $('#radius').val() / 1.5;
 };
 
-var callUpdateMap = function () {
+function callUpdateMap() {
   clearTimeout(mapModel.waitedSinceLastChange);
   mapModel.waitedSinceLastChange = setTimeout(updateMap(), 500);
-};
+}
 
 var updateMap = function() {
   if (isNeedUpdate()) {
