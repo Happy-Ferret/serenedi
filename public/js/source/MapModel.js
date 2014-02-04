@@ -15,8 +15,8 @@ var MapModel = function(callUpdateMap) {
   this.waitedSinceLastChange = undefined;
   this.distCheckPass = true;
 
-  this.prop.bind('ready', function(event, newVal, oldVal) {
-    if (newVal === true) {
+  this.prop.bind('change', function(event, attr, how, newVal, oldVal) {
+    if (this.ready) {
       callUpdateMap();
     }
   });
@@ -24,31 +24,19 @@ var MapModel = function(callUpdateMap) {
   this.prop.bind('lat', function(event, newVal, oldVal) {
     $('#lat').val(newVal);
     this.distCheckPass = false;
-    if (this.ready) {
-      callUpdateMap();
-    }
   });
 
   this.prop.bind('lng', function(event, newVal, oldVal) {
     $('#lng').val(newVal);
     this.distCheckPass = false;
-    if (this.ready) {
-      callUpdateMap();
-    }
   });
 
   this.prop.bind('radius', function(event, newVal, oldVal) {
     this.distCheckPass = true;
-    if (this.ready) {
-      callUpdateMap();
-    }
   });
 
   this.prop.bind('types', function(event, newVal, oldVal) {
     this.distCheckPass = true;
-    if (this.ready) {
-      callUpdateMap();
-    }
   });
 };
 exports.MapModel = MapModel;
