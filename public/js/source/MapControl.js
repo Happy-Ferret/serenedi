@@ -25,17 +25,6 @@ var MapControl = can.Control({
     mapModel.clearMap();
     callUpdateMap();
   },
-  '.location change': function(el, ev) {
-    var elementId = el.attr('id');
-
-    if (elementId === 'lat') {
-      mapModel.prop.attr('lat', el.val());
-    } else if (elementId === 'lng') {
-      mapModel.prop.attr('lng', el.val());
-    } 
-
-    mapModel.centerToLatLng();
-  },
   '#loadMyLocation click': function(el, ev) {
     loadMyLocation();
   }
@@ -59,7 +48,7 @@ var loadMyLocation = function() {
 };
 
 var initializeMainElements = function(element) {
-  element.html(can.view('mapTemplate', {}));
+  element.html(can.view('mapTemplate', {mapModel: mapModel}));
   mapModel.eventToOpenID = parseInt(util.getURLArgument.id, 10);
 
   $('#dateFrom').datepicker({

@@ -22,12 +22,10 @@ var MapModel = function(callUpdateMap) {
   });
 
   this.prop.bind('lat', function(event, newVal, oldVal) {
-    $('#lat').val(newVal);
     this.distCheckPass = false;
   });
 
   this.prop.bind('lng', function(event, newVal, oldVal) {
-    $('#lng').val(newVal);
     this.distCheckPass = false;
   });
 
