@@ -10,11 +10,12 @@ require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
 var menu = require('./source/MenuControl.js');
 var map = require('./source/MapControl.js');
+var statusObservable = require('./source/StatusObservable.js');
 
 
 $(document).ready(function() {
-  new menu.MenuControl('#menuContainer');
-  new map.MapControl('#main');
+  new menu.MenuControl('#menuContainer', statusObservable);
+  new map.MapControl('#main', statusObservable);
 
   $("#optionButton").click(function() {
     var element = $(".optionButtonDirection");

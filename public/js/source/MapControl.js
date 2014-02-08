@@ -1,14 +1,15 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
 var util = require('./Util.js');
-var statusObservable = require('./StatusObservable.js');
 var MapModel = require('./MapModel.js').MapModel;
 var mapModel = new MapModel(callUpdateMap);
+var statusObservable;
 
 var MapControl = can.Control({
   init: function(element, options) {
     setupSocket();
     initializeMainElements(this.element);
     initializeMap();
+    statusObservable = options;
 
     if (mapModel.eventToOpenID) {
       mapModel.prop.attr('ready', true);
