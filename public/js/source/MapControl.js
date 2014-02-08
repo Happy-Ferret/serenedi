@@ -18,10 +18,6 @@ var MapControl = can.Control({
       loadMyLocation();
     }
   },
-  '.type change': function(el, ev) {
-    mapModel.typeChanged();
-    mapModel.clearMap();
-  },
   '.datePicker change': function(el, ev) {
     mapModel.clearMap();
     callUpdateMap();
@@ -201,6 +197,7 @@ var updateMap = function() {
         }
       });
     } else {
+      console.log(mapModel);
       mapModel.socket.emit('getEventsCall', {
         message: { 
           lat : mapModel.prop.lat,
