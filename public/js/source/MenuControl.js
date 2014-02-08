@@ -7,9 +7,6 @@ exports.MenuControl = can.Control({
     $("#about").hide();
     $("#statusImg").popover();
   },
-  "#homeLink click": function(el, ev) {
-    $( "#aboutDialog" ).dialog( "close" );
-  },
   "#aboutLink click": function(el, ev) {
     $( "#aboutDialog" ).dialog( "open" );
   }
