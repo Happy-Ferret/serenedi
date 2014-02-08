@@ -4,7 +4,6 @@ var statusObservable = require('./StatusObservable.js');
 exports.MenuControl = can.Control({
   init: function(element, statusObservableOption) {
     this.element.html(can.view("menuTemplate", statusObservableOption));
-    $("#about").hide();
     $("#statusImg").popover();
   }
 });
