@@ -6,8 +6,5 @@ exports.MenuControl = can.Control({
     this.element.html(can.view("menuTemplate", statusObservableOption));
     $("#about").hide();
     $("#statusImg").popover();
-  },
-  "#aboutLink click": function(el, ev) {
-    $( "#aboutDialog" ).dialog( "open" );
   }
 });
