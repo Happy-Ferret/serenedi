@@ -181,7 +181,7 @@ var isNeedUpdate = function() {
 
 function callUpdateMap() {
   clearTimeout(mapModel.waitedSinceLastChange);
-  mapModel.waitedSinceLastChange = setTimeout(updateMap, 800);
+  mapModel.waitedSinceLastChange = setTimeout(updateMap, 1400);
 }
 
 var updateMap = function() {
