@@ -5,11 +5,11 @@ var mapModel = new MapModel(callUpdateMap);
 var statusObservable;
 
 var MapControl = can.Control({
-  init: function(element, options) {
+  init: function(element, statusObservableOption) {
     setupSocket();
     initializeMainElements(this.element);
     initializeMap();
-    statusObservable = options;
+    statusObservable = statusObservableOption;
 
     if (mapModel.eventToOpenID) {
       mapModel.prop.attr('ready', true);
