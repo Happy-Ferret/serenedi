@@ -49,7 +49,7 @@ var loadMyLocation = function() {
 };
 
 var initializeMainElements = function(element) {
-  element.html(can.view('mapTemplate', {mapModel: mapModel}));
+  element.html(can.view('mapTemplate', mapModel));
   mapModel.eventToOpenID = parseInt(util.getURLArgument.id, 10);
 
   $('#dateFrom').datepicker({
