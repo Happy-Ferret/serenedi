@@ -16,6 +16,7 @@ var statusObservable = require('./source/StatusObservable.js');
 $(document).ready(function() {
   new menu.MenuControl('#menuContainer', statusObservable);
   new map.MapControl('#main', statusObservable);
+  $('#sideMenu').mCustomScrollbar();
 
   $("#optionButton").click(function() {
     var element = $(".optionButtonDirection");
