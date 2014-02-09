@@ -79,8 +79,6 @@ var initializeMainElements = function(element) {
   $('#sideMenu').mCustomScrollbar();
 
   $('#loadMyLocation').popover();
-  $('#lat').val(mapModel.prop.lat);
-  $('#lng').val(mapModel.prop.lng);
 };
 
 var initializeMap = function () {
