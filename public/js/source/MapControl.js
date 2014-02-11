@@ -49,33 +49,27 @@ var initializeMainElements = function(element) {
   mapModel.eventToOpenID = parseInt(util.getURLArgument.id, 10);
 
   $('#dateFrom').datepicker({
-    defaultDate : '',
+    defaultDate : mapModel.prop.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
     onSelect : function(selectedDate) {
       $('#dateTo').datepicker('option', 'minDate', selectedDate);
       $(this).trigger('change');
-    }
+    },
+    maxDate: mapModel.prop.dateTo
   });
   $('#dateTo').datepicker({
-    defaultDate : '+1w',
+    defaultDate : mapModel.prop.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
     onSelect : function(selectedDate) {
       $('#dateFrom').datepicker('option', 'maxDate', selectedDate);
       $(this).trigger('change');
-    }
+    },
+    minDate: mapModel.prop.dateFrom
   });
-
-  var today = new Date();
-  $('#dateFrom').val(util.getPrettyDate(today));
-  $('#dateTo').datepicker('option', 'minDate', today);
-
-  var todayPlusOne = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
-  $('#dateTo').val(util.getPrettyDate(todayPlusOne));
-  $('#dateFrom').datepicker('option', 'maxDate', todayPlusOne);
 
   $('#loadMyLocation').popover();
 };
@@ -135,10 +129,10 @@ var setupSocket = function() {
       }
 
       if (data.date) {
+        mapModel.prop.attr('dateFrom', data.date.startDate);
+        mapModel.prop.attr('dateTo', data.date.endDate);
         $('#dateFrom').datepicker('option', 'maxDate', data.date.endDate);
-        $('#dateFrom').val(data.date.startDate);
         $('#dateTo').datepicker('option', 'minDate', data.date.startDate);
-        $('#dateTo').val(data.date.endDate);
       }
 
       for (var n = 1; n < data.message.events.length; n++) {
@@ -199,8 +193,8 @@ var updateMap = function() {
         message: { 
           lat : mapModel.prop.lat,
           lng : mapModel.prop.lng,
-          dateFrom : $('#dateFrom').val(),
-          dateTo : $('#dateTo').val(),
+          dateFrom : mapModel.prop.dateFrom,
+          dateTo : mapModel.prop.dateTo,
           type : mapModel.prop.types,
           radius : mapModel.prop.radius
         }

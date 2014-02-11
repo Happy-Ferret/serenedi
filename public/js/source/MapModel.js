@@ -1,11 +1,14 @@
 var util = require("./Util.js");
+var today = new Date();
 
 var MapModel = function(callUpdateMap) {
   this.prop = new can.Observe({lat: 40.72616, 
                                                 lng: -73.99973, 
                                                 radius: undefined, 
                                                 types: '1111111111111111111',
-                                                ready: false,});
+                                                ready: false,
+                                                dateFrom: util.getPrettyDate(today),
+                                                dateTo: util.getPrettyDate(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7))});
 
   this.types = new can.Observe({conf: true,
                                                 conv: true,
