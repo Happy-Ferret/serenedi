@@ -72,6 +72,7 @@ var initializeMainElements = function(element) {
   });
 
   $('#loadMyLocation').popover();
+  $('#sideMenu').mCustomScrollbar();
 };
 
 var initializeMap = function () {
