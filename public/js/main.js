@@ -8,14 +8,14 @@ require('../../bower_components/canjs/can.control.plugin.js');
 require('../../bower_components/bootstrap/dist/js/bootstrap.min.js');
 require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
-var menu = require('./source/MenuControl.js');
-var map = require('./source/MapControl.js');
 var statusObservable = require('./source/StatusObservable.js');
+var MenuControl = require('./source/MenuControl.js').MenuControl;
+var MapControl = require('./source/MapControl.js').MapControl;
 
 
 $(document).ready(function() {
-  new menu.MenuControl('#menuContainer', statusObservable);
-  new map.MapControl('#main', statusObservable);
+  new MenuControl('#menuContainer', statusObservable);
+  new MapControl('#main', statusObservable);
 
   $("#optionButton").click(function() {
     var element = $(".optionButtonDirection");
