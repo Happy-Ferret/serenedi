@@ -3,6 +3,8 @@ var util = require('./Util.js');
 var MapModel = require('./MapModel.js').MapModel;
 var mapModel = new MapModel(callUpdateMap);
 var statusObservable;
+var dateFromDom;
+var dateToDom;
 
 var MapControl = can.Control({
   init: function(element, statusObservableOption) {
@@ -48,24 +50,27 @@ var initializeMainElements = function(element) {
   element.html(can.view('mapTemplate', mapModel));
   mapModel.eventToOpenID = parseInt(util.getURLArgument.id, 10);
 
-  $('#dateFrom').datepicker({
+  dateFromDom = $('#dateFrom');
+  dateToDom = $('#dateTo');
+
+  dateFromDom.datepicker({
     defaultDate : mapModel.prop.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
     onSelect : function(selectedDate) {
-      $('#dateTo').datepicker('option', 'minDate', selectedDate);
+      dateToDom.datepicker('option', 'minDate', selectedDate);
       $(this).trigger('change');
     },
     maxDate: mapModel.prop.dateTo
   });
-  $('#dateTo').datepicker({
+  dateToDom.datepicker({
     defaultDate : mapModel.prop.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
     onSelect : function(selectedDate) {
-      $('#dateFrom').datepicker('option', 'maxDate', selectedDate);
+      dateFromDom.datepicker('option', 'maxDate', selectedDate);
       $(this).trigger('change');
     },
     minDate: mapModel.prop.dateFrom
@@ -132,8 +137,8 @@ var setupSocket = function() {
       if (data.date) {
         mapModel.prop.attr('dateFrom', data.date.startDate);
         mapModel.prop.attr('dateTo', data.date.endDate);
-        $('#dateFrom').datepicker('option', 'maxDate', data.date.endDate);
-        $('#dateTo').datepicker('option', 'minDate', data.date.startDate);
+        dateFromDom.datepicker('option', 'maxDate', data.date.endDate);
+        dateToDom.datepicker('option', 'minDate', data.date.startDate);
       }
 
       for (var n = 1; n < data.message.events.length; n++) {
