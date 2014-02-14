@@ -1,4 +1,5 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
+var io = require('../../../node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js');
 var util = require('./Util.js');
 var MapModel = require('./MapModel.js').MapModel;
 var mapModel = new MapModel(callUpdateMap);
