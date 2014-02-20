@@ -2,7 +2,7 @@ var util = require("./Util.js");
 var today = new Date();
 var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
 
-var MapModel = function(callUpdateMap) {
+var MapModel = function(updateMap) {
   this.prop = new can.Observe({lat: 40.72616, 
                                                 lng: -73.99973, 
                                                 radius: undefined, 
@@ -43,7 +43,8 @@ var MapModel = function(callUpdateMap) {
 
   this.prop.bind('change', function(event, attr, how, newVal, oldVal) {
     if (this.ready) {
-      callUpdateMap();
+      clearTimeout(this.waitedSinceLastChange);
+      this.waitedSinceLastChange = setTimeout(updateMap, 1400);
     }
   });
 
@@ -126,7 +127,7 @@ MapModel.prototype.validateLatLng = function() {
 
 MapModel.prototype.initializeMap = function () {
   var self = this;
-  
+
   this.map = new google.maps.Map(document.getElementById('mapBox'), {
     zoom : 15,
     center : new google.maps.LatLng(self.prop.lat, self.prop.lng),

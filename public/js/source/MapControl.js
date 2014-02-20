@@ -1,6 +1,6 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
 var util = require('./Util.js');
-var mapModel = new (require('./MapModel.js')).MapModel(callUpdateMap);
+var mapModel = new (require('./MapModel.js')).MapModel(updateMap);
 var socketModel = new (require('./SocketModel.js')).SocketModel(getEventCallback);
 var statusObservable;
 var dateFromDom;
@@ -14,14 +14,14 @@ var MapControl = can.Control({
 
     if (mapModel.eventToOpenID) {
       mapModel.prop.attr('ready', true);
-      callUpdateMap();
+      can.trigger(mapModel.prop, 'change');
     } else {
       loadMyLocation();
     }
   },
   '.datePicker change': function(el, ev) {
     mapModel.clearMap();
-    callUpdateMap();
+    can.trigger(mapModel.prop, 'change');
   },
   '#loadMyLocation click': function(el, ev) {
     loadMyLocation();
@@ -126,12 +126,7 @@ var isNeedUpdate = function() {
   return mapModel.distCheckPass || Math.abs(mapModel.getScreenTravelDistance()) > mapModel.prop.radius / 1.5;
 };
 
-function callUpdateMap() {
-  clearTimeout(mapModel.waitedSinceLastChange);
-  mapModel.waitedSinceLastChange = setTimeout(updateMap, 1400);
-}
-
-var updateMap = function() {
+function updateMap() {
   if (isNeedUpdate()) {
     statusObservable.status.attr('value', 1);
     mapModel.latestLoc.lat = mapModel.prop.lat;
@@ -144,7 +139,6 @@ var updateMap = function() {
         }
       });
     } else {
-      console.log(mapModel);
       socketModel.socket.emit('getEventsCall', {
         message: { 
           lat : mapModel.prop.lat,
@@ -157,7 +151,7 @@ var updateMap = function() {
       });
     }
   }
-};
+}
 
 var addMarkers = function (event) {
   var point = new google.maps.LatLng(event.venue.latitude, event.venue.longitude);
