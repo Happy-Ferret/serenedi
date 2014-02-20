@@ -64,22 +64,26 @@ exports.getTypeString = function(type) {
   }
 
   if (type.charAt(13) === "1") {
-    types.push("social");
+    types.push("seminars");
   }
 
   if (type.charAt(14) === "1") {
-    types.push("sports");
+    types.push("social");
   }
 
   if (type.charAt(15) === "1") {
-    types.push("tradeshows");
+    types.push("sports");
   }
 
   if (type.charAt(16) === "1") {
-    types.push("travel");
+    types.push("tradeshows");
   }
 
   if (type.charAt(17) === "1") {
+    types.push("travel");
+  }
+
+  if (type.charAt(18) === "1") {
     types.push("other");
   }
 

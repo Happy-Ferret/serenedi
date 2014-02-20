@@ -1,7 +1,3 @@
-// main serenedi server js file
-// !must pass in two arguments!
-// ex: `node server.js 3080 [Eventbrite api key]`
-
 var READ_SIZE = 100;
 
 var path = require("path");
@@ -13,7 +9,6 @@ var argv = require('optimist').argv;
 var io = require("socket.io").listen(app.listen(argv.port));
 var eb_client = eventbrite({"app_key" : argv.eventbriteKey});
 
-console.log(__dirname);
 app.use(express.static(path.join(__dirname, "../public")));
 app.get("/", function (req, res) { res.redirect("../index.html"); });
 
