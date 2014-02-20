@@ -1,9 +1,7 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
 var util = require('./Util.js');
-var MapModel = require('./MapModel.js').MapModel;
-var mapModel = new MapModel(callUpdateMap);
-var SocketModel = require('./SocketModel.js').SocketModel;
-var socketModel;
+var mapModel = new (require('./MapModel.js')).MapModel(callUpdateMap);
+var socketModel = new (require('./SocketModel.js')).SocketModel(SERENEDI_URL, getEventCallback);
 var statusObservable;
 var dateFromDom;
 var dateToDom;
@@ -13,7 +11,6 @@ var MapControl = can.Control({
     initializeMainElements(this.element);
     initializeMap();
     statusObservable = statusObservableOption;
-    socketModel = new SocketModel(SERENEDI_URL, getEventCallback);
 
     if (mapModel.eventToOpenID) {
       mapModel.prop.attr('ready', true);
