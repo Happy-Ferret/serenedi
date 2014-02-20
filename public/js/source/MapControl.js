@@ -139,6 +139,7 @@ function updateMap() {
         }
       });
     } else {
+        console.log(mapModel);
       socketModel.socket.emit('getEventsCall', {
         message: { 
           lat : mapModel.prop.lat,
@@ -176,7 +177,7 @@ var addMarkers = function (event) {
         content: can.view.render('infoPopUpTemplate',
         {   
           title: marker.getTitle(), 
-          url: {eventbrite: event.url, serenedi: URL + '/?id=' + event.id},
+          url: {eventbrite: event.url, serenedi: SERENEDI_URL + '/?id=' + event.id},
           start: event.start_date.split(' ')[0],
           end: event.end_date.split(' ')[0],
           showAddr: event.venue.address !== null || event.venue.address !== '',
