@@ -34,10 +34,10 @@ module.exports = function(grunt) {
             node: true,
             browser: true,
             globals: {
-              'io': true,
               'google': true,
               'FB': true,
-              'can': true
+              'can': true,
+              'SERENEDI_URL': true
             }
           },
           src: ['public/js/main.js', 'public/js/source/*', './*.js', 'source/*.js']

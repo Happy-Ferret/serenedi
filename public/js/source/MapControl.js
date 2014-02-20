@@ -1,18 +1,19 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
-var io = require('../../../node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js');
 var util = require('./Util.js');
 var MapModel = require('./MapModel.js').MapModel;
 var mapModel = new MapModel(callUpdateMap);
+var SocketModel = require('./SocketModel.js').SocketModel;
+var socketModel;
 var statusObservable;
 var dateFromDom;
 var dateToDom;
 
 var MapControl = can.Control({
   init: function(element, statusObservableOption) {
-    setupSocket();
     initializeMainElements(this.element);
     initializeMap();
     statusObservable = statusObservableOption;
+    socketModel = new SocketModel(SERENEDI_URL, getEventCallback);
 
     if (mapModel.eventToOpenID) {
       mapModel.prop.attr('ready', true);
@@ -117,46 +118,33 @@ var initializeMap = function () {
   });
 };
 
-var setupSocket = function() {
-  var socketOptions = {
-    'transports' : [ 'jsonp-polling' ],
-    'try multiple transports' : false,
-    'reconnect' : true,
-    'connect timeout' : 5000,
-    'reconnection limit attempts': 15
-  };
-
-  mapModel.socket = io.connect(URL, socketOptions);
-
-  mapModel.socket.on('getEventsResult', function(data) {
-
-    if (data.message !== null) {
-      if (data.center) {
-        mapModel.map.setCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
-      }
-
-      if (data.date) {
-        mapModel.prop.attr('dateFrom', data.date.startDate);
-        mapModel.prop.attr('dateTo', data.date.endDate);
-        dateFromDom.datepicker('option', 'maxDate', data.date.endDate);
-        dateToDom.datepicker('option', 'minDate', data.date.startDate);
-      }
-
-      for (var n = 1; n < data.message.events.length; n++) {
-        var currentEvent = data.message.events[n].event;
-
-        if (mapModel.ids[currentEvent.id] !== 1) {
-          mapModel.ids[currentEvent.id] = 1;
-          addMarkers(currentEvent);
-        }
-      }
-
-      statusObservable.status.attr('value', 0);
-    } else {
-      statusObservable.status.attr('value', 2);
+function getEventCallback(data) {
+  if (data.message !== null) {
+    if (data.center) {
+      mapModel.map.setCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
     }
-  });
-};
+
+    if (data.date) {
+      mapModel.prop.attr('dateFrom', data.date.startDate);
+      mapModel.prop.attr('dateTo', data.date.endDate);
+      dateFromDom.datepicker('option', 'maxDate', data.date.endDate);
+      dateToDom.datepicker('option', 'minDate', data.date.startDate);
+    }
+
+    for (var n = 1; n < data.message.events.length; n++) {
+      var currentEvent = data.message.events[n].event;
+
+      if (mapModel.ids[currentEvent.id] !== 1) {
+        mapModel.ids[currentEvent.id] = 1;
+        addMarkers(currentEvent);
+      }
+    }
+
+    statusObservable.status.attr('value', 0);
+  } else {
+    statusObservable.status.attr('value', 2);
+  }
+}
 
 var isNeedUpdate = function() {
   if (mapModel.dragging) {
@@ -189,14 +177,14 @@ var updateMap = function() {
     mapModel.latestLoc.lng = mapModel.prop.lng;
 
     if (mapModel.eventToOpenID) {
-      mapModel.socket.emit('getEventsByIDCall', {
+      socketModel.socket.emit('getEventsByIDCall', {
         message: { id : mapModel.eventToOpenID,
           radius : mapModel.prop.radius
         }
       });
     } else {
       console.log(mapModel);
-      mapModel.socket.emit('getEventsCall', {
+      socketModel.socket.emit('getEventsCall', {
         message: { 
           lat : mapModel.prop.lat,
           lng : mapModel.prop.lng,

@@ -38,7 +38,6 @@ var MapModel = function(callUpdateMap) {
   this.latestLoc = {lat: null, lng: null};
   this.eventToOpenID = null;
   this.dragging = false;
-  this.socket = null;
   this.waitedSinceLastChange = undefined;
   this.distCheckPass = true;
 
