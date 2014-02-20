@@ -59,15 +59,15 @@ var MapModel = function(callUpdateMap) {
     this.distCheckPass = true;
   });
 
-  var that = this;
+  var self = this;
 
   this.prop.bind('types', function(event, newVal, oldVal) {
-    that.clearMap();
+    self.clearMap();
     this.distCheckPass = true;
   });
 
   this.types.bind('change', function(event, attr, how, newVal, oldVal) {
-    that.prop.attr('types', (this.conf ? '1' : '0') + 
+    self.prop.attr('types', (this.conf ? '1' : '0') + 
                                       (this.conv ? '1' : '0') +
                                       (this.ent ? '1' : '0') + 
                                       (this.fair ? '1' : '0') + 
@@ -122,4 +122,42 @@ MapModel.prototype.closeLastOpen = function () {
 
 MapModel.prototype.validateLatLng = function() {
   return util.isNumber(this.prop.lat) && util.isNumber(this.prop.lng);
+};
+
+MapModel.prototype.initializeMap = function () {
+  var self = this;
+  
+  this.map = new google.maps.Map(document.getElementById('mapBox'), {
+    zoom : 15,
+    center : new google.maps.LatLng(self.prop.lat, self.prop.lng),
+    mapTypeId : google.maps.MapTypeId.ROADMAP,
+    disableDefaultUI: true,
+    mapTypeControl: true
+  });
+
+  google.maps.event.addListenerOnce(this.map, 'idle', function() {
+    var ne = self.map.getBounds().getNorthEast();
+    var sw = self.map.getBounds().getSouthWest();
+
+    self.prop.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
+    self.prop.attr('lat', util.roundNumber(self.map.getCenter().lat()));
+    self.prop.attr('lng', util.roundNumber(self.map.getCenter().lng()));
+  });
+
+  google.maps.event.addListener(this.map, 'dragstart', function() {
+    self.dragging = true;
+  });
+
+  google.maps.event.addListener(this.map, 'dragend', function() {
+    self.dragging = false;
+    self.prop.attr('lat', util.roundNumber(self.map.getCenter().lat()));
+    self.prop.attr('lng', util.roundNumber(self.map.getCenter().lng()));
+  });
+
+  google.maps.event.addListener(this.map, 'zoom_changed', function() {
+    var ne = self.map.getBounds().getNorthEast();
+    var sw = self.map.getBounds().getSouthWest();
+
+    self.prop.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
+  });
 };

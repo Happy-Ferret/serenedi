@@ -9,7 +9,7 @@ var dateToDom;
 var MapControl = can.Control({
   init: function(element, statusObservableOption) {
     initializeMainElements(this.element);
-    initializeMap();
+    mapModel.initializeMap();
     statusObservable = statusObservableOption;
 
     if (mapModel.eventToOpenID) {
@@ -77,42 +77,6 @@ var initializeMainElements = function(element) {
 
   $('#loadMyLocation').popover();
   $('#sideMenu').mCustomScrollbar();
-};
-
-var initializeMap = function () {
-  mapModel.map = new google.maps.Map(document.getElementById('mapBox'), {
-    zoom : 15,
-    center : new google.maps.LatLng(mapModel.prop.lat, mapModel.prop.lng),
-    mapTypeId : google.maps.MapTypeId.ROADMAP,
-    disableDefaultUI: true,
-    mapTypeControl: true
-  });
-
-  google.maps.event.addListenerOnce(mapModel.map, 'idle', function() {
-    var ne = mapModel.map.getBounds().getNorthEast();
-    var sw = mapModel.map.getBounds().getSouthWest();
-
-    mapModel.prop.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
-    mapModel.prop.attr('lat', util.roundNumber(mapModel.map.getCenter().lat()));
-    mapModel.prop.attr('lng', util.roundNumber(mapModel.map.getCenter().lng()));
-  });
-
-  google.maps.event.addListener(mapModel.map, 'dragstart', function() {
-    mapModel.dragging = true;
-  });
-
-  google.maps.event.addListener(mapModel.map, 'dragend', function() {
-    mapModel.dragging = false;
-    mapModel.prop.attr('lat', util.roundNumber(mapModel.map.getCenter().lat()));
-    mapModel.prop.attr('lng', util.roundNumber(mapModel.map.getCenter().lng()));
-  });
-
-  google.maps.event.addListener(mapModel.map, 'zoom_changed', function() {
-    var ne = mapModel.map.getBounds().getNorthEast();
-    var sw = mapModel.map.getBounds().getSouthWest();
-
-    mapModel.prop.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
-  });
 };
 
 function getEventCallback(data) {
