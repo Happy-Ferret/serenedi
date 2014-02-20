@@ -8,8 +8,8 @@ var socketOptions = {
   'reconnection limit attempts': 15
 };
 
-var SocketModel = function(url, getEventCallback) {
-  this.socket = io.connect(url, socketOptions);
+var SocketModel = function(getEventCallback) {
+  this.socket = io.connect(SERENEDI_URL, socketOptions);
 
   this.socket.on('getEventsResult', function(data) {
     getEventCallback(data);

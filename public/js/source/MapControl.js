@@ -1,7 +1,7 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
 var util = require('./Util.js');
 var mapModel = new (require('./MapModel.js')).MapModel(callUpdateMap);
-var socketModel = new (require('./SocketModel.js')).SocketModel(SERENEDI_URL, getEventCallback);
+var socketModel = new (require('./SocketModel.js')).SocketModel(getEventCallback);
 var statusObservable;
 var dateFromDom;
 var dateToDom;
