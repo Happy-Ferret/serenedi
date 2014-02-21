@@ -20,8 +20,13 @@ var MapControl = can.Control({
     }
   },
   '.datePicker change': function(el, ev) {
-    mapModel.clearMap();
+    if (el.prop('id') === 'dateFrom') {
+      mapModel.prop.attr('dateFrom', el.val());
+    } else {
+      mapModel.prop.attr('dateTo', el.val());
+    }
     can.trigger(mapModel.prop, 'change');
+    mapModel.clearMap();
   },
   '#loadMyLocation click': function(el, ev) {
     loadMyLocation();
