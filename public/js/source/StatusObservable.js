@@ -1,6 +1,5 @@
 
-var status = new can.Observe({value: 0, content: 'Working...', src: '/images/ajax-loader.gif'});
-exports.status = status;
+exports.status = new can.Observe({value: 0, content: 'Working...', src: '/images/ajax-loader.gif'});
 
 // 0 idle
 // 1 working
