@@ -1,64 +1,64 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
 var util = require('./Util.js');
-var mapModel = new (require('./MapModel.js')).MapModel(updateMap);
-var socketModel = new (require('./SocketModel.js')).SocketModel(getEventCallback);
 var statusObservable;
 var dateFromDom;
 var dateToDom;
 
 var MapControl = can.Control({
   init: function(element, statusObservableOption) {
-    initializeMainElements(this.element);
-    mapModel.initializeMap();
+    this.mapModel = new (require('./MapModel.js')).MapModel(this);
+    this.socketModel = new (require('./SocketModel.js')).SocketModel(this);
+    this.initializeMainElements();
+    this.mapModel.initializeMap();
     statusObservable = statusObservableOption;
 
-    if (mapModel.eventToOpenID) {
-      mapModel.prop.attr('ready', true);
-      can.trigger(mapModel.prop, 'change');
+    if (this.mapModel.eventToOpenID) {
+      this.mapModel.prop.attr('ready', true);
+      can.trigger(this.mapModel.prop, 'change');
     } else {
-      loadMyLocation();
+      this.loadMyLocation();
     }
   },
   '.datePicker change': function(el, ev) {
     if (el.prop('id') === 'dateFrom') {
-      mapModel.prop.attr('dateFrom', el.val());
+      this.mapModel.prop.attr('dateFrom', el.val());
     } else {
-      mapModel.prop.attr('dateTo', el.val());
+      this.mapModel.prop.attr('dateTo', el.val());
     }
-    can.trigger(mapModel.prop, 'change');
-    mapModel.clearMap();
+    can.trigger(this.mapModel.prop, 'change');
+    this.mapModel.clearMap();
   },
   '#loadMyLocation click': function(el, ev) {
-    loadMyLocation();
+    this.loadMyLocation();
   }
 });
 exports.MapControl = MapControl;
 
-var loadMyLocation = function() {
+MapControl.prototype.loadMyLocation = function() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
-      mapModel.prop.attr('lat', util.roundNumber(position.coords.latitude));
-      mapModel.prop.attr('lng', util.roundNumber(position.coords.longitude));
-      mapModel.prop.attr('ready', true);
+      this.mapModel.prop.attr('lat', util.roundNumber(position.coords.latitude));
+      this.mapModel.prop.attr('lng', util.roundNumber(position.coords.longitude));
+      this.mapModel.prop.attr('ready', true);
 
-      mapModel.centerToLatLng();
+      this.mapModel.centerToLatLng();
     }, function(error) {
-      mapModel.prop.attr('ready', true);
+      this.mapModel.prop.attr('ready', true);
     });
   } else {
     statusObservable.status.attr('value', 4);
   }
 };
 
-var initializeMainElements = function(element) {
-  element.html(can.view('mapTemplate', mapModel));
-  mapModel.eventToOpenID = parseInt(util.getURLArgument.id, 10);
+MapControl.prototype.initializeMainElements = function() {
+  this.element.html(can.view('mapTemplate', this.mapModel));
+  this.mapModel.eventToOpenID = parseInt(util.getURLArgument.id, 10);
 
   dateFromDom = $('#dateFrom');
   dateToDom = $('#dateTo');
 
   dateFromDom.datepicker({
-    defaultDate : mapModel.prop.dateFrom,
+    defaultDate : this.mapModel.prop.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
@@ -66,10 +66,10 @@ var initializeMainElements = function(element) {
       dateToDom.datepicker('option', 'minDate', selectedDate);
       $(this).trigger('change');
     },
-    maxDate: mapModel.prop.dateTo
+    maxDate: this.mapModel.prop.dateTo
   });
   dateToDom.datepicker({
-    defaultDate : mapModel.prop.dateFrom,
+    defaultDate : this.mapModel.prop.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
@@ -77,22 +77,22 @@ var initializeMainElements = function(element) {
       dateFromDom.datepicker('option', 'maxDate', selectedDate);
       $(this).trigger('change');
     },
-    minDate: mapModel.prop.dateFrom
+    minDate: this.mapModel.prop.dateFrom
   });
 
   $('#loadMyLocation').popover();
   $('#sideMenu').mCustomScrollbar();
 };
 
-function getEventCallback(data) {
+MapControl.prototype.getEventCallback = function(data) {
   if (data.message !== null) {
     if (data.center) {
-      mapModel.map.setCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
+      this.mapModel.map.setCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
     }
 
     if (data.date) {
-      mapModel.prop.attr('dateFrom', data.date.startDate);
-      mapModel.prop.attr('dateTo', data.date.endDate);
+      this.mapModel.prop.attr('dateFrom', data.date.startDate);
+      this.mapModel.prop.attr('dateTo', data.date.endDate);
       dateFromDom.datepicker('option', 'maxDate', data.date.endDate);
       dateToDom.datepicker('option', 'minDate', data.date.startDate);
     }
@@ -100,9 +100,9 @@ function getEventCallback(data) {
     for (var n = 1; n < data.message.events.length; n++) {
       var currentEvent = data.message.events[n].event;
 
-      if (mapModel.ids[currentEvent.id] !== 1) {
-        mapModel.ids[currentEvent.id] = 1;
-        addMarkers(currentEvent);
+      if (this.mapModel.ids[currentEvent.id] !== 1) {
+        this.mapModel.ids[currentEvent.id] = 1;
+        this.addMarkers(currentEvent);
       }
     }
 
@@ -110,73 +110,73 @@ function getEventCallback(data) {
   } else {
     statusObservable.status.attr('value', 2);
   }
-}
+};
 
-var isNeedUpdate = function() {
-  if (mapModel.dragging) {
+MapControl.prototype.isNeedUpdate = function() {
+  if (this.mapModel.dragging) {
     return false;
   }
   // Is it current working?
   if (statusObservable.status.attr('value') === 1) {
     return false;
   }
-  if (mapModel.prop.radius > 19) {
+  if (this.mapModel.prop.radius > 19) {
     statusObservable.status.attr('value', 3);
     return false;
   } 
-  if (!mapModel.validateLatLng()) {
+  if (!this.mapModel.validateLatLng()) {
     return false;
   }
 
-  return mapModel.distCheckPass || Math.abs(mapModel.getScreenTravelDistance()) > mapModel.prop.radius / 1.5;
+  return this.mapModel.distCheckPass || Math.abs(this.mapModel.getScreenTravelDistance()) > this.mapModel.prop.radius / 1.5;
 };
 
-function updateMap() {
-  if (isNeedUpdate()) {
+MapControl.prototype.updateMap = function() {
+  if (this.isNeedUpdate()) {
     statusObservable.status.attr('value', 1);
-    mapModel.latestLoc.lat = mapModel.prop.lat;
-    mapModel.latestLoc.lng = mapModel.prop.lng;
+    this.mapModel.latestLoc.lat = this.mapModel.prop.lat;
+    this.mapModel.latestLoc.lng = this.mapModel.prop.lng;
 
-    if (mapModel.eventToOpenID) {
-      socketModel.socket.emit('getEventsByIDCall', {
-        message: { id : mapModel.eventToOpenID,
-          radius : mapModel.prop.radius
+    if (this.mapModel.eventToOpenID) {
+      this.socketModel.socket.emit('getEventsByIDCall', {
+        message: { id : this.mapModel.eventToOpenID,
+          radius : this.mapModel.prop.radius
         }
       });
     } else {
-        console.log(mapModel);
-      socketModel.socket.emit('getEventsCall', {
+        console.log(this.mapModel);
+      this.socketModel.socket.emit('getEventsCall', {
         message: { 
-          lat : mapModel.prop.lat,
-          lng : mapModel.prop.lng,
-          dateFrom : mapModel.prop.dateFrom,
-          dateTo : mapModel.prop.dateTo,
-          type : mapModel.prop.types,
-          radius : mapModel.prop.radius
+          lat : this.mapModel.prop.lat,
+          lng : this.mapModel.prop.lng,
+          dateFrom : this.mapModel.prop.dateFrom,
+          dateTo : this.mapModel.prop.dateTo,
+          type : this.mapModel.prop.types,
+          radius : this.mapModel.prop.radius
         }
       });
     }
   }
-}
+};
 
-var addMarkers = function (event) {
+MapControl.prototype.addMarkers = function (event) {
   var point = new google.maps.LatLng(event.venue.latitude, event.venue.longitude);
 
   var marker = new google.maps.Marker({
     position: point,
-    map : mapModel.map,
+    map : this.mapModel.map,
     title : event.title,
     animation : google.maps.Animation.DROP,
     clickable : true
   });
 
-  mapModel.markers.push(marker);
+  this.mapModel.markers.push(marker);
 
   google.maps.event.addListener(
     marker,
     'click',
     function() {
-      mapModel.closeLastOpen();
+      this.mapModel.closeLastOpen();
 
       var info = new google.maps.InfoWindow({
         content: can.view.render('infoPopUpTemplate',
@@ -202,21 +202,21 @@ var addMarkers = function (event) {
           FB.XFBML.parse();
       }); 
 
-      info.open(mapModel.map, marker);
+      info.open(this.mapModel.map, marker);
 
       marker.setAnimation(google.maps.Animation.BOUNCE);
 
-      mapModel.lastClick.marker = marker;
-      mapModel.lastClick.info = info;
+      this.mapModel.lastClick.marker = marker;
+      this.mapModel.lastClick.info = info;
 
       FB.XFBML.parse();
     });
 
-  if (event.id === mapModel.eventToOpenID) {
+  if (event.id === this.mapModel.eventToOpenID) {
     google.maps.event.trigger(marker, 'click');
-    mapModel.eventToOpenID = null;
-    var center = mapModel.map.getCenter();
-    mapModel.prop.attr('lat', util.roundNumber(center.lat()));
-    mapModel.prop.attr('lng', util.roundNumber(center.lng()));
+    this.mapModel.eventToOpenID = null;
+    var center = this.mapModel.map.getCenter();
+    this.mapModel.prop.attr('lat', util.roundNumber(center.lat()));
+    this.mapModel.prop.attr('lng', util.roundNumber(center.lng()));
   }
 };

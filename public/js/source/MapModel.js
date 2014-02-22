@@ -2,7 +2,7 @@ var util = require("./Util.js");
 var today = new Date();
 var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
 
-var MapModel = function(updateMap) {
+var MapModel = function(mapControl) {
   this.prop = new can.Observe({lat: 40.72616, 
                                                 lng: -73.99973, 
                                                 radius: undefined, 
@@ -44,7 +44,7 @@ var MapModel = function(updateMap) {
   this.prop.bind('change', function(event, attr, how, newVal, oldVal) {
     if (this.ready) {
       clearTimeout(this.waitedSinceLastChange);
-      this.waitedSinceLastChange = setTimeout(updateMap, 1400);
+      this.waitedSinceLastChange = setTimeout(mapControl.updateMap, 1400);
     }
   });
 
