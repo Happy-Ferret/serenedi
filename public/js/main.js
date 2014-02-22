@@ -12,7 +12,7 @@ var statusObservable = require('./source/StatusObservable.js');
 
 
 $(document).ready(function() {
-  new (require('./source/MenuControl.js')).MenuControl('#menuContainer', statusObservable);
+  $('#menuContainer').html(can.view("menuTemplate", statusObservable));
   new (require('./source/MapControl.js')).MapControl('#main', statusObservable);
 
   $("#optionButton").click(function() {
