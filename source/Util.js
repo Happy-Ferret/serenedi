@@ -12,7 +12,7 @@ exports.getTypeString = function(type) {
   var types = [];
 
   if (type.charAt(0) === "1") {
-    types.push("conference");
+    types.push("conferences");
   }
 
   if (type.charAt(1) === "1") {
@@ -23,14 +23,6 @@ exports.getTypeString = function(type) {
     types.push("entertainment");
   }
 
-  if (type.charAt(3) === "1") {
-    types.push("fairs");
-  }
-
-  if (type.charAt(4) === "1") {
-    types.push("food");
-  }
-
   if (type.charAt(5) === "1") {
     types.push("fundraisers");
   }
@@ -39,32 +31,24 @@ exports.getTypeString = function(type) {
     types.push("meetings");
   }
 
-  if (type.charAt(7) === "1") {
-    types.push("music");
+  if (type.charAt(18) === "1") {
+    types.push("other");
   }
 
   if (type.charAt(8) === "1") {
     types.push("performances");
   }
 
-  if (type.charAt(9) === "1") {
-    types.push("recreation");
-  }
-
-  if (type.charAt(10) === "1") {
-    types.push("religion");
-  }
-
   if (type.charAt(11) === "1") {
     types.push("reunions");
   }
 
-  if (type.charAt(12) === "1") {
-    types.push("sales");
-  }
-
   if (type.charAt(13) === "1") {
     types.push("seminars");
+  }
+
+  if (type.charAt(12) === "1") {
+    types.push("sales");
   }
 
   if (type.charAt(14) === "1") {
@@ -83,9 +67,25 @@ exports.getTypeString = function(type) {
     types.push("travel");
   }
 
-  if (type.charAt(18) === "1") {
-    types.push("other");
+  if (type.charAt(10) === "1") {
+    types.push("religion");
   }
 
-  return types.join(", ");
+  if (type.charAt(3) === "1") {
+    types.push("fairs");
+  }
+
+  if (type.charAt(4) === "1") {
+    types.push("food");
+  }
+
+  if (type.charAt(7) === "1") {
+    types.push("music");
+  }
+
+  if (type.charAt(9) === "1") {
+    types.push("recreation");
+  }
+
+  return types.join(",");
 };
