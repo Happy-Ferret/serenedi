@@ -1,8 +1,5 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
 var util = require('./Util.js');
-var statusObservable;
-var dateFromDom;
-var dateToDom;
 
 var MapControl = can.Control({
   init: function(element, statusObservableOption) {
@@ -10,7 +7,7 @@ var MapControl = can.Control({
     this.socketModel = new (require('./SocketModel.js')).SocketModel(this);
     this.initializeMainElements();
     this.mapModel.initializeMap();
-    statusObservable = statusObservableOption;
+    this.statusObservable = statusObservableOption;
 
     if (this.mapModel.eventToOpenID) {
       this.mapModel.prop.attr('ready', true);
@@ -46,7 +43,7 @@ MapControl.prototype.loadMyLocation = function() {
       this.mapModel.prop.attr('ready', true);
     });
   } else {
-    statusObservable.status.attr('value', 4);
+    this.statusObservable.status.attr('value', 4);
   }
 };
 
@@ -54,27 +51,27 @@ MapControl.prototype.initializeMainElements = function() {
   this.element.html(can.view('mapTemplate', this.mapModel));
   this.mapModel.eventToOpenID = parseInt(util.getURLArgument.id, 10);
 
-  dateFromDom = $('#dateFrom');
-  dateToDom = $('#dateTo');
+  this.dateFromDom = $('#dateFrom');
+  this.dateToDom = $('#dateTo');
 
-  dateFromDom.datepicker({
+  this.dateFromDom.datepicker({
     defaultDate : this.mapModel.prop.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
     onSelect : function(selectedDate) {
-      dateToDom.datepicker('option', 'minDate', selectedDate);
+      this.dateToDom.datepicker('option', 'minDate', selectedDate);
       $(this).trigger('change');
     },
     maxDate: this.mapModel.prop.dateTo
   });
-  dateToDom.datepicker({
+  this.dateToDom.datepicker({
     defaultDate : this.mapModel.prop.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
     onSelect : function(selectedDate) {
-      dateFromDom.datepicker('option', 'maxDate', selectedDate);
+      this.dateFromDom.datepicker('option', 'maxDate', selectedDate);
       $(this).trigger('change');
     },
     minDate: this.mapModel.prop.dateFrom
@@ -93,8 +90,8 @@ MapControl.prototype.getEventCallback = function(data) {
     if (data.date) {
       this.mapModel.prop.attr('dateFrom', data.date.startDate);
       this.mapModel.prop.attr('dateTo', data.date.endDate);
-      dateFromDom.datepicker('option', 'maxDate', data.date.endDate);
-      dateToDom.datepicker('option', 'minDate', data.date.startDate);
+      this.dateFromDom.datepicker('option', 'maxDate', data.date.endDate);
+      this.dateToDom.datepicker('option', 'minDate', data.date.startDate);
     }
 
     for (var n = 1; n < data.message.events.length; n++) {
@@ -106,9 +103,9 @@ MapControl.prototype.getEventCallback = function(data) {
       }
     }
 
-    statusObservable.status.attr('value', 0);
+    this.statusObservable.status.attr('value', 0);
   } else {
-    statusObservable.status.attr('value', 2);
+    this.statusObservable.status.attr('value', 2);
   }
 };
 
@@ -117,11 +114,11 @@ MapControl.prototype.isNeedUpdate = function() {
     return false;
   }
   // Is it current working?
-  if (statusObservable.status.attr('value') === 1) {
+  if (this.statusObservable.status.attr('value') === 1) {
     return false;
   }
   if (this.mapModel.prop.radius > 19) {
-    statusObservable.status.attr('value', 3);
+    this.statusObservable.status.attr('value', 3);
     return false;
   } 
   if (!this.mapModel.validateLatLng()) {
@@ -133,7 +130,7 @@ MapControl.prototype.isNeedUpdate = function() {
 
 MapControl.prototype.updateMap = function() {
   if (this.isNeedUpdate()) {
-    statusObservable.status.attr('value', 1);
+    this.statusObservable.status.attr('value', 1);
     this.mapModel.latestLoc.lat = this.mapModel.prop.lat;
     this.mapModel.latestLoc.lng = this.mapModel.prop.lng;
 
