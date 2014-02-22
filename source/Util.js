@@ -7,85 +7,35 @@ exports.getEventbriteDateRange = function (date) {
   return null;
 };
 
+var flagCheck = function(flag, category, types) {
+  if (flag ==='1') {
+    types.push(category);
+  }
+};
+
 //TODO There is a better way of handling this...  
 exports.getTypeString = function(type) {
   var types = [];
 
-  if (type.charAt(0) === "1") {
-    types.push("conferences");
-  }
-
-  if (type.charAt(1) === "1") {
-    types.push("conventions");
-  }
-
-  if (type.charAt(2) === "1") {
-    types.push("entertainment");
-  }
-
-  if (type.charAt(5) === "1") {
-    types.push("fundraisers");
-  }
-
-  if (type.charAt(6) === "1") {
-    types.push("meetings");
-  }
-
-  if (type.charAt(18) === "1") {
-    types.push("other");
-  }
-
-  if (type.charAt(8) === "1") {
-    types.push("performances");
-  }
-
-  if (type.charAt(11) === "1") {
-    types.push("reunions");
-  }
-
-  if (type.charAt(13) === "1") {
-    types.push("seminars");
-  }
-
-  if (type.charAt(12) === "1") {
-    types.push("sales");
-  }
-
-  if (type.charAt(14) === "1") {
-    types.push("social");
-  }
-
-  if (type.charAt(15) === "1") {
-    types.push("sports");
-  }
-
-  if (type.charAt(16) === "1") {
-    types.push("tradeshows");
-  }
-
-  if (type.charAt(17) === "1") {
-    types.push("travel");
-  }
-
-  if (type.charAt(10) === "1") {
-    types.push("religion");
-  }
-
-  if (type.charAt(3) === "1") {
-    types.push("fairs");
-  }
-
-  if (type.charAt(4) === "1") {
-    types.push("food");
-  }
-
-  if (type.charAt(7) === "1") {
-    types.push("music");
-  }
-
-  if (type.charAt(9) === "1") {
-    types.push("recreation");
-  }
+  flagCheck(type.charAt(0), "conferences", types);
+  flagCheck(type.charAt(1), "conventions", types);
+  flagCheck(type.charAt(2), "entertainment", types);
+  flagCheck(type.charAt(5), "fundraisers", types);
+  flagCheck(type.charAt(6), "meetings", types);
+  flagCheck(type.charAt(18), "other", types);
+  flagCheck(type.charAt(8), "performances", types);
+  flagCheck(type.charAt(11), "reunions", types);
+  flagCheck(type.charAt(13), "seminars", types);
+  flagCheck(type.charAt(12), "sales", types);
+  flagCheck(type.charAt(14), "social", types);
+  flagCheck(type.charAt(15), "sports", types);
+  flagCheck(type.charAt(16), "tradeshows", types);
+  flagCheck(type.charAt(17), "travel", types);
+  flagCheck(type.charAt(10), "religion", types);
+  flagCheck(type.charAt(3), "fairs", types);
+  flagCheck(type.charAt(4), "food", types);
+  flagCheck(type.charAt(7), "music", types);
+  flagCheck(type.charAt(9), "recreation", types);
 
   return types.join(",");
 };
