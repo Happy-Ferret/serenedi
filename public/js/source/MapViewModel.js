@@ -223,12 +223,13 @@ MapViewModel.prototype.addEventMarker = function (event) {
   });
 
   this.markers.push(marker);
-
+  var self = this;
+  
   google.maps.event.addListener(
     marker,
     'click',
     function() {
-      this.closeLastOpen();
+      self.closeLastOpen();
 
       var info = new google.maps.InfoWindow({
         content: can.view.render('infoPopUpTemplate',
@@ -251,24 +252,24 @@ MapViewModel.prototype.addEventMarker = function (event) {
       });
 
       google.maps.event.addListenerOnce(info, 'domready', function() {
-          FB.XFBML.parse();
+        FB.XFBML.parse();
       }); 
 
-      info.open(this.map, marker);
+      info.open(self.map, marker);
 
       marker.setAnimation(google.maps.Animation.BOUNCE);
 
-      this.lastClick.marker = marker;
-      this.lastClick.info = info;
+      self.lastClick.marker = marker;
+      self.lastClick.info = info;
 
       FB.XFBML.parse();
     });
 
-  if (event.id === this.eventToOpenID) {
+  if (event.id === self.eventToOpenID) {
     google.maps.event.trigger(marker, 'click');
-    this.eventToOpenID = null;
-    var center = this.map.getCenter();
-    this.prop.attr('lat', util.roundNumber(center.lat()));
-    this.prop.attr('lng', util.roundNumber(center.lng()));
+    self.eventToOpenID = null;
+    var center = self.map.getCenter();
+    self.prop.attr('lat', util.roundNumber(center.lat()));
+    self.prop.attr('lng', util.roundNumber(center.lng()));
   }
 };
