@@ -10,10 +10,30 @@ var socketOptions = {
 
 var SocketModel = function(mapControl) {
   this.socket = io.connect(SERENEDI_URL, socketOptions);
+  this.mapControl = mapControl;
+
+  var self = this;
 
   this.socket.on('getEventsResult', function(data) {
-    mapControl.getEventCallback(data);
+    self.getEventCallback(data);
   });
+};
+
+SocketModel.prototype.getEventCallback = function(data) {
+  if (data.message !== null) {
+    if (data.center) {
+      this.mapControl.setMapCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
+    }
+
+    if (data.date) {
+      this.mapControl.setDateToSelectedEvent(data.date.startDate, data.date.endDate);
+    }
+
+    this.mapControl.addEventMarkers(data.message.events);
+    this.mapControl.setStatus(0);
+  } else {
+    this.mapControl.setStatus(2);
+  }
 };
 
 exports.SocketModel = SocketModel;
