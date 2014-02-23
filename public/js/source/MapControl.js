@@ -3,8 +3,8 @@ var util = require('./Util.js');
 
 var MapControl = can.Control({
   init: function(element, statusObservableOption) {
-    this.mapModel = new (require('./MapModel.js')).MapModel(this);
-    this.socketModel = new (require('./SocketModel.js')).SocketModel(this);
+    this.mapModel = new (require('./MapViewModel.js')).MapViewModel(this);
+    this.socketModel = new (require('./SocketViewModel.js')).SocketViewModel(this);
     this.initializeMainElements();
     this.mapModel.initializeMap();
     this.statusObservable = statusObservableOption;

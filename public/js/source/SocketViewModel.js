@@ -8,7 +8,7 @@ var socketOptions = {
   'reconnection limit attempts': 15
 };
 
-var SocketModel = function(mapControl) {
+var SocketViewModel = function(mapControl) {
   this.socket = io.connect(SERENEDI_URL, socketOptions);
   this.mapControl = mapControl;
 
@@ -19,7 +19,7 @@ var SocketModel = function(mapControl) {
   });
 };
 
-SocketModel.prototype.getEventCallback = function(data) {
+SocketViewModel.prototype.getEventCallback = function(data) {
   if (data.message !== null) {
     if (data.center) {
       this.mapControl.setMapCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
@@ -36,4 +36,4 @@ SocketModel.prototype.getEventCallback = function(data) {
   }
 };
 
-exports.SocketModel = SocketModel;
+exports.SocketViewModel = SocketViewModel;

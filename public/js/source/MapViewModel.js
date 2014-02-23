@@ -2,7 +2,7 @@ var util = require("./Util.js");
 var today = new Date();
 var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
 
-var MapModel = function(mapControl) {
+var MapViewModel = function(mapControl) {
   this.prop = new can.Observe({lat: 40.72616, 
                                                 lng: -73.99973, 
                                                 radius: undefined, 
@@ -90,13 +90,13 @@ var MapModel = function(mapControl) {
                                       (this.other ? '1' : '0'));
   });
 };
-exports.MapModel = MapModel;
+exports.MapViewModel = MapViewModel;
 
-MapModel.prototype.centerToLatLng = function() {
+MapViewModel.prototype.centerToLatLng = function() {
   this.map.setCenter(new google.maps.LatLng(this.prop.lat, this.prop.lng));
 };
 
-MapModel.prototype.clearMap = function () {
+MapViewModel.prototype.clearMap = function () {
   this.closeLastOpen();
 
   for (var n = 0; n < this.markers.length; n++) {
@@ -107,11 +107,11 @@ MapModel.prototype.clearMap = function () {
   this.ids = [];
 };
 
-MapModel.prototype.getScreenTravelDistance = function() {
+MapViewModel.prototype.getScreenTravelDistance = function() {
   return util.getDistanceFromLatLng(this.prop.lat, this.prop.lng, this.latestLoc.lat, this.latestLoc.lng);
 };
 
-MapModel.prototype.closeLastOpen = function () {
+MapViewModel.prototype.closeLastOpen = function () {
   if (this.lastClick.info) {
     this.lastClick.info.close();
   }
@@ -122,11 +122,11 @@ MapModel.prototype.closeLastOpen = function () {
   this.lastClick.marker = null;
 };
 
-MapModel.prototype.validateLatLng = function() {
+MapViewModel.prototype.validateLatLng = function() {
   return util.isNumber(this.prop.lat) && util.isNumber(this.prop.lng);
 };
 
-MapModel.prototype.initializeMap = function () {
+MapViewModel.prototype.initializeMap = function () {
   var self = this;
 
   this.map = new google.maps.Map(document.getElementById('mapBox'), {
@@ -165,7 +165,7 @@ MapModel.prototype.initializeMap = function () {
 };
 
 
-MapModel.prototype.isNeedUpdate = function() {
+MapViewModel.prototype.isNeedUpdate = function() {
   if (this.dragging) {
     return false;
   }
@@ -184,7 +184,7 @@ MapModel.prototype.isNeedUpdate = function() {
   return this.distCheckPass || Math.abs(this.getScreenTravelDistance()) > this.prop.radius / 1.5;
 };
 
-MapModel.prototype.updateMap = function() {
+MapViewModel.prototype.updateMap = function() {
   if (this.isNeedUpdate()) {
     this.mapControl.setStatus(1);
     this.latestLoc.lat = this.prop.lat;
@@ -211,7 +211,7 @@ MapModel.prototype.updateMap = function() {
   }
 };
 
-MapModel.prototype.addEventMarker = function (event) {
+MapViewModel.prototype.addEventMarker = function (event) {
   var point = new google.maps.LatLng(event.venue.latitude, event.venue.longitude);
 
   var marker = new google.maps.Marker({
