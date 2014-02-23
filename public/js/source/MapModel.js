@@ -46,7 +46,6 @@ var MapModel = function(mapControl) {
 
   this.prop.bind('change', function(event, attr, how, newVal, oldVal) {
     if (this.ready) {
-      console.log(90909);
       clearTimeout(this.waitedSinceLastChange);
       this.waitedSinceLastChange = setTimeout(self.updateMap.apply(self), 1400);
     }
@@ -168,21 +167,17 @@ MapModel.prototype.initializeMap = function () {
 
 MapModel.prototype.isNeedUpdate = function() {
   if (this.dragging) {
-    console.log(34);
     return false;
   }
   // Is it current working?
   if (this.mapControl.getStatus() === 1) {
-    console.log(33);
     return false;
   }
   if (this.prop.radius > 19) {
-    console.log(22);
     this.mapControl.setStatus(3);
     return false;
   } 
   if (!this.validateLatLng()) {
-    console.log(11);
     return false;
   }
 
@@ -190,9 +185,7 @@ MapModel.prototype.isNeedUpdate = function() {
 };
 
 MapModel.prototype.updateMap = function() {
-  console.log(this);
   if (this.isNeedUpdate()) {
-    console.log(3);
     this.mapControl.setStatus(1);
     this.latestLoc.lat = this.prop.lat;
     this.latestLoc.lng = this.prop.lng;
