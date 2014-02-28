@@ -31,9 +31,9 @@ describe('Testing Server side Util class.', function () {
     done();
   });
 
-  it("getEventbriteDateRange test", function(done) {
-    expect(Util.getEventbriteDateRange("01/02/2012")).to.be("2012-01-02");
-    expect(Util.getEventbriteDateRange(null)).to.be(null);
+  it("getEventbriteDateFormat test", function(done) {
+    expect(Util.getEventbriteDateFormat("01/02/2012")).to.be("2012-01-02");
+    expect(Util.getEventbriteDateFormat(null)).to.be(null);
     done();
   });
 });

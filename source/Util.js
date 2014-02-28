@@ -1,5 +1,5 @@
 
-exports.getEventbriteDateRange = function (date) {
+exports.getEventbriteDateFormat = function (date) {
   if(date) {
     var dateArray = date.split("/");
     return dateArray[2] + "-" + dateArray[0] + "-" + dateArray[1];
