@@ -1,4 +1,5 @@
 var $ = require('../../../bower_components/jquery/jquery.min.js');
+var urlArgs = require('./UrlArgs.js').urlArgs;
 var util = require('./Util.js');
 
 var MapControl = can.Control({
@@ -50,7 +51,7 @@ MapControl.prototype.loadMyLocation = function() {
 
 MapControl.prototype.initializeMainElements = function() {
   this.element.html(can.view('mapTemplate', this.mapModel));
-  this.mapModel.eventToOpenID = parseInt(util.getURLArgument.id, 10);
+  this.mapModel.eventToOpenID = parseInt(urlArgs.id, 10);
 
   this.dateFromDom = $('#dateFrom');
   this.dateToDom = $('#dateTo');
