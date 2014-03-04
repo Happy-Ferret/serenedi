@@ -6,7 +6,7 @@ exports.status = new can.Observe({value: 0, content: 'Working...', src: '/images
 // 2 no events
 // 3 radius check fail
 // 4 geo location fail
-exports.status.bind('change', function(event, attr, how, newVal, oldVal) {
+exports.status.bind('value', function(event, newVal, oldVal) {
   switch (newVal) {
     case 0: 
       exports.status.attr('content', 'Welcome to Serenedi!');
