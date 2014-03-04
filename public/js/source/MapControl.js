@@ -3,12 +3,12 @@ var urlArgs = require('./UrlArgs.js').urlArgs;
 var util = require('./Util.js');
 
 var MapControl = can.Control({
-  init: function(element, statusObservableOption) {
+  init: function(element, status) {
     this.mapModel = new (require('./MapViewModel.js')).MapViewModel(this);
     this.socketModel = new (require('./SocketViewModel.js')).SocketViewModel(this);
     this.initializeMainElements();
     this.mapModel.initializeMap();
-    this.statusObservable = statusObservableOption;
+    this.status = status;
 
     if (this.mapModel.eventToOpenID) {
       this.mapModel.prop.attr('ready', true);
@@ -45,7 +45,7 @@ MapControl.prototype.loadMyLocation = function() {
       self.mapModel.prop.attr('ready', true);
     });
   } else {
-    this.statusObservable.status.attr('value', 4);
+    this.status.attr('value', 4);
   }
 };
 
@@ -84,11 +84,11 @@ MapControl.prototype.initializeMainElements = function() {
 };
 
 MapControl.prototype.setStatus = function(value) {
-  this.statusObservable.status.attr('value', value);
+  this.status.attr('value', value);
 };
 
 MapControl.prototype.getStatus = function(value) {
-  this.statusObservable.status.attr('value');
+  this.status.attr('value');
 };
 
 MapControl.prototype.addEventMarkers = function(events) {

@@ -8,12 +8,12 @@ require('../../bower_components/canjs/can.control.plugin.js');
 require('../../bower_components/bootstrap/dist/js/bootstrap.min.js');
 require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
-var statusObservable = require('./source/StatusObservable.js');
+var status = require('./source/StatusObservable.js').status;
 
 
 $(document).ready(function() {
-  $('#menuContainer').html(can.view("menuTemplate", statusObservable));
-  new (require('./source/MapControl.js')).MapControl('#main', statusObservable);
+  $('#menuContainer').html(can.view("menuTemplate", status));
+  new (require('./source/MapControl.js')).MapControl('#main', status);
 
   $("#optionButton").click(function() {
     var element = $(".optionButtonDirection");
