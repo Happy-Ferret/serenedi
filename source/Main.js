@@ -6,73 +6,87 @@ var app = express();
 var eventbrite = require("eventbrite");
 var util = require("./Util");
 var argv = require('optimist').argv;
-var io = require("socket.io").listen(app.listen(argv.port));
 var eb_client = eventbrite({"app_key" : argv.eventbriteKey});
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.get("/", function (req, res) { res.redirect("../index.html"); });
 
-io.sockets.on("connection", function(socket) {
-  socket.on("getEventsCall", function(data) {
-    var params = {"longitude": data.message.lng,
-      "latitude" : data.message.lat,
-      "within_unit" : "K",
-      "max" : READ_SIZE,
-      "page" : 1,
-      "within" : Math.ceil(data.message.radius),
-      "date" : util.getEventbriteDateFormat(data.message.dateFrom) + " " + util.getEventbriteDateFormat(data.message.dateTo),
-      "category" : util.getTypeString(data.message.type),
-      "sort_by" : "id"};
-
-    eb_client.event_search(params, function(err, data) {
-      socket.emit("getEventsResult", {message : data});
-    });
-  });
-
-  socket.on("getEventsByIDCall", function(data) {
-    var params = {"id" : data.message.id};
-    var radius = Math.ceil(data.message.radius);
-
-    eb_client.event_get(params, function(err, data) {
-      if (!data) {
-        return;
-      }
-
-      var lat = data.event.venue.latitude;
-      var lng = data.event.venue.longitude;
-
-      var startDate = data.event.start_date.split(" ")[0].split("-");
-      var endDate = new Date(startDate);
-
-      startDate = startDate[1] + "/" + startDate[2] + "/" + startDate[0];
-      endDate.setDate(endDate.getDate() + 7);
-
-      var endDateMonth = endDate.getMonth() + 1;
-      if (endDateMonth < 10) {
-        endDateMonth = "0" + endDateMonth;
-      }
-
-      var endDateDay = endDate.getDate();
-      if (endDateDay < 10) {
-        endDateDay = "0" + endDateDay;
-      }
-
-      endDate = endDateMonth + "/" + endDateDay + "/" + endDate.getFullYear();
-      
-      var params = {"longitude": lng,
-      "latitude" : lat, 
-      "within_unit" : "K", 
-      "max" : READ_SIZE, 
-      "page" : 1, 
-      "sort_by" : "id", 
-      "date" : util.getEventbriteDateFormat(startDate) + " " + util.getEventbriteDateFormat(endDate), 
-      "within" : radius};
-
-      eb_client.event_search(params, function(err, data) {
-        socket.emit("getEventsResult", {message: data, center:{lat: lat, lng: lng}, date:{startDate : startDate, endDate : endDate}});
-      });
-    });
-  });
+app.get("/api/getEvents", function(req, res) {
+  getEvents(req.query, res);
 });
 
+app.get("/api/getEventsById", function(req, res) {
+  getEventsById(req.query, res);
+});
+
+var buildEventSearchParam = function(lat, lng, radius, dateFrom, dateTo, type) {
+  return {
+    'latitude': lat,
+    'longitude': lng,
+    "within_unit" : "K",
+    "max" : READ_SIZE,
+    "page" : 1,
+    "within" : Math.ceil(radius),
+    "date" : util.getEventbriteDateFormat(dateFrom) + " " + util.getEventbriteDateFormat(dateTo),
+    "category" : util.getTypeString(type),
+    "sort_by" : "id"
+  };
+};
+
+var getEvents = function(args, res) {
+  var param = buildEventSearchParam(args.lat, args.lng, args.radius, args.dateFrom, args.dateTo, args.type);
+
+  eb_client.event_search(param, function(err, data) {
+    if (err || !data) {
+      console.log('ERROR: event search failed. \n', err);
+      return;
+    }
+    res.json(data);
+  });
+};
+
+var getEventsById = function(args, res) {
+  var param = {
+    'id': args.id,
+    'radius': Math.ceil(args.radius)
+  };
+
+  
+  eb_client.event_get(param, function(err, data) {
+    if (err || !data) {
+      console.log('ERROR: get event failed. \n', err);
+      return;
+    }
+
+    var lat = data.event.venue.latitude;
+    var lng = data.event.venue.longitude;
+
+    var startDate = data.event.start_date.split(" ")[0].split("-");
+    var endDate = new Date(startDate);
+
+    startDate = startDate[1] + "/" + startDate[2] + "/" + startDate[0];
+
+    endDate.setDate(endDate.getDate() + 7);
+    var endDateMonth = endDate.getMonth() + 1;
+    if (endDateMonth < 10) {
+      endDateMonth = "0" + endDateMonth;
+    }
+    var endDateDay = endDate.getDate();
+    if (endDateDay < 10) {
+      endDateDay = "0" + endDateDay;
+    }
+    endDate = endDateMonth + "/" + endDateDay + "/" + endDate.getFullYear();
+
+    var param = buildEventSearchParam(lat, lng, args.radius, startDate, endDate);
+    eb_client.event_search(param, function(err, data) {
+      data.center = {lat: lat, lng: lng};
+      data.date = {startDate : startDate, endDate : endDate};
+
+      res.json(data);
+    });
+  });
+};
+
+
+app.listen(argv.port);
 console.log("## Serenedi started ##");

@@ -192,20 +192,17 @@ MapViewModel.prototype.updateMap = function() {
 
     if (this.eventToOpenID) {
       this.mapControl.getEventsByIDCall({
-        message: { id : this.eventToOpenID,
-          radius : this.prop.radius
-        }
+        id : this.eventToOpenID,
+        radius : this.prop.radius
       });
     } else {
       this.mapControl.getEventsCall({
-        message: { 
-          lat : this.prop.lat,
-          lng : this.prop.lng,
-          dateFrom : this.prop.dateFrom,
-          dateTo : this.prop.dateTo,
-          type : this.prop.types,
-          radius : this.prop.radius
-        }
+        lat : this.prop.lat,
+        lng : this.prop.lng,
+        dateFrom : this.prop.dateFrom,
+        dateTo : this.prop.dateTo,
+        type : this.prop.types,
+        radius : this.prop.radius
       });
     }
   }

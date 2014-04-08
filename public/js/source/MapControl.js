@@ -5,7 +5,6 @@ var util = require('./Util.js');
 var MapControl = can.Control({
   init: function(element, status) {
     this.mapModel = new (require('./MapViewModel.js')).MapViewModel(this);
-    this.socketModel = new (require('./SocketViewModel.js')).SocketViewModel(this);
     this.initializeMainElements();
     this.mapModel.initializeMap();
     this.status = status;
@@ -113,12 +112,47 @@ MapControl.prototype.setMapCenter = function(center) {
   this.mapModel.map.setCenter(center);
 };
 
-
-MapControl.prototype.getEventsByIDCall = function(message) {
-  this.socketModel.socket.emit('getEventsByIDCall', message);
+MapControl.prototype.getEventsByIDCall = function(data) {
+  var self = this;
+  getGetEventsAjaxDeferred('getEventsById', data).done(function(data) {
+    console.log(data);
+    self.getEventCallback(data);
+  }).fail(function() {
+    console.log('ERROR: getEvents call failed.');
+  });
 };
 
+MapControl.prototype.getEventsCall = function(data) {
+  var self = this;
+  getGetEventsAjaxDeferred('getEvents', data).done(function(data) {
+    self.getEventCallback(data);
+  }).fail(function() {
+    console.log('ERROR: getEvents call failed.');
+  });
+};
 
-MapControl.prototype.getEventsCall = function(message) {
-  this.socketModel.socket.emit('getEventsCall', message);
+MapControl.prototype.getEventCallback = function(data) {
+  if (data.message !== null) {
+    if (data.center) {
+      this.setMapCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
+    }
+
+    if (data.date) {
+      this.setDateToSelectedEvent(data.date.startDate, data.date.endDate);
+    }
+
+    this.addEventMarkers(data.events);
+    this.setStatus(0);
+  } else {
+    this.setStatus(2);
+  }
+};
+
+var getGetEventsAjaxDeferred = function(url, data) {
+  return $.ajax({
+    type: 'GET',
+    url: '/api/' + url,
+    data: data,
+    cache: false
+  });
 };

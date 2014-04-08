@@ -15,6 +15,10 @@ var flagCheck = function(flag, category, types) {
 
 //TODO There is a better way of handling this...  
 exports.getTypeString = function(type) {
+  if (!type) {
+    return '1111111111111111111';
+  }
+
   var types = [];
 
   flagCheck(type.charAt(0), "conferences", types);
