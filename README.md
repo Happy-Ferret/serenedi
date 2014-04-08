@@ -3,11 +3,9 @@ serenedi
 
 What's happening?
 
-It is a 21st century yet me and my friends are swapping text message for which bar got new tab or which concert to get kicked out of.  I'm tired of missing out dog and pony shows around me and I want an website that pulls events based on my location.   
+Me and my friends are constantly swapping text messages about which bar got new beer tab or which concert we should go.  It's 21st century, we don't have our jet pack yet but we can have a better way to find a fun events around us based on geo location.  
 
-There has to be a better way.  
-
-Maybe [serenedi](http://serenedi.com) is not the solution but it is a twisted soul's phathetic attempt at it.
+Maybe [serenedi](http://serenedi.com) is not the solution but it is my phathetic attempt at it.
 
 
  * Connect with eventbrite API and pull near by events
