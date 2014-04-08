@@ -1,4 +1,4 @@
-var $ = require('../../../bower_components/jquery/jquery.min.js');
+var $ = require('../../../bower_components/jquery/dist/jquery.min.js');
 var urlArgs = require('./UrlArgs.js').urlArgs;
 var util = require('./Util.js');
 

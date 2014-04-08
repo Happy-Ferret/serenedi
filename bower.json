@@ -16,7 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.0.0",
+    "jquery": "latest",
     "canjs": "latest",
     "bootstrap": "latest",
     " jquery-mousewheel": "latest",

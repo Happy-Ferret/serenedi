@@ -25,7 +25,6 @@ module.exports = function(grunt) {
     },
     jshint: {
       options: {
-        undef: true, // check for usage of undefined variables
         '-W069': true, // ignore ['HEAD'] is better written in dot notation        
         '-W079': true
       },
