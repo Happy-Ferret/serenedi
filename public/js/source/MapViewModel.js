@@ -1,6 +1,7 @@
 var util = require("./Util.js");
 var today = new Date();
 var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+var statusConst = require('./StatusObservable.js').CONST;
 
 var MapViewModel = function(mapControl) {
   this.prop = new can.Observe({lat: 40.72616, 
@@ -174,7 +175,7 @@ MapViewModel.prototype.isNeedUpdate = function() {
     return false;
   }
   if (this.prop.radius > 19) {
-    this.mapControl.setStatus(3);
+    this.mapControl.setStatus(statusConst.ZOOM_ERROR);
     return false;
   } 
   if (!this.validateLatLng()) {
@@ -186,7 +187,7 @@ MapViewModel.prototype.isNeedUpdate = function() {
 
 MapViewModel.prototype.updateMap = function() {
   if (this.isNeedUpdate()) {
-    this.mapControl.setStatus(1);
+    this.mapControl.setStatus(statusConst.WORKING);
     this.latestLoc.lat = this.prop.lat;
     this.latestLoc.lng = this.prop.lng;
 

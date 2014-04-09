@@ -1,6 +1,7 @@
 var $ = require('../../../bower_components/jquery/dist/jquery.min.js');
 var urlArgs = require('./UrlArgs.js').urlArgs;
 var util = require('./Util.js');
+var statusConst = require('./StatusObservable.js').CONST;
 
 var MapControl = can.Control({
   init: function(element, status) {
@@ -44,7 +45,7 @@ MapControl.prototype.loadMyLocation = function() {
       self.mapModel.prop.attr('ready', true);
     });
   } else {
-    this.status.attr('value', 4);
+    this.setStatus(statusConst.GEO_ERROR);
   }
 };
 
@@ -142,9 +143,9 @@ MapControl.prototype.getEventCallback = function(data) {
     }
 
     this.addEventMarkers(data.events);
-    this.setStatus(0);
+    this.setStatus(statusConst.NORMAL);
   } else {
-    this.setStatus(2);
+    this.setStatus(statusConst.NO_EVENTS);
   }
 };
 
