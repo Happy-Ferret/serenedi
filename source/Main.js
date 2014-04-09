@@ -35,10 +35,11 @@ var buildEventSearchParam = function(lat, lng, radius, dateFrom, dateTo, type) {
 
 var getEvents = function(args, res) {
   var param = buildEventSearchParam(args.lat, args.lng, args.radius, args.dateFrom, args.dateTo, args.type);
+  console.log('[LOG] get events\n', param);
 
   eb_client.event_search(param, function(err, data) {
     if (err || !data) {
-      console.log('ERROR: event search failed. \n', err);
+      console.log('[ERROR] event search failed. \n', err);
       return;
     }
     res.json(data);
@@ -50,11 +51,11 @@ var getEventsById = function(args, res) {
     'id': args.id,
     'radius': Math.ceil(args.radius)
   };
-
+  console.log('[LOG] get events by id\n', param);
   
   eb_client.event_get(param, function(err, data) {
     if (err || !data) {
-      console.log('ERROR: get event failed. \n', err);
+      console.log('[ERROR] get event failed. \n', err, data);
       return;
     }
 
@@ -78,15 +79,16 @@ var getEventsById = function(args, res) {
     endDate = endDateMonth + "/" + endDateDay + "/" + endDate.getFullYear();
 
     var param = buildEventSearchParam(lat, lng, args.radius, startDate, endDate);
+    console.log('[LOG] get events\n', param);
+
     eb_client.event_search(param, function(err, data) {
-      data.center = {lat: lat, lng: lng};
-      data.date = {startDate : startDate, endDate : endDate};
+      data.center = {'lat': lat, 'lng': lng};
+      data.date = {'startDate': startDate, 'endDate': endDate};
 
       res.json(data);
     });
   });
 };
-
 
 app.listen(argv.port);
 console.log("## Serenedi started ##");
