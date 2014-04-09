@@ -3,6 +3,10 @@ var urlArgs = require('./UrlArgs.js').urlArgs;
 var util = require('./Util.js');
 var statusConst = require('./StatusObservable.js').CONST;
 
+exports.InitMapControl = function(element, status) {
+  return new MapControl(element, status);
+};
+
 var MapControl = can.Control({
   init: function(element, status) {
     this.mapModel = new (require('./MapViewModel.js')).MapViewModel(this);
@@ -30,7 +34,6 @@ var MapControl = can.Control({
     this.loadMyLocation();
   }
 });
-exports.MapControl = MapControl;
 
 MapControl.prototype.loadMyLocation = function() {
   if (navigator.geolocation) {

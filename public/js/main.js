@@ -1,4 +1,3 @@
-
 var $ = require('../../bower_components/jquery/dist/jquery.min.js');
 jQuery = $;   // This is very bad... Need to clean up the client side dependency that needs this...
 require('./third/jquery.mCustomScrollbar.js');
@@ -7,14 +6,12 @@ require('../../bower_components/canjs/can.jquery.js');
 require('../../bower_components/canjs/can.object.js');
 require('../../bower_components/canjs/can.control.plugin.js');
 require('../../bower_components/bootstrap/dist/js/bootstrap.min.js');
+var status = require('./source/StatusObservable.js').status;
 require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
-var status = require('./source/StatusObservable.js').status;
-
-
 $(document).ready(function() {
+require('./source/MapControl.js').InitMapControl('#main', status);
   $('#menuContainer').html(can.view("menuTemplate", status));
-  new (require('./source/MapControl.js')).MapControl('#main', status);
 
   $("#optionButton").click(function() {
     var element = $(".optionButtonDirection");
