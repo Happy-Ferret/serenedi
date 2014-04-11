@@ -47,8 +47,11 @@ var MapViewModel = function(mapControl) {
 
   this.prop.bind('change', function(event, attr, how, newVal, oldVal) {
     if (this.ready) {
+      console.log(this.waitedSinceLastChange);
       clearTimeout(this.waitedSinceLastChange);
-      this.waitedSinceLastChange = setTimeout(self.updateMap.apply(self), 1400);
+      this.waitedSinceLastChange = setTimeout(function() {
+        self.updateMap();
+      }, 1400);
     }
   });
 
