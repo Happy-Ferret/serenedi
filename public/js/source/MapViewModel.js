@@ -149,6 +149,7 @@ MapViewModel.prototype.initializeMap = function () {
 
   google.maps.event.addListener(this.map, 'dragstart', function() {
     self.dragging = true;
+    self.distCheckPass = false;
   });
 
   google.maps.event.addListener(this.map, 'dragend', function() {

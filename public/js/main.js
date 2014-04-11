@@ -17,7 +17,6 @@ require('./source/MapControl.js').InitMapControl('#main', status);
     var element = $(".optionButtonDirection");
     var shiftElement = $(".optionShiftElement");
 
-
     if (element.hasClass("glyphicon-chevron-right")) {
       element.removeClass("glyphicon-chevron-right").addClass("glyphicon-chevron-left");
 
