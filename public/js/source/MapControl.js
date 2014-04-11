@@ -83,7 +83,11 @@ MapControl.prototype.initializeMainElements = function() {
   });
 
   $('#loadMyLocation').popover();
-  $('#sideMenu').mCustomScrollbar();
+  $('#sideMenu').mCustomScrollbar({
+    advanced:{
+        autoScrollOnFocus: false
+    }
+  });
 };
 
 MapControl.prototype.setStatus = function(value) {
