@@ -46,30 +46,29 @@ var MapViewModel = function(mapControl) {
   var self = this;
 
   this.prop.bind('change', function(event, attr, how, newVal, oldVal) {
-    if (this.ready) {
-      console.log(this.waitedSinceLastChange);
-      clearTimeout(this.waitedSinceLastChange);
-      this.waitedSinceLastChange = setTimeout(function() {
+    if (self.prop.ready) {
+      clearTimeout(self.waitedSinceLastChange);
+      self.waitedSinceLastChange = setTimeout(function() {
         self.updateMap();
       }, 1400);
     }
   });
 
   this.prop.bind('lat', function(event, newVal, oldVal) {
-    this.distCheckPass = false;
+    self.distCheckPass = false;
   });
 
   this.prop.bind('lng', function(event, newVal, oldVal) {
-    this.distCheckPass = false;
+    self.distCheckPass = false;
   });
 
   this.prop.bind('radius', function(event, newVal, oldVal) {
-    this.distCheckPass = true;
+    self.distCheckPass = true;
   });
 
   this.prop.bind('types', function(event, newVal, oldVal) {
     self.clearMap();
-    this.distCheckPass = true;
+    self.distCheckPass = true;
   });
 
   this.types.bind('change', function(event, attr, how, newVal, oldVal) {
