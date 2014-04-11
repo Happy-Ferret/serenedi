@@ -3,12 +3,14 @@ extends layout
 
 block content
 
-  div#main
+  #mainContainer
+    #sideMenu.optionShiftElement
+    #mapBox.optionShiftElement
   button#optionButton.optionShiftElement.btn.btn-default.btn-lg(type="button")
     span.optionButtonDirection.glyphicon.glyphicon-chevron-right
     span.optionButtonDirection.glyphicon.glyphicon-chevron-right(style="margin-left: -5px;")
 
-  // serenedi-import-mustacheTemplate: "mapTemplate.html"
+  // serenedi-import-mustacheTemplate: "sideMenuTemplate.html"
   // serenedi-import-mustacheTemplate: "topMenuTemplate.html"
   // serenedi-import-htmlTemplate: "aboutTemplate.html"
   // serenedi-import-mustacheTemplate: "infoPopUpTemplate.html"
