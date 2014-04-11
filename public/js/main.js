@@ -11,7 +11,7 @@ require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
 $(document).ready(function() {
 require('./source/MapControl.js').InitMapControl('#main', status);
-  $('#menuContainer').html(can.view("menuTemplate", status));
+  $('#menuContainer').html(can.view("topMenuTemplate", status));
 
   $("#optionButton").click(function() {
     var element = $(".optionButtonDirection");
