@@ -119,7 +119,6 @@ MapControl.prototype.setMapCenter = function(center) {
 MapControl.prototype.getEventsByIDCall = function(data) {
   var self = this;
   getGetEventsAjaxDeferred('getEventsById', data).done(function(data) {
-    console.log(data);
     self.getEventCallback(data);
   }).fail(function() {
     console.log('ERROR: getEvents call failed.');
