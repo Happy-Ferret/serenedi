@@ -3,16 +3,21 @@ var urlArgs = require('./UrlArgs.js').urlArgs;
 var util = require('./Util.js');
 var statusConst = require('./StatusObservable.js').CONST;
 
-exports.InitMapControl = function(element, status) {
-  return new MapControl(element, status);
+exports.InitMapControl = function(element, status, sideMenuTemplate, mapBoxId, infoPopUpTemplate) {
+  return new MapControl(element, {
+    'status': status, 
+    'sideMenuTemplate': sideMenuTemplate,
+    'mapBoxId': mapBoxId,
+    'infoPopUpTemplate': infoPopUpTemplate
+  });
 };
 
 var MapControl = can.Control({
-  init: function(element, status) {
-    this.mapModel = new (require('./MapViewModel.js')).MapViewModel(this);
-    this.initializeMainElements();
+  init: function(element, options) {
+    this.mapModel = new (require('./MapViewModel.js')).MapViewModel(this, options.mapBoxId, options.infoPopUpTemplate);
+    this.initializeMainElements(options.sideMenuTemplate);
     this.mapModel.initializeMap();
-    this.status = status;
+    this.status = options.status;
 
     if (this.mapModel.eventToOpenID) {
       this.mapModel.prop.attr('ready', true);
@@ -52,8 +57,8 @@ MapControl.prototype.loadMyLocation = function() {
   }
 };
 
-MapControl.prototype.initializeMainElements = function() {
-  this.element.html(can.view('mapTemplate', this.mapModel));
+MapControl.prototype.initializeMainElements = function(sideMenuTemplate) {
+  this.element.html(can.view(sideMenuTemplate, this.mapModel));
   this.mapModel.eventToOpenID = parseInt(urlArgs.id, 10);
 
   this.dateFromDom = $('#dateFrom');

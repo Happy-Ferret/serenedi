@@ -3,7 +3,7 @@ var today = new Date();
 var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
 var statusConst = require('./StatusObservable.js').CONST;
 
-var MapViewModel = function(mapControl) {
+var MapViewModel = function(mapControl, mapBoxId, infoPopUpTemplate) {
   this.prop = new can.Observe({lat: 40.72616, 
                                                 lng: -73.99973, 
                                                 radius: undefined, 
@@ -42,6 +42,8 @@ var MapViewModel = function(mapControl) {
   this.waitedSinceLastChange = undefined;
   this.distCheckPass = true;
   this.mapControl = mapControl;
+  this.mapBoxId = mapBoxId;
+  this.infoPopUpTemplate = infoPopUpTemplate;
 
   var self = this;
 
@@ -132,7 +134,7 @@ MapViewModel.prototype.validateLatLng = function() {
 MapViewModel.prototype.initializeMap = function () {
   var self = this;
 
-  this.map = new google.maps.Map(document.getElementById('mapBox'), {
+  this.map = new google.maps.Map(document.getElementById(self.mapBoxId), {
     zoom : 15,
     center : new google.maps.LatLng(self.prop.lat, self.prop.lng),
     mapTypeId : google.maps.MapTypeId.ROADMAP,
@@ -233,7 +235,7 @@ MapViewModel.prototype.addEventMarker = function (event) {
       self.closeLastOpen();
 
       var info = new google.maps.InfoWindow({
-        content: can.view.render('infoPopUpTemplate',
+        content: can.view.render(self.infoPopUpTemplate,
         {   
           title: marker.getTitle(), 
           url: {eventbrite: event.url, serenedi: SERENEDI_URL + '/?id=' + event.id},
