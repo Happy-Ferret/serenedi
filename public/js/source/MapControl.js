@@ -58,7 +58,7 @@ MapControl.prototype.loadMyLocation = function() {
 };
 
 MapControl.prototype.initializeMainElements = function(sideMenuTemplate) {
-  this.element.html(can.view(sideMenuTemplate, this.mapModel));
+  $('#sideMenu').html(can.view(sideMenuTemplate, this.mapModel));
   this.mapModel.eventToOpenID = parseInt(urlArgs.id, 10);
 
   this.dateFromDom = $('#dateFrom');
