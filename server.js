@@ -4,7 +4,6 @@ var forever = require('forever-monitor');
 var open = require('open');
 var path = require('path');
 var child_process = require('child_process');
-var async = require('async');
 var fs = require("fs");
 var argv = require('optimist').argv;
 var config = require("./source/Config").config;
