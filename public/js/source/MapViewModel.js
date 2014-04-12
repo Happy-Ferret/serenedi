@@ -1,7 +1,12 @@
+require('../../../bower_components/jquery/dist/jquery.min.js');
+require('../../../bower_components/canjs/can.jquery.js');
+require('../../../bower_components/canjs/can.object.js');
 var util = require("./Util.js");
+
 var today = new Date();
 var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
 var statusConst = require('./StatusObservable.js').CONST;
+
 
 var MapViewModel = function(mapControl, mapBoxId, infoPopUpTemplate) {
   this.prop = new can.Observe({lat: 40.72616, 

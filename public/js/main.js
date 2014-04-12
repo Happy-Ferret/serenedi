@@ -3,8 +3,6 @@ jQuery = $;   // This is very bad... Need to clean up the client side dependency
 require('./third/jquery.mCustomScrollbar.js');
 require('../../bower_components/jquery-ui/ui/jquery-ui.js');
 require('../../bower_components/canjs/can.jquery.js');
-require('../../bower_components/canjs/can.object.js');
-require('../../bower_components/canjs/can.control.plugin.js');
 require('../../bower_components/bootstrap/dist/js/bootstrap.min.js');
 var status = require('./source/StatusObservable.js').status;
 require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
