@@ -1,4 +1,4 @@
-require('../../../bower_components/jquery/dist/jquery.min.js');
+require('../../../bower_components/jquery/jquery.min.js');
 require('../../../bower_components/canjs/can.jquery.js');
 require('../../../bower_components/canjs/can.object.js');
 var util = require("./Util.js");

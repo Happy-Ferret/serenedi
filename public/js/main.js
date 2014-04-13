@@ -1,5 +1,4 @@
-var $ = require('../../bower_components/jquery/dist/jquery.min.js');
-jQuery = $;   // This is very bad... Need to clean up the client side dependency that needs this...
+var $ = require('../../bower_components/jquery/jquery.min.js');
 require('./third/jquery.mCustomScrollbar.js');
 require('../../bower_components/jquery-ui/ui/jquery-ui.js');
 require('../../bower_components/canjs/can.jquery.js');
