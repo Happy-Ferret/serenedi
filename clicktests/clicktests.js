@@ -18,8 +18,13 @@ var backgroundAction = function(method, url, callback) {
 
 var page = helpers.createPage(function(err) {
   console.error('Caught error');
-  phantom.exit(1);
+  terminate(1);
 });
+
+var terminate = function(status) {
+  server.kill('SIGINT');
+  phantom.exit(status);
+};
 
 var test = helpers.test;
 
@@ -38,9 +43,8 @@ test('Open home screen', function(done) {
 test('Stop the server', function(done) {
   console.log(server.pid);
   server.kill('SIGINT');
-  phantom.exit(0);
-  done();
+  terminate(0);
 });
 
-helpers.runTests(page);
+helpers.runTests(page, terminate);
 

@@ -211,7 +211,8 @@ var tests = [];
 helpers.test = function(name, description) {
   tests.push({ name: name, description: description });
 };
-helpers.runTests = function(page) {
+
+helpers.runTests = function(page, termniate) {
   async.series(tests.map(function(test) {
     return function(callback) {
       helpers.log(cliColor.set('## Running test: ' + test.name, 'magenta'));
@@ -232,10 +233,10 @@ helpers.runTests = function(page) {
   }), function(err) {
     if (err) {
       console.error('Tests failed!');
-      phantom.exit(1);
+      terminate(1);
     } else {
       console.log('All tests ok! Took ' + (Date.now() - startTime) / 1000 + 'sec (' + tests.length + ' tests)');
-      phantom.exit(0);
+      terminate(0);
     }
   });
 };
