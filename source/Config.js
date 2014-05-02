@@ -2,6 +2,7 @@ var fs = require("fs");
 var optimist = require("optimist");
 var path = require("path");
 var argv = optimist.argv;
+var home = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
 
 var config = {
   testTimeout: 10000,
@@ -9,7 +10,7 @@ var config = {
 };
 
 if (!argv || !argv.port || !argv.eventbriteAPIkey || !argv.url) {
-  var configFile = fs.readFileSync(path.join(__dirname + "/../.serenedirc"), "utf-8");
+  var configFile = fs.readFileSync(path.join(home + "/.serenedirc"), "utf-8");
   if (!configFile) {
     throw new Error("Missing .serenedirc");
   }
