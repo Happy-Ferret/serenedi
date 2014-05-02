@@ -5,9 +5,9 @@ var argv = optimist.argv;
 
 var config = {
   testTimeout: 10000,
-  serverTimeout: 10000,
-  viewportSize: { width: 800, height: 1600 }
+  serverTimeout: 10000
 };
+
 if (!argv || !argv.port || !argv.eventbriteAPIkey || !argv.url) {
   var configFile = fs.readFileSync(path.join(__dirname + "/../.serenedirc"), "utf-8");
   if (!configFile) {
