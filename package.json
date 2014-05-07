@@ -2,7 +2,7 @@
   "name": "serenedi",
   "version": "0.1.0",
   "description": "What's Happening?",
-  "main": "bin/serenedi",
+  "main": "server",
   "directories": {
     "test": "test"
   },
