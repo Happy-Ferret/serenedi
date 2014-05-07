@@ -7,7 +7,7 @@ var status = require('./source/StatusObservable.js').status;
 require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
 $(document).ready(function() {
-require('./source/MapControl.js').InitMapControl('#main', status, 'sideMenuTemplate', 'mapBox', 'infoPopUpTemplate');
+  require('./source/MapControl.js').InitMapControl('#main', status, 'sideMenuTemplate', 'mapBox', 'infoPopUpTemplate');
   $('#menuContainer').html(can.view("topMenuTemplate", status));
 
   $("#optionButton").click(function() {

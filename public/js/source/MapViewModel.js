@@ -124,12 +124,12 @@ MapViewModel.prototype.getScreenTravelDistance = function() {
 MapViewModel.prototype.closeLastOpen = function () {
   if (this.lastClick.info) {
     this.lastClick.info.close();
+    this.lastClick.info = null;
   }
   if (this.lastClick.marker) {
     this.lastClick.marker.setAnimation(null);
+    this.lastClick.marker = null;
   }
-  this.lastClick.info = null;
-  this.lastClick.marker = null;
 };
 
 MapViewModel.prototype.validateLatLng = function() {
