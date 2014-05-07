@@ -1,5 +1,5 @@
 
-exports.getPrettyDate = function(date) {
+module.exports.getPrettyDate = function(date) {
   var month = date.getMonth() + 1;
   var day = date.getDate();
 
@@ -13,11 +13,11 @@ exports.getPrettyDate = function(date) {
   return month + "/" + day + "/" + date.getFullYear();
 };   
 
-exports.roundNumber = function (val) {
+module.exports.roundNumber = function (val) {
   return Math.round(val * 100000) / 100000;
 };
 
-exports.getDistanceFromLatLng = function(lat1, lng1, lat2, lng2) {
+module.exports.getDistanceFromLatLng = function(lat1, lng1, lat2, lng2) {
   var R = 6371;   // Radius of the earth in KM
   var dLat = deg2rad(lat2 - lat1);
   var dLng = deg2rad(lng2 - lng1);
@@ -30,6 +30,6 @@ var deg2rad = function (deg) {
   return deg * (Math.PI / 180);
 };
 
-exports.isNumber = function(n) {
+module.exports.isNumber = function(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };

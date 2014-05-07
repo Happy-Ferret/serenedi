@@ -6,7 +6,7 @@ var path = require('path');
 var child_process = require('child_process');
 var fs = require("fs");
 var argv = require('optimist').argv;
-var config = require("./source/Config").config;
+var config = require("./source/Config");
 
 function launch(callback) {
   console.log('Browse to ' + config.url);

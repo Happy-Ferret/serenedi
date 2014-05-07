@@ -4,7 +4,7 @@ var urlArgs = require('./UrlArgs.js').urlArgs;
 var util = require('./Util.js');
 var statusConst = require('./StatusObservable.js').CONST;
 
-exports.InitMapControl = function(element, status, sideMenuTemplate, mapBoxId, infoPopUpTemplate) {
+module.exports.InitMapControl = function(element, status, sideMenuTemplate, mapBoxId, infoPopUpTemplate) {
   return new MapControl(element, {
     'status': status, 
     'sideMenuTemplate': sideMenuTemplate,

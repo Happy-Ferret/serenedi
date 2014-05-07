@@ -1,9 +1,9 @@
 require('../../../bower_components/jquery/jquery.min.js');
 require('../../../bower_components/canjs/can.jquery.js');
 
-exports.status = new can.Observe({value: 0, content: 'Working...', src: '/images/ajax-loader.gif'});
+module.exports.status = new can.Observe({value: 0, content: 'Working...', src: '/images/ajax-loader.gif'});
 
-exports.CONST = {
+module.exports.CONST = {
   'NORMAL': 0,
   'WORKING': 1,
   'NO_EVENTS': 2,
@@ -16,7 +16,7 @@ exports.CONST = {
 // 2 no events
 // 3 radius check fail
 // 4 geo location fail
-exports.status.bind('value', function(event, newVal, oldVal) {
+module.exports.status.bind('value', function(event, newVal, oldVal) {
   switch (newVal) {
     case exports.CONST.NORMAL: 
       exports.status.attr('content', 'Welcome to Serenedi!');

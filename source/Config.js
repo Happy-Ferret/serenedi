@@ -24,7 +24,7 @@ config.eventbriteAPIkey = argv.eventbriteAPIkey || configFile.eventbriteAPIkey;
 config.launch = argv.launch === undefined ? true : argv.launch;
 config.googleAPIKey = argv.googleAPIKey || configFile.googleAPIKey;
 config.url = argv.url || configFile.url;
-exports.config = config;
+module.exports = config;
 
 if (argv.help) {
   optimist.usage('Launch Serenedi: Location based event search web application.')

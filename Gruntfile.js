@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var phantomjs = require('phantomjs');
 var childProcess = require('child_process');
-var config = require("./source/Config").config;
+var config = require("./source/Config");
 
 module.exports = function(grunt) {
   var packageJson = grunt.file.readJSON('package.json');
