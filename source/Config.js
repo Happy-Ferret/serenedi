@@ -10,7 +10,7 @@ var config = {
 };
 
 if (!argv || !argv.port || !argv.eventbriteAPIkey || !argv.url) {
-  var configFile = fs.readFileSync(path.join(home + "/.serenedirc"), "utf-8");
+  var configFile = fs.readFileSync(path.join(home + "/serenedi/.serenedirc"), "utf-8");
   if (!configFile) {
     throw new Error("Missing .serenedirc");
   }

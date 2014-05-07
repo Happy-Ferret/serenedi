@@ -18,7 +18,7 @@ Maybe [serenedi](http://serenedi.com) is not the solution but it is my phathetic
 Running
 -------
 
-1. Pull the via git clone `git clone http://github.com/codingtwinky/serenedi`
+1. Pull the via git clone `git clone http://github.com/codingtwinky/serenedi` to the home directory
 
 2. `cd serenedi`
 
