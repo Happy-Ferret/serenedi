@@ -22,7 +22,7 @@ Running
 
 2. `cd serenedi`
 
-2. Create `.serenedirc` at cloned repo that looks like below.
+3. Create `.serenedirc` at cloned repo that looks like below.
 
     ```
     {
@@ -33,7 +33,7 @@ Running
     }
     ```
 
-3. Run below commands
+4. Run below commands
 
     ```
     npm install
@@ -42,4 +42,8 @@ Running
     npm start
     ```
 
-If you have not installed grunt client before, install via `npm install -g grunt-client` prior to step 3.
+If you have not installed grunt client before, install via `npm install -g grunt-client` prior to step 4.
+
+
+Please do note that this is a experimental project.
+
