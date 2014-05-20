@@ -101,7 +101,7 @@ MapControl.prototype.setStatus = function(value) {
 };
 
 MapControl.prototype.getStatus = function(value) {
-  this.status.attr('value');
+  return this.status.attr('value');
 };
 
 MapControl.prototype.addEventMarkers = function(events) {
