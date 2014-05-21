@@ -2,7 +2,7 @@ require('../../../bower_components/canjs/can.jquery.js');
 require('../../../bower_components/canjs/can.control.plugin.js');
 var urlArgs = require('./UrlArgs.js').urlArgs;
 var util = require('./Util.js');
-var statusObject = require('./StatusObservable.js').getStatusObject();
+var statusVM = require('./StatusViewModel.js').getStatusViewModel();
 
 module.exports.InitMapControl = function(element, sideMenuTemplate, mapBoxId, infoPopUpTemplate) {
   return new MapControl(element, {
@@ -52,7 +52,7 @@ MapControl.prototype.loadMyLocation = function() {
       self.mapModel.prop.attr('ready', true);
     });
   } else {
-    this.setStatus(statusObject.CONST.GEO_ERROR);
+    this.setStatus(statusVM.CONST.GEO_ERROR);
   }
 };
 
@@ -95,11 +95,11 @@ MapControl.prototype.initializeMainElements = function(sideMenuTemplate) {
 };
 
 MapControl.prototype.setStatus = function(value) {
-  statusObject.status.attr('value', value);
+  statusVM.status.attr('value', value);
 };
 
 MapControl.prototype.getStatus = function(value) {
-  return statusObject.status.attr('value');
+  return statusVM.status.attr('value');
 };
 
 MapControl.prototype.addEventMarkers = function(events) {
@@ -153,9 +153,9 @@ MapControl.prototype.getEventCallback = function(data) {
     }
 
     this.addEventMarkers(data.events);
-    this.setStatus(statusObject.CONST.NORMAL);
+    this.setStatus(statusVM.CONST.NORMAL);
   } else {
-    this.setStatus(statusObject.CONST.NO_EVENTS);
+    this.setStatus(statusVM.CONST.NO_EVENTS);
   }
 };
 

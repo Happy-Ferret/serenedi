@@ -1,9 +1,9 @@
 require('../../../bower_components/jquery/jquery.min.js');
 require('../../../bower_components/canjs/can.jquery.js');
 
-var statusObject;
+var statusViewModel;
 
-var StatusObject = function() {
+var StatusViewModel = function() {
   this.status = new can.Observe({value: 0, content: 'Working...', src: '/images/ajax-loader.gif'});
   this.CONST = {
     'NORMAL': 0,
@@ -53,10 +53,10 @@ var StatusObject = function() {
   });
 };
 
-module.exports.getStatusObject = function() {
-  if (!statusObject) {
-    statusObject = new StatusObject();
+module.exports.getStatusViewModel = function() {
+  if (!statusViewModel) {
+    statusViewModel = new StatusViewModel();
   }
 
-  return statusObject;
+  return statusViewModel;
 };
