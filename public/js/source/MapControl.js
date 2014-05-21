@@ -52,7 +52,7 @@ MapControl.prototype.loadMyLocation = function() {
       self.mapModel.prop.attr('ready', true);
     });
   } else {
-    this.setStatus(statusVM.CONST.GEO_ERROR);
+    statusVM.setStatus(statusVM.CONST.GEO_ERROR);
   }
 };
 
@@ -92,14 +92,6 @@ MapControl.prototype.initializeMainElements = function(sideMenuTemplate) {
         autoScrollOnFocus: false
     }
   });
-};
-
-MapControl.prototype.setStatus = function(value) {
-  statusVM.status.attr('value', value);
-};
-
-MapControl.prototype.getStatus = function(value) {
-  return statusVM.status.attr('value');
 };
 
 MapControl.prototype.addEventMarkers = function(events) {
@@ -153,9 +145,9 @@ MapControl.prototype.getEventCallback = function(data) {
     }
 
     this.addEventMarkers(data.events);
-    this.setStatus(statusVM.CONST.NORMAL);
+    statusVM.setStatus(statusVM.CONST.NORMAL);
   } else {
-    this.setStatus(statusVM.CONST.NO_EVENTS);
+    statusVM.setStatus(statusVM.CONST.NO_EVENTS);
   }
 };
 
