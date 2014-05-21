@@ -3,12 +3,11 @@ require('./third/jquery.mCustomScrollbar.js');
 require('../../bower_components/jquery-ui/ui/jquery-ui.js');
 require('../../bower_components/canjs/can.jquery.js');
 require('../../bower_components/bootstrap/dist/js/bootstrap.min.js');
-var status = require('./source/StatusObservable.js').status;
 require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
 $(document).ready(function() {
-  require('./source/MapControl.js').InitMapControl('#main', status, 'sideMenuTemplate', 'mapBox', 'infoPopUpTemplate');
-  $('#menuContainer').html(can.view("topMenuTemplate", status));
+  require('./source/MapControl.js').InitMapControl('#main', 'sideMenuTemplate', 'mapBox', 'infoPopUpTemplate');
+  $('#menuContainer').html(can.view("topMenuTemplate", require('./source/StatusObservable.js').getStatusObject().status));
 
   $("#optionButton").click(function() {
     var element = $(".optionButtonDirection");

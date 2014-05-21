@@ -5,7 +5,7 @@ var util = require("./Util.js");
 
 var today = new Date();
 var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
-var statusConst = require('./StatusObservable.js').CONST;
+var statusObject = require('./StatusObservable.js').getStatusObject();
 
 
 var MapViewModel = function(mapControl, mapBoxId, infoPopUpTemplate) {
@@ -181,11 +181,11 @@ MapViewModel.prototype.isNeedUpdate = function() {
     return false;
   }
   // Is it current working?
-  if (this.mapControl.getStatus() === 1) {
+  if (statusObject.getStatus() === 1) {
     return false;
   }
   if (this.prop.radius > 19) {
-    this.mapControl.setStatus(statusConst.ZOOM_ERROR);
+    statusObject.setStatus(statusObject.CONST.ZOOM_ERROR);
     return false;
   } 
   if (!this.validateLatLng()) {
@@ -197,7 +197,7 @@ MapViewModel.prototype.isNeedUpdate = function() {
 
 MapViewModel.prototype.updateMap = function() {
   if (this.isNeedUpdate()) {
-    this.mapControl.setStatus(statusConst.WORKING);
+    statusObject.setStatus(statusObject.CONST.WORKING);
     this.latestLoc.lat = this.prop.lat;
     this.latestLoc.lng = this.prop.lng;
 

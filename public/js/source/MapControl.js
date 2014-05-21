@@ -2,11 +2,10 @@ require('../../../bower_components/canjs/can.jquery.js');
 require('../../../bower_components/canjs/can.control.plugin.js');
 var urlArgs = require('./UrlArgs.js').urlArgs;
 var util = require('./Util.js');
-var statusConst = require('./StatusObservable.js').CONST;
+var statusObject = require('./StatusObservable.js').getStatusObject();
 
-module.exports.InitMapControl = function(element, status, sideMenuTemplate, mapBoxId, infoPopUpTemplate) {
+module.exports.InitMapControl = function(element, sideMenuTemplate, mapBoxId, infoPopUpTemplate) {
   return new MapControl(element, {
-    'status': status, 
     'sideMenuTemplate': sideMenuTemplate,
     'mapBoxId': mapBoxId,
     'infoPopUpTemplate': infoPopUpTemplate
@@ -18,7 +17,6 @@ var MapControl = can.Control({
     this.mapModel = new (require('./MapViewModel.js')).MapViewModel(this, options.mapBoxId, options.infoPopUpTemplate);
     this.initializeMainElements(options.sideMenuTemplate);
     this.mapModel.initializeMap();
-    this.status = options.status;
 
     if (this.mapModel.eventToOpenID) {
       this.mapModel.prop.attr('ready', true);
@@ -54,7 +52,7 @@ MapControl.prototype.loadMyLocation = function() {
       self.mapModel.prop.attr('ready', true);
     });
   } else {
-    this.setStatus(statusConst.GEO_ERROR);
+    this.setStatus(statusObject.CONST.GEO_ERROR);
   }
 };
 
@@ -97,11 +95,11 @@ MapControl.prototype.initializeMainElements = function(sideMenuTemplate) {
 };
 
 MapControl.prototype.setStatus = function(value) {
-  this.status.attr('value', value);
+  statusObject.status.attr('value', value);
 };
 
 MapControl.prototype.getStatus = function(value) {
-  return this.status.attr('value');
+  return statusObject.status.attr('value');
 };
 
 MapControl.prototype.addEventMarkers = function(events) {
@@ -155,9 +153,9 @@ MapControl.prototype.getEventCallback = function(data) {
     }
 
     this.addEventMarkers(data.events);
-    this.setStatus(statusConst.NORMAL);
+    this.setStatus(statusObject.CONST.NORMAL);
   } else {
-    this.setStatus(statusConst.NO_EVENTS);
+    this.setStatus(statusObject.CONST.NO_EVENTS);
   }
 };
 
