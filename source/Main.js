@@ -12,29 +12,29 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.get("/", function (req, res) { res.redirect("../index.html"); });
 
 app.get("/api/getEvents", function(req, res) {
-  getEvents(req.query, res);
+  var args = req.query;
+  getEvents(buildEventSearchParam(args), res);
 });
 
 app.get("/api/getEventsById", function(req, res) {
   getEventsById(req.query, res);
 });
 
-var buildEventSearchParam = function(lat, lng, radius, dateFrom, dateTo, type) {
+var buildEventSearchParam = function(args) {
   return {
-    'latitude': lat,
-    'longitude': lng,
+    'latitude': args.lat,
+    'longitude': args.lng,
     "within_unit" : "K",
     "max" : READ_SIZE,
     "page" : 1,
-    "within" : Math.ceil(radius),
-    "date" : util.getEventbriteDateFormat(dateFrom) + " " + util.getEventbriteDateFormat(dateTo),
-    "category" : util.getTypeString(type),
+    "within" : Math.ceil(args.radius),
+    "date" : util.getEventbriteDateFormat(args.dateFrom) + " " + util.getEventbriteDateFormat(args.dateTo),
+    "category" : util.getTypeString(args.type),
     "sort_by" : "id"
   };
 };
 
-var getEvents = function(args, res) {
-  var param = buildEventSearchParam(args.lat, args.lng, args.radius, args.dateFrom, args.dateTo, args.type);
+var getEvents = function(param, res) {
   console.log('[LOG] get events\n', param);
 
   eb_client.event_search(param, function(err, data) {
