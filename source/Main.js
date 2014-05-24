@@ -12,8 +12,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.get("/", function (req, res) { res.redirect("../index.html"); });
 
 app.get("/api/getEvents", function(req, res) {
-  var args = req.query;
-  getEvents(buildEventSearchParam(args), res);
+  getEvents(buildEventSearchParam(req.query), res);
 });
 
 app.get("/api/getEventsById", function(req, res) {
