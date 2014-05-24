@@ -7,13 +7,20 @@ var eventbrite = require("eventbrite");
 var util = require("./Util");
 var argv = require('optimist').argv;
 var eb_client = eventbrite({"app_key" : argv.eventbriteKey});
-var q = require('q');
+var Q = require('q');
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.get("/", function (req, res) { res.redirect("../index.html"); });
 
 app.get("/api/getEvents", function(req, res) {
-  getEvents(buildEventSearchParam(req.query), res);
+  callEventSearch(buildEventSearchParam(req.query)).then(function(data, err) {
+    if (err || !data) {
+      console.log('[ERROR] event search failed. \n', err);
+      return;
+    }
+    res.json(data);
+  });
+
 });
 
 app.get("/api/getEventsById", function(req, res) {
@@ -34,17 +41,16 @@ var buildEventSearchParam = function(args) {
   };
 };
 
-var getEvents = function(param, res) {
+var callEventSearch = function(param, res) {
   console.log('[LOG] get events\n', param);
-
+  var deferred = Q.defer();
   eb_client.event_search(param, function(err, data) {
-    if (err || !data) {
-      console.log('[ERROR] event search failed. \n', err);
-      return;
-    }
-    res.json(data);
+    
+    deferred.resolve(data);
   });
+  return deferred.promise;
 };
+
 
 var getEventsById = function(args, res) {
   var param = {
