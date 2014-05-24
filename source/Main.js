@@ -7,6 +7,7 @@ var eventbrite = require("eventbrite");
 var util = require("./Util");
 var argv = require('optimist').argv;
 var eb_client = eventbrite({"app_key" : argv.eventbriteKey});
+var q = require('q');
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.get("/", function (req, res) { res.redirect("../index.html"); });

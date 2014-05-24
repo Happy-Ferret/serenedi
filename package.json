@@ -25,7 +25,8 @@
     "optimist": "~0.6.0",
     "path": "~0.4.9",
     "range-parser": "~1.0.0",
-    "send": "~0.2.0"
+    "send": "~0.2.0",
+    "q": "^1.0.1"
   },
   "devDependencies": {
     "mocha": "~1.18.2",
