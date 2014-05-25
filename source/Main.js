@@ -14,6 +14,7 @@ app.get("/", function (req, res) { res.redirect("../index.html"); });
 
 app.get("/api/getEvents", function(req, res) {
   callEventSearch(buildEventSearchParam(req.query)).then(function (data) {
+    console.log('[LOG] respose \n', data);
     res.json(data);
   }).fail(function (err) {
     console.log('[ERROR] event search failed. \n', err, req.query);
@@ -40,9 +41,12 @@ app.get("/api/getEventsById", function(req, res) {
     data.center = {'lat': lat, 'lng': lng};
     data.date = {'startDate': startDate, 'endDate': endDate};
 
+    console.log('[LOG] respose \n', data);
+
     res.json(data);
   }).fail(function (err) {
     console.log('[ERROR] get event by id failed. \n', err, req.query);
+    
     res.json({'error': err});
   });
   // getEventsById(req.query, res);
