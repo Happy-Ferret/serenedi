@@ -19,7 +19,7 @@ var addLeadingZero = function (number) {
     return '0' + number;
   }
   return number;
-}
+};
 
 var flagCheck = function(flag, category, types) {
   if (flag ==='1') {

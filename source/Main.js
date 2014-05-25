@@ -94,7 +94,7 @@ var callEventGet = function(param) {
   });
 
   return deferred.promise;
-}
+};
 
 app.listen(argv.port);
 console.log("## Serenedi started ##");
