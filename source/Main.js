@@ -28,21 +28,11 @@ app.get("/api/getEventsById", function(req, res) {
     lat = data.event.venue.latitude;
     lng = data.event.venue.longitude;
 
-    startDate = data.event.start_date.split(" ")[0].split("-");
-    endDate = new Date(startDate);
-
-    startDate = startDate[1] + "/" + startDate[2] + "/" + startDate[0];
-
-    endDate.setDate(endDate.getDate() + 7);
-    var endDateMonth = endDate.getMonth() + 1;
-    if (endDateMonth < 10) {
-      endDateMonth = "0" + endDateMonth;
-    }
-    var endDateDay = endDate.getDate();
-    if (endDateDay < 10) {
-      endDateDay = "0" + endDateDay;
-    }
-    endDate = endDateMonth + "/" + endDateDay + "/" + endDate.getFullYear();
+    var eventStartDate = new Date(data.event.start_date.split(" ")[0].split("-"));
+    
+    startDate = util.getPrettyDate(eventStartDate);
+    eventStartDate.setDate(eventStartDate.getDate() + 7);
+    endDate = util.getPrettyDate(eventStartDate);
 
     return buildEventSearchParam({'lat': lat, 'lng': lng, 'radius': req.query.radius, 'dateFrom': startDate, 'dateTo': endDate, 'type': null});
   }).then(callEventSearch)
