@@ -13,14 +13,12 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.get("/", function (req, res) { res.redirect("../index.html"); });
 
 app.get("/api/getEvents", function(req, res) {
-  callEventSearch(buildEventSearchParam(req.query)).then(function(data, err) {
-    if (err || !data) {
-      console.log('[ERROR] event search failed. \n', err);
-      return;
-    }
+  callEventSearch(buildEventSearchParam(req.query)).then(function(data) {
     res.json(data);
+  }).fail(function (err) {
+    console.log('[ERROR] event search failed. \n', err);
+    res.json({error: err});
   });
-
 });
 
 app.get("/api/getEventsById", function(req, res) {
@@ -45,12 +43,14 @@ var callEventSearch = function(param, res) {
   console.log('[LOG] get events\n', param);
   var deferred = Q.defer();
   eb_client.event_search(param, function(err, data) {
-    
-    deferred.resolve(data);
+    if (err) {
+      deferred.reject(err);
+    } else {
+      deferred.resolve(data);
+    }
   });
   return deferred.promise;
 };
-
 
 var getEventsById = function(args, res) {
   var param = {
