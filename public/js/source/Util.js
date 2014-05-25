@@ -1,17 +1,17 @@
 
 module.exports.getPrettyDate = function(date) {
-  var month = date.getMonth() + 1;
-  var day = date.getDate();
-
-  if (month < 10) {
-    month = "0" + month;
-  } 
-  if (day < 10) {
-    day = "0" + day;
-  } 
+  var month = addLeadingZero(date.getMonth() + 1);
+  var day = addLeadingZero(date.getDate());
 
   return month + "/" + day + "/" + date.getFullYear();
 };   
+
+var addLeadingZero = function (number) {
+  if (number < 10) {
+    return '0' + number;
+  }
+  return number;
+};
 
 module.exports.roundNumber = function (val) {
   return Math.round(val * 100000) / 100000;
