@@ -36,4 +36,20 @@ describe('Testing Server side Util class.', function () {
     expect(util.getEventbriteDateFormat(null)).to.be(null);
     done();
   });
+
+  it("PrettyDate function test", function(done) {
+    var date = new Date(2014, 0, 1);
+    expect(util.getPrettyDate(date)).to.be("01/01/2014");
+
+    date = new Date(2014, 0, 10);
+    expect(util.getPrettyDate(date)).to.be("01/10/2014");
+
+    date = new Date(2014, 9, 10);
+    expect(util.getPrettyDate(date)).to.be("10/10/2014");
+
+    date = new Date(2014, 9, 9);
+    expect(util.getPrettyDate(date)).to.be("10/09/2014");    
+
+    done();
+  });
 });
