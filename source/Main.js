@@ -22,7 +22,40 @@ app.get("/api/getEvents", function(req, res) {
 });
 
 app.get("/api/getEventsById", function(req, res) {
-  getEventsById(req.query, res);
+  var lat, lng, startDate, endDate;
+
+  callEventGet({'id': req.query.id, 'radius': Math.ceil(req.query.radius)}).then(function(data) {
+    lat = data.event.venue.latitude;
+    lng = data.event.venue.longitude;
+
+    startDate = data.event.start_date.split(" ")[0].split("-");
+    endDate = new Date(startDate);
+
+    startDate = startDate[1] + "/" + startDate[2] + "/" + startDate[0];
+
+    endDate.setDate(endDate.getDate() + 7);
+    var endDateMonth = endDate.getMonth() + 1;
+    if (endDateMonth < 10) {
+      endDateMonth = "0" + endDateMonth;
+    }
+    var endDateDay = endDate.getDate();
+    if (endDateDay < 10) {
+      endDateDay = "0" + endDateDay;
+    }
+    endDate = endDateMonth + "/" + endDateDay + "/" + endDate.getFullYear();
+
+    return buildEventSearchParam({'lat': lat, 'lng': lng, 'radius': req.query.radius, 'dateFrom': startDate, 'dateTo': endDate, 'type': null});
+  }).then(callEventSearch)
+  .then(function(data) {
+    data.center = {'lat': lat, 'lng': lng};
+    data.date = {'startDate': startDate, 'endDate': endDate};
+
+    res.json(data);
+  }).fail(function (err) {
+    console.log('[ERROR] get event by id failed. \n', err);
+    res.json({error: err});
+  });
+  // getEventsById(req.query, res);
 });
 
 var buildEventSearchParam = function(args) {
@@ -40,7 +73,7 @@ var buildEventSearchParam = function(args) {
 };
 
 var callEventSearch = function(param) {
-  console.log('[LOG] get events\n', param);
+  console.log('[LOG] search events\n', param);
   var deferred = Q.defer();
   eb_client.event_search(param, function(err, data) {
     if (err) {
@@ -52,49 +85,18 @@ var callEventSearch = function(param) {
   return deferred.promise;
 };
 
-var getEventsById = function(args, res) {
-  var param = {
-    'id': args.id,
-    'radius': Math.ceil(args.radius)
-  };
-  console.log('[LOG] get events by id\n', param);
-  
+var callEventGet = function(param) {
+  console.log('[LOG] get events\n', param);
+  var deferred = Q.defer();
   eb_client.event_get(param, function(err, data) {
-    if (err || !data) {
-      console.log('[ERROR] get event failed. \n', err, data);
-      return;
+    if (err) {
+      deferred.reject(err);
+    } else {
+      deferred.resolve(data);
     }
-
-    var lat = data.event.venue.latitude;
-    var lng = data.event.venue.longitude;
-
-    var startDate = data.event.start_date.split(" ")[0].split("-");
-    var endDate = new Date(startDate);
-
-    startDate = startDate[1] + "/" + startDate[2] + "/" + startDate[0];
-
-    endDate.setDate(endDate.getDate() + 7);
-    var endDateMonth = endDate.getMonth() + 1;
-    if (endDateMonth < 10) {
-      endDateMonth = "0" + endDateMonth;
-    }
-    var endDateDay = endDate.getDate();
-    if (endDateDay < 10) {
-      endDateDay = "0" + endDateDay;
-    }
-    endDate = endDateMonth + "/" + endDateDay + "/" + endDate.getFullYear();
-
-    var param = buildEventSearchParam(lat, lng, args.radius, startDate, endDate);
-    console.log('[LOG] get events\n', param);
-
-    eb_client.event_search(param, function(err, data) {
-      data.center = {'lat': lat, 'lng': lng};
-      data.date = {'startDate': startDate, 'endDate': endDate};
-
-      res.json(data);
-    });
   });
-};
+  return deferred.promise;
+}
 
 app.listen(argv.port);
 console.log("## Serenedi started ##");
