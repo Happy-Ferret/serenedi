@@ -13,18 +13,18 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.get("/", function (req, res) { res.redirect("../index.html"); });
 
 app.get("/api/getEvents", function(req, res) {
-  callEventSearch(buildEventSearchParam(req.query)).then(function(data) {
+  callEventSearch(buildEventSearchParam(req.query)).then(function (data) {
     res.json(data);
   }).fail(function (err) {
-    console.log('[ERROR] event search failed. \n', err);
-    res.json({error: err});
+    console.log('[ERROR] event search failed. \n', err, req.query);
+    res.json({'error': err});
   });
 });
 
 app.get("/api/getEventsById", function(req, res) {
   var lat, lng, startDate, endDate;
 
-  callEventGet({'id': req.query.id, 'radius': Math.ceil(req.query.radius)}).then(function(data) {
+  callEventGet({'id': req.query.id, 'radius': Math.ceil(req.query.radius)}).then(function (data) {
     lat = data.event.venue.latitude;
     lng = data.event.venue.longitude;
 
@@ -46,14 +46,14 @@ app.get("/api/getEventsById", function(req, res) {
 
     return buildEventSearchParam({'lat': lat, 'lng': lng, 'radius': req.query.radius, 'dateFrom': startDate, 'dateTo': endDate, 'type': null});
   }).then(callEventSearch)
-  .then(function(data) {
+  .then(function (data) {
     data.center = {'lat': lat, 'lng': lng};
     data.date = {'startDate': startDate, 'endDate': endDate};
 
     res.json(data);
   }).fail(function (err) {
-    console.log('[ERROR] get event by id failed. \n', err);
-    res.json({error: err});
+    console.log('[ERROR] get event by id failed. \n', err, req.query);
+    res.json({'error': err});
   });
   // getEventsById(req.query, res);
 });
@@ -74,6 +74,7 @@ var buildEventSearchParam = function(args) {
 
 var callEventSearch = function(param) {
   console.log('[LOG] search events\n', param);
+
   var deferred = Q.defer();
   eb_client.event_search(param, function(err, data) {
     if (err) {
@@ -82,11 +83,13 @@ var callEventSearch = function(param) {
       deferred.resolve(data);
     }
   });
+
   return deferred.promise;
 };
 
 var callEventGet = function(param) {
   console.log('[LOG] get events\n', param);
+
   var deferred = Q.defer();
   eb_client.event_get(param, function(err, data) {
     if (err) {
@@ -95,6 +98,7 @@ var callEventGet = function(param) {
       deferred.resolve(data);
     }
   });
+
   return deferred.promise;
 }
 

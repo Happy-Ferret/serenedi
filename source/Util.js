@@ -7,6 +7,20 @@ exports.getEventbriteDateFormat = function (date) {
   return null;
 };
 
+exports.getPrettyDate = function (date) {
+  var month = addLeadingZero(date.getMonth() + 1);
+  var day = addLeadingZero(date.getDate());
+
+  return month + "/" + day + "/" + date.getFullYear();
+};
+
+var addLeadingZero = function (number) {
+  if (number < 10) {
+    return '0' + number;
+  }
+  return number;
+}
+
 var flagCheck = function(flag, category, types) {
   if (flag ==='1') {
     types.push(category);
