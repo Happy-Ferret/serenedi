@@ -1,6 +1,3 @@
-require('../../../bower_components/jquery/jquery.min.js');
-require('../../../bower_components/canjs/can.jquery.js');
-
 var statusViewModel;
 
 var StatusViewModel = function() {

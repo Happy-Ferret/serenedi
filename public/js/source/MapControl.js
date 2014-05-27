@@ -1,5 +1,3 @@
-require('../../../bower_components/canjs/can.jquery.js');
-require('../../../bower_components/canjs/can.control.plugin.js');
 var MapViewModel = require('./MapViewModel.js');
 var urlArgs = require('./UrlArgs.js').urlArgs;
 var util = require('../../../shared/Util.js');
