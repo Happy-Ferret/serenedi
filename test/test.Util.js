@@ -1,6 +1,6 @@
 var expect = require('expect.js');
 
-var util = require('../source/Util.js');
+var util = require('../shared/Util.js');
 
 describe('Testing Server side Util class.', function () {
   it("getTypeString test", function(done) {
