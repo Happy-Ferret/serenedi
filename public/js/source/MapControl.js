@@ -1,5 +1,6 @@
 require('../../../bower_components/canjs/can.jquery.js');
 require('../../../bower_components/canjs/can.control.plugin.js');
+var MapViewModel = require('./MapViewModel.js');
 var urlArgs = require('./UrlArgs.js').urlArgs;
 var util = require('../../../shared/Util.js');
 var statusVM = require('./StatusViewModel.js').getStatusViewModel();
@@ -14,7 +15,7 @@ module.exports.InitMapControl = function(element, sideMenuTemplate, mapBoxId, in
 
 var MapControl = can.Control({
   init: function(element, options) {
-    this.mapModel = new (require('./MapViewModel.js')).MapViewModel(this, options.mapBoxId, options.infoPopUpTemplate);
+    this.mapModel = new MapViewModel(this, options.mapBoxId, options.infoPopUpTemplate);
     this.initializeMainElements(options.sideMenuTemplate);
     this.mapModel.initializeMap();
 

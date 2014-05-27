@@ -99,7 +99,7 @@ var MapViewModel = function(mapControl, mapBoxId, infoPopUpTemplate) {
                                       (this.other ? '1' : '0'));
   });
 };
-module.exports.MapViewModel = MapViewModel;
+module.exports = MapViewModel;
 
 MapViewModel.prototype.centerToLatLng = function() {
   this.map.setCenter(new google.maps.LatLng(this.prop.lat, this.prop.lng));
