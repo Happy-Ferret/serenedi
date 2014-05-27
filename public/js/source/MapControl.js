@@ -1,7 +1,7 @@
 require('../../../bower_components/canjs/can.jquery.js');
 require('../../../bower_components/canjs/can.control.plugin.js');
 var urlArgs = require('./UrlArgs.js').urlArgs;
-var util = require('./Util.js');
+var util = require('../../../shared/Util.js');
 var statusVM = require('./StatusViewModel.js').getStatusViewModel();
 
 module.exports.InitMapControl = function(element, sideMenuTemplate, mapBoxId, infoPopUpTemplate) {
