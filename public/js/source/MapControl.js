@@ -65,10 +65,6 @@ MapControl.prototype.addEventMarkers = function(events) {
   }
 };
 
-MapControl.prototype.setMapCenter = function(center) {
-  this.mapModel.map.setCenter(center);
-};
-
 MapControl.prototype.getEventsByIDCall = function(data) {
   var self = this;
   getGetEventsAjaxDeferred('getEventsById', data).done(function(data) {
@@ -90,7 +86,8 @@ MapControl.prototype.getEventsCall = function(data) {
 MapControl.prototype.getEventCallback = function(data) {
   if (data.message !== null) {
     if (data.center) {
-      this.setMapCenter(new google.maps.LatLng(data.center.lat, data.center.lng));
+      var center = new google.maps.LatLng(data.center.lat, data.center.lng);
+      this.mapModel.map.setCenter(center);
     }
 
     if (data.date) {
