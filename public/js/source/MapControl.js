@@ -15,7 +15,6 @@ var MapControl = can.Control({
   init: function(element, options) {
     this.mapModel = new MapViewModel(this, options.mapBoxId, options.infoPopUpTemplate);
     this.sideMenu = new SideMenuViewModel(options.sideMenuTemplate, this.mapModel);
-    this.mapModel.initializeMap();
 
     if (this.mapModel.eventToOpenID) {
       this.mapModel.prop.attr('ready', true);

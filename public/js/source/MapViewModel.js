@@ -96,45 +96,6 @@ var MapViewModel = function(mapControl, mapBoxId, infoPopUpTemplate) {
                                       (this.travel ? '1' : '0') + 
                                       (this.other ? '1' : '0'));
   });
-};
-module.exports = MapViewModel;
-
-MapViewModel.prototype.centerToLatLng = function() {
-  this.map.setCenter(new google.maps.LatLng(this.prop.lat, this.prop.lng));
-};
-
-MapViewModel.prototype.clearMap = function () {
-  this.closeLastOpen();
-
-  for (var n = 0; n < this.markers.length; n++) {
-    this.markers[n].setMap(null);
-  }
-
-  this.markers = [];
-  this.ids = [];
-};
-
-MapViewModel.prototype.getScreenTravelDistance = function() {
-  return util.getDistanceFromLatLng(this.prop.lat, this.prop.lng, this.latestLoc.lat, this.latestLoc.lng);
-};
-
-MapViewModel.prototype.closeLastOpen = function () {
-  if (this.lastClick.info) {
-    this.lastClick.info.close();
-    this.lastClick.info = null;
-  }
-  if (this.lastClick.marker) {
-    this.lastClick.marker.setAnimation(null);
-    this.lastClick.marker = null;
-  }
-};
-
-MapViewModel.prototype.validateLatLng = function() {
-  return util.isNumber(this.prop.lat) && util.isNumber(this.prop.lng);
-};
-
-MapViewModel.prototype.initializeMap = function () {
-  var self = this;
 
   this.map = new google.maps.Map(document.getElementById(self.mapBoxId), {
     zoom : 15,
@@ -171,7 +132,41 @@ MapViewModel.prototype.initializeMap = function () {
     self.prop.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
   });
 };
+module.exports = MapViewModel;
 
+MapViewModel.prototype.centerToLatLng = function() {
+  this.map.setCenter(new google.maps.LatLng(this.prop.lat, this.prop.lng));
+};
+
+MapViewModel.prototype.clearMap = function () {
+  this.closeLastOpen();
+
+  for (var n = 0; n < this.markers.length; n++) {
+    this.markers[n].setMap(null);
+  }
+
+  this.markers = [];
+  this.ids = [];
+};
+
+MapViewModel.prototype.getScreenTravelDistance = function() {
+  return util.getDistanceFromLatLng(this.prop.lat, this.prop.lng, this.latestLoc.lat, this.latestLoc.lng);
+};
+
+MapViewModel.prototype.closeLastOpen = function () {
+  if (this.lastClick.info) {
+    this.lastClick.info.close();
+    this.lastClick.info = null;
+  }
+  if (this.lastClick.marker) {
+    this.lastClick.marker.setAnimation(null);
+    this.lastClick.marker = null;
+  }
+};
+
+MapViewModel.prototype.validateLatLng = function() {
+  return util.isNumber(this.prop.lat) && util.isNumber(this.prop.lng);
+};
 
 MapViewModel.prototype.isNeedUpdate = function() {
   if (this.dragging) {
