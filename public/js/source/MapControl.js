@@ -1,5 +1,5 @@
 var MapViewModel = require('./MapViewModel.js');
-var urlArgs = require('./UrlArgs.js').urlArgs;
+var urlArgs = require('./UrlArgs.js');
 var util = require('../../../shared/Util.js');
 var statusVM = require('./StatusViewModel.js').getStatusViewModel();
 
