@@ -26,9 +26,10 @@ var MapControl = can.Control({
   '.datePicker change': function(el, ev) {
     if (el.prop('id') === 'dateFrom') {
       this.mapModel.prop.attr('dateFrom', el.val());
-    } else {
+    } else if (el.prop('id') === 'dateTo') {
       this.mapModel.prop.attr('dateTo', el.val());
     }
+
     can.trigger(this.mapModel.prop, 'change');
     this.mapModel.clearMap();
   },
