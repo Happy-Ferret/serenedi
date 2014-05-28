@@ -6,7 +6,7 @@ require('../../bower_components/bootstrap/dist/js/bootstrap.min.js');
 require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 
 $(document).ready(function() {
-  require('./source/MapControl.js').InitMapControl('#main', 'sideMenuTemplate', 'mapBox', 'infoPopUpTemplate');
+  require('./source/MapControl.js').getMapControl();
   $('#menuContainer').html(can.view("topMenuTemplate", require('./source/StatusViewModel.js').getStatusViewModel().status));
 
   $("#optionButton").click(function() {

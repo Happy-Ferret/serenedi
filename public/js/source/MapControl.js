@@ -3,18 +3,19 @@ var util = require('../../../shared/Util.js');
 var statusVM = require('./StatusViewModel.js').getStatusViewModel();
 var SideMenuViewModel = require('./SideMenuViewModel.js');
 
-module.exports.InitMapControl = function(element, sideMenuTemplate, mapBoxId, infoPopUpTemplate) {
-  return new MapControl(element, {
-    'sideMenuTemplate': sideMenuTemplate,
-    'mapBoxId': mapBoxId,
-    'infoPopUpTemplate': infoPopUpTemplate
-  });
+var mapControl;
+
+module.exports.getMapControl = function() {
+  if (!mapControl) {
+    mapControl = new MapControl();
+  }
+  return mapControl;
 };
 
 var MapControl = can.Control({
-  init: function(element, options) {
-    this.mapModel = new MapViewModel(this, options.mapBoxId, options.infoPopUpTemplate);
-    this.sideMenu = new SideMenuViewModel(options.sideMenuTemplate, this.mapModel);
+  init: function() {
+    this.mapModel = new MapViewModel(this, 'mapBox', 'infoPopUpTemplate');
+    this.sideMenu = new SideMenuViewModel('sideMenuTemplate', this.mapModel);
 
     if (this.mapModel.eventToOpenID) {
       this.mapModel.prop.attr('ready', true);
