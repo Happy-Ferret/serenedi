@@ -1,4 +1,5 @@
 var util = require('../../../shared/Util.js');
+var urlArgs = require('./UrlArgs.js');
 
 var today = new Date();
 var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
@@ -38,7 +39,7 @@ var MapViewModel = function(mapControl, mapBoxId, infoPopUpTemplate) {
   this.markers = [];
   this.lastClick = {marker: null, info: null};
   this.latestLoc = {lat: null, lng: null};
-  this.eventToOpenID = null;
+  this.eventToOpenID = parseInt(urlArgs.id, 10);
   this.dragging = false;
   this.waitedSinceLastChange = undefined;
   this.distCheckPass = true;

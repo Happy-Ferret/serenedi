@@ -1,7 +1,7 @@
 var MapViewModel = require('./MapViewModel.js');
-var urlArgs = require('./UrlArgs.js');
 var util = require('../../../shared/Util.js');
 var statusVM = require('./StatusViewModel.js').getStatusViewModel();
+var SideMenuViewModel = require('./SideMenuViewModel.js');
 
 module.exports.InitMapControl = function(element, sideMenuTemplate, mapBoxId, infoPopUpTemplate) {
   return new MapControl(element, {
@@ -14,7 +14,7 @@ module.exports.InitMapControl = function(element, sideMenuTemplate, mapBoxId, in
 var MapControl = can.Control({
   init: function(element, options) {
     this.mapModel = new MapViewModel(this, options.mapBoxId, options.infoPopUpTemplate);
-    this.initializeMainElements(options.sideMenuTemplate);
+    this.sideMenu = new SideMenuViewModel(options.sideMenuTemplate, this.mapModel);
     this.mapModel.initializeMap();
 
     if (this.mapModel.eventToOpenID) {
@@ -55,44 +55,6 @@ MapControl.prototype.loadMyLocation = function() {
   }
 };
 
-MapControl.prototype.initializeMainElements = function(sideMenuTemplate) {
-  $('#sideMenu').html(can.view(sideMenuTemplate, this.mapModel));
-  this.mapModel.eventToOpenID = parseInt(urlArgs.id, 10);
-
-  this.dateFromDom = $('#dateFrom');
-  this.dateToDom = $('#dateTo');
-
-  this.dateFromDom.datepicker({
-    defaultDate : this.mapModel.prop.dateFrom,
-    changeMonth : true,
-    changeYear : true,
-    numberOfMonths : 1,
-    onSelect : function(selectedDate) {
-      this.dateToDom.datepicker('option', 'minDate', selectedDate);
-      $(this).trigger('change');
-    },
-    maxDate: this.mapModel.prop.dateTo
-  });
-  this.dateToDom.datepicker({
-    defaultDate : this.mapModel.prop.dateFrom,
-    changeMonth : true,
-    changeYear : true,
-    numberOfMonths : 1,
-    onSelect : function(selectedDate) {
-      this.dateFromDom.datepicker('option', 'maxDate', selectedDate);
-      $(this).trigger('change');
-    },
-    minDate: this.mapModel.prop.dateFrom
-  });
-
-  $('#loadMyLocation').popover();
-  $('#sideMenu').mCustomScrollbar({
-    advanced:{
-        autoScrollOnFocus: false
-    }
-  });
-};
-
 MapControl.prototype.addEventMarkers = function(events) {
   for (var n = 1; n < events.length; n++) {
     var currentEvent = events[n].event;
@@ -102,13 +64,6 @@ MapControl.prototype.addEventMarkers = function(events) {
       this.mapModel.addEventMarker(currentEvent);
     }
   }
-};
-
-MapControl.prototype.setDateToSelectedEvent = function(startDate, endDate) {
-  this.mapModel.prop.attr('dateFrom', startDate);
-  this.mapModel.prop.attr('dateTo', endDate);
-  this.dateFromDom.datepicker('option', 'maxDate', endDate);
-  this.dateToDom.datepicker('option', 'minDate', startDate);
 };
 
 MapControl.prototype.setMapCenter = function(center) {
@@ -140,7 +95,7 @@ MapControl.prototype.getEventCallback = function(data) {
     }
 
     if (data.date) {
-      this.setDateToSelectedEvent(data.date.startDate, data.date.endDate);
+      this.sideMenu.setDateToSelectedEvent(data.date.startDate, data.date.endDate);
     }
 
     this.addEventMarkers(data.events);
