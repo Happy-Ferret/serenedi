@@ -4,8 +4,10 @@ var urlArgs = require('./UrlArgs.js');
 var today = new Date();
 var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
 var statusVM = require('./StatusViewModel.js').getStatusViewModel();
+var MAP_BOX = 'mapBox';
+var INFO_TEMPLATE = 'infoPopUpTemplate';
 
-var MapViewModel = function(mapControl, mapBoxId, infoPopUpTemplate) {
+var MapViewModel = function(mapControl) {
   this.prop = new can.Observe({lat: 40.72616, 
                                                 lng: -73.99973, 
                                                 radius: undefined, 
@@ -44,8 +46,6 @@ var MapViewModel = function(mapControl, mapBoxId, infoPopUpTemplate) {
   this.waitedSinceLastChange = undefined;
   this.distCheckPass = true;
   this.mapControl = mapControl;
-  this.mapBoxId = mapBoxId;
-  this.infoPopUpTemplate = infoPopUpTemplate;
 
   var self = this;
 
@@ -97,7 +97,7 @@ var MapViewModel = function(mapControl, mapBoxId, infoPopUpTemplate) {
                                       (this.other ? '1' : '0'));
   });
 
-  this.map = new google.maps.Map(document.getElementById(self.mapBoxId), {
+  this.map = new google.maps.Map(document.getElementById(MAP_BOX), {
     zoom : 15,
     center : new google.maps.LatLng(self.prop.lat, self.prop.lng),
     mapTypeId : google.maps.MapTypeId.ROADMAP,
@@ -232,8 +232,7 @@ MapViewModel.prototype.addEventMarker = function (event) {
       self.closeLastOpen();
 
       var info = new google.maps.InfoWindow({
-        content: can.view.render(self.infoPopUpTemplate,
-        {   
+        content: can.view.render(INFO_TEMPLATE, {
           title: marker.getTitle(), 
           url: {eventbrite: event.url, serenedi: SERENEDI_URL + '/?id=' + event.id},
           start: event.start_date.split(' ')[0],
