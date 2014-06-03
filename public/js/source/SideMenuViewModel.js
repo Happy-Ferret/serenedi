@@ -1,7 +1,8 @@
+var SIDE_MENU_TEMPLATE = 'sideMenuTemplate';
 
-var SideMenuViewModel = function(sideMenuTemplate, mapModel) {
+var SideMenuViewModel = function(mapModel) {
   this.mapModel = mapModel;
-  $('#sideMenu').html(can.view(sideMenuTemplate, this.mapModel));
+  $('#sideMenu').html(can.view(SIDE_MENU_TEMPLATE, this.mapModel));
 
   this.dateFromDom = $('#dateFrom');
   this.dateToDom = $('#dateTo');

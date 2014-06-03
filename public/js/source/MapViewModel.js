@@ -1,9 +1,9 @@
 var util = require('../../../shared/Util.js');
 var urlArgs = require('./UrlArgs.js');
+var statusVM = require('./StatusViewModel.js').getStatusViewModel();
 
 var today = new Date();
 var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
-var statusVM = require('./StatusViewModel.js').getStatusViewModel();
 var MAP_BOX = 'mapBox';
 var INFO_TEMPLATE = 'infoPopUpTemplate';
 

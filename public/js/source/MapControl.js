@@ -15,7 +15,7 @@ module.exports.getMapControl = function() {
 var MapControl = can.Control({
   init: function() {
     this.mapModel = new MapViewModel(this);
-    this.sideMenu = new SideMenuViewModel('sideMenuTemplate', this.mapModel);
+    this.sideMenu = new SideMenuViewModel(this.mapModel);
 
     if (this.mapModel.eventToOpenID) {
       this.mapModel.prop.attr('ready', true);
