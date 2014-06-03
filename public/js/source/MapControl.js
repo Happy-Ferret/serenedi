@@ -69,7 +69,7 @@ MapControl.prototype.addEventMarkers = function(events) {
 
 MapControl.prototype.getEventsByIDCall = function(data) {
   var self = this;
-  getGetEventsAjaxDeferred('getEventsById', data).done(function(data) {
+  getEventsAjaxDeferred('getEventsById', data).done(function(data) {
     self.getEventCallback(data);
   }).fail(function() {
     console.log('ERROR: getEvents call failed.');
@@ -78,7 +78,7 @@ MapControl.prototype.getEventsByIDCall = function(data) {
 
 MapControl.prototype.getEventsCall = function(data) {
   var self = this;
-  getGetEventsAjaxDeferred('getEvents', data).done(function(data) {
+  getEventsAjaxDeferred('getEvents', data).done(function(data) {
     self.getEventCallback(data);
   }).fail(function() {
     console.log('ERROR: getEvents call failed.');
@@ -103,7 +103,7 @@ MapControl.prototype.getEventCallback = function(data) {
   }
 };
 
-var getGetEventsAjaxDeferred = function(url, data) {
+var getEventsAjaxDeferred = function(url, data) {
   return $.ajax({
     type: 'GET',
     url: '/api/' + url,

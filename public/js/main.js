@@ -4,10 +4,11 @@ require('../../bower_components/jquery-ui/ui/jquery-ui.js');
 require('../../bower_components/canjs/can.jquery.js');
 require('../../bower_components/bootstrap/dist/js/bootstrap.min.js');
 require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
+var statusModel = require('./source/StatusViewModel.js').getStatusViewModel();
 
 $(document).ready(function() {
   require('./source/MapControl.js').getMapControl();
-  $('#menuContainer').html(can.view("topMenuTemplate", require('./source/StatusViewModel.js').getStatusViewModel().status));
+  $('#menuContainer').html(can.view("topMenuTemplate", statusModel.status));
 
   $("#optionButton").click(function() {
     var element = $(".optionButtonDirection");
