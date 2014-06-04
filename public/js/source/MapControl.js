@@ -1,7 +1,7 @@
 var util = require('../../../shared/Util.js');
 var statusVM = require('./StatusViewModel.js').getStatusViewModel();
 var mapVM = require('./MapViewModel.js').getMapViewModel();
-var SideMenuViewModel = require('./SideMenuViewModel.js');
+var sideMenuVM = require('./SideMenuViewModel.js').getSideMenuViewModel();
 
 var mapControl;
 
@@ -15,7 +15,7 @@ module.exports.getMapControl = function() {
 var MapControl = can.Control({
   init: function() {
     this.mapModel = mapVM;
-    this.sideMenu = new SideMenuViewModel(this.mapModel);
+    this.sideMenu = sideMenuVM;
 
     if (this.mapModel.eventToOpenID) {
       this.mapModel.prop.attr('ready', true);

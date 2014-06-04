@@ -1,14 +1,16 @@
 var SIDE_MENU_TEMPLATE = 'sideMenuTemplate';
+var mapVM = require('./MapViewModel.js').getMapViewModel();
 
-var SideMenuViewModel = function(mapModel) {
-  this.mapModel = mapModel;
-  $('#sideMenu').html(can.view(SIDE_MENU_TEMPLATE, this.mapModel));
+var sideMenuViewModel;
+
+var SideMenuViewModel = function() {
+  $('#sideMenu').html(can.view(SIDE_MENU_TEMPLATE, mapVM));
 
   this.dateFromDom = $('#dateFrom');
   this.dateToDom = $('#dateTo');
 
   this.dateFromDom.datepicker({
-    defaultDate : this.mapModel.prop.dateFrom,
+    defaultDate : mapVM.prop.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
@@ -16,10 +18,10 @@ var SideMenuViewModel = function(mapModel) {
       this.dateToDom.datepicker('option', 'minDate', selectedDate);
       $(this).trigger('change');
     },
-    maxDate: this.mapModel.prop.dateTo
+    maxDate: mapVM.prop.dateTo
   });
   this.dateToDom.datepicker({
-    defaultDate : this.mapModel.prop.dateFrom,
+    defaultDate : mapVM.prop.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
@@ -27,7 +29,7 @@ var SideMenuViewModel = function(mapModel) {
       this.dateFromDom.datepicker('option', 'maxDate', selectedDate);
       $(this).trigger('change');
     },
-    minDate: this.mapModel.prop.dateFrom
+    minDate: mapVM.prop.dateFrom
   });
 
   $('#loadMyLocation').popover();
@@ -37,11 +39,17 @@ var SideMenuViewModel = function(mapModel) {
     }
   });
 };
-module.exports = SideMenuViewModel;
+
+module.exports.getSideMenuViewModel = function() {
+  if(!sideMenuViewModel) {
+    sideMenuViewModel = new SideMenuViewModel();
+  }
+  return sideMenuViewModel;
+};
 
 SideMenuViewModel.prototype.setDateToSelectedEvent = function(startDate, endDate) {
-  this.mapModel.prop.attr('dateFrom', startDate);
-  this.mapModel.prop.attr('dateTo', endDate);
+  mapVM.prop.attr('dateFrom', startDate);
+  mapVM.prop.attr('dateTo', endDate);
   this.dateFromDom.datepicker('option', 'maxDate', endDate);
   this.dateToDom.datepicker('option', 'minDate', startDate);
 };
