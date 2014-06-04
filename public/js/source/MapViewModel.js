@@ -1,16 +1,18 @@
 var util = require('../../../shared/Util.js');
 var urlArgs = require('./UrlArgs.js');
 var statusVM = require('./StatusViewModel.js').getStatusViewModel();
+var mapControlObject = require('./MapControl.js');
 
 var today = new Date();
 var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
 var MAP_BOX = 'mapBox';
 var INFO_TEMPLATE = 'infoPopUpTemplate';
+var mapViewModel;
 
-var MapViewModel = function(mapControl) {
-  this.prop = new can.Observe({lat: 40.72616, 
-                                                lng: -73.99973, 
-                                                radius: undefined, 
+var MapViewModel = function() {
+  this.prop = new can.Observe({lat: 40.72616,
+                                                lng: -73.99973,
+                                                radius: undefined,
                                                 types: '1111111111111111111',
                                                 ready: false,
                                                 dateFrom: util.getPrettyDate(today),
@@ -45,7 +47,6 @@ var MapViewModel = function(mapControl) {
   this.dragging = false;
   this.waitedSinceLastChange = undefined;
   this.distCheckPass = true;
-  this.mapControl = mapControl;
 
   var self = this;
 
@@ -76,24 +77,24 @@ var MapViewModel = function(mapControl) {
   });
 
   this.types.bind('change', function(event, attr, how, newVal, oldVal) {
-    self.prop.attr('types', (this.conf ? '1' : '0') + 
+    self.prop.attr('types', (this.conf ? '1' : '0') +
                                       (this.conv ? '1' : '0') +
-                                      (this.ent ? '1' : '0') + 
-                                      (this.fair ? '1' : '0') + 
-                                      (this.food ? '1' : '0') + 
-                                      (this.fund ? '1' : '0') + 
-                                      (this.meet ? '1' : '0') + 
-                                      (this.music? '1' : '0') + 
-                                      (this.perf ? '1' : '0') + 
-                                      (this.rec ? '1' : '0') + 
-                                      (this.relig ? '1' : '0') + 
-                                      (this.reun ? '1' : '0') + 
-                                      (this.sales ? '1' : '0') + 
-                                      (this.semi ? '1' : '0') + 
-                                      (this.soci ? '1' : '0') + 
-                                      (this.sports ? '1' : '0') + 
-                                      (this.trade ? '1' : '0') + 
-                                      (this.travel ? '1' : '0') + 
+                                      (this.ent ? '1' : '0') +
+                                      (this.fair ? '1' : '0') +
+                                      (this.food ? '1' : '0') +
+                                      (this.fund ? '1' : '0') +
+                                      (this.meet ? '1' : '0') +
+                                      (this.music? '1' : '0') +
+                                      (this.perf ? '1' : '0') +
+                                      (this.rec ? '1' : '0') +
+                                      (this.relig ? '1' : '0') +
+                                      (this.reun ? '1' : '0') +
+                                      (this.sales ? '1' : '0') +
+                                      (this.semi ? '1' : '0') +
+                                      (this.soci ? '1' : '0') +
+                                      (this.sports ? '1' : '0') +
+                                      (this.trade ? '1' : '0') +
+                                      (this.travel ? '1' : '0') +
                                       (this.other ? '1' : '0'));
   });
 
@@ -132,7 +133,12 @@ var MapViewModel = function(mapControl) {
     self.prop.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
   });
 };
-module.exports = MapViewModel;
+module.exports.getMapViewModel = function() {
+  if (!mapViewModel) {
+    mapViewModel = new MapViewModel();
+  }
+  return mapViewModel;
+};
 
 MapViewModel.prototype.centerToLatLng = function() {
   this.map.setCenter(new google.maps.LatLng(this.prop.lat, this.prop.lng));
@@ -179,7 +185,7 @@ MapViewModel.prototype.isNeedUpdate = function() {
   if (this.prop.radius > 19) {
     statusVM.setStatus(statusVM.CONST.ZOOM_ERROR);
     return false;
-  } 
+  }
   if (!this.validateLatLng()) {
     return false;
   }
@@ -193,13 +199,15 @@ MapViewModel.prototype.updateMap = function() {
     this.latestLoc.lat = this.prop.lat;
     this.latestLoc.lng = this.prop.lng;
 
+    var mapControl = mapControlObject.getMapControl();
+
     if (this.eventToOpenID) {
-      this.mapControl.getEventsByIDCall({
+      mapControl.getEventsByIDCall({
         id : this.eventToOpenID,
         radius : this.prop.radius
       });
     } else {
-      this.mapControl.getEventsCall({
+      mapControl.getEventsCall({
         lat : this.prop.lat,
         lng : this.prop.lng,
         dateFrom : this.prop.dateFrom,
@@ -224,7 +232,7 @@ MapViewModel.prototype.addEventMarker = function (event) {
 
   this.markers.push(marker);
   var self = this;
-  
+
   google.maps.event.addListener(
     marker,
     'click',
@@ -233,7 +241,7 @@ MapViewModel.prototype.addEventMarker = function (event) {
 
       var info = new google.maps.InfoWindow({
         content: can.view.render(INFO_TEMPLATE, {
-          title: marker.getTitle(), 
+          title: marker.getTitle(),
           url: {eventbrite: event.url, serenedi: SERENEDI_URL + '/?id=' + event.id},
           start: event.start_date.split(' ')[0],
           end: event.end_date.split(' ')[0],
@@ -252,7 +260,7 @@ MapViewModel.prototype.addEventMarker = function (event) {
 
       google.maps.event.addListenerOnce(info, 'domready', function() {
         FB.XFBML.parse();
-      }); 
+      });
 
       info.open(self.map, marker);
 

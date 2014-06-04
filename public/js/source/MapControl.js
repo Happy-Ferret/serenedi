@@ -1,6 +1,6 @@
-var MapViewModel = require('./MapViewModel.js');
 var util = require('../../../shared/Util.js');
 var statusVM = require('./StatusViewModel.js').getStatusViewModel();
+var mapVM = require('./MapViewModel.js').getMapViewModel();
 var SideMenuViewModel = require('./SideMenuViewModel.js');
 
 var mapControl;
@@ -14,7 +14,7 @@ module.exports.getMapControl = function() {
 
 var MapControl = can.Control({
   init: function() {
-    this.mapModel = new MapViewModel(this);
+    this.mapModel = mapVM;
     this.sideMenu = new SideMenuViewModel(this.mapModel);
 
     if (this.mapModel.eventToOpenID) {
