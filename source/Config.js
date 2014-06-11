@@ -10,7 +10,7 @@ var config = {
 };
 
 if (!argv || !argv.port || !argv.eventbriteAPIkey || !argv.url) {
-  var configFile = fs.readFileSync(path.join(home + "/serenedi/.serenedirc"), "utf-8");
+  var configFile = fs.readFileSync(path.join(home + "/.serenedirc"), "utf-8");
   if (!configFile) {
     throw new Error("Missing .serenedirc");
   }
@@ -20,7 +20,7 @@ if (!argv || !argv.port || !argv.eventbriteAPIkey || !argv.url) {
 }
 
 config.port = argv.port || configFile.port;
-config.eventbriteAPIkey = argv.eventbriteAPIkey || configFile.eventbriteAPIkey; 
+config.eventbriteAPIkey = argv.eventbriteAPIkey || configFile.eventbriteAPIkey;
 config.launch = argv.launch === undefined ? true : argv.launch;
 config.googleAPIKey = argv.googleAPIKey || configFile.googleAPIKey;
 config.url = argv.url || configFile.url;
