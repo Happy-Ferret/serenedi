@@ -1,5 +1,13 @@
 var statusViewModel;
 
+module.exports.getStatusViewModel = function() {
+  if (!statusViewModel) {
+    statusViewModel = new StatusViewModel();
+  }
+
+  return statusViewModel;
+};
+
 var StatusViewModel = function() {
   this.status = new can.Observe({value: 0, content: 'Working...', src: '/images/ajax-loader.gif'});
   this.CONST = {
@@ -26,7 +34,7 @@ var StatusViewModel = function() {
   // 4 geo location fail
   this.status.bind('value', function(event, newVal, oldVal) {
     switch (newVal) {
-      case self.CONST.NORMAL: 
+      case self.CONST.NORMAL:
         self.status.attr('content', 'Welcome to Serenedi!');
         self.status.attr('src', '/images/serenedi3.ico');
         break;
@@ -48,12 +56,4 @@ var StatusViewModel = function() {
         break;
     }
   });
-};
-
-module.exports.getStatusViewModel = function() {
-  if (!statusViewModel) {
-    statusViewModel = new StatusViewModel();
-  }
-
-  return statusViewModel;
 };

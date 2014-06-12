@@ -3,6 +3,13 @@ var mapVM = require('./MapViewModel.js').getMapViewModel();
 
 var sideMenuViewModel;
 
+module.exports.getSideMenuViewModel = function() {
+  if(!sideMenuViewModel) {
+    sideMenuViewModel = new SideMenuViewModel();
+  }
+  return sideMenuViewModel;
+};
+
 var SideMenuViewModel = function() {
   this.types = new can.Observe({conf: true,
                                                 conv: true,
@@ -81,13 +88,6 @@ var SideMenuViewModel = function() {
         autoScrollOnFocus: false
     }
   });
-};
-
-module.exports.getSideMenuViewModel = function() {
-  if(!sideMenuViewModel) {
-    sideMenuViewModel = new SideMenuViewModel();
-  }
-  return sideMenuViewModel;
 };
 
 SideMenuViewModel.prototype.setDateToSelectedEvent = function(startDate, endDate) {

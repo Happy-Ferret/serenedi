@@ -7,7 +7,15 @@ var today = new Date();
 var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
 var MAP_BOX = 'mapBox';
 var INFO_TEMPLATE = 'infoPopUpTemplate';
+
 var mapViewModel;
+
+module.exports.getMapViewModel = function() {
+  if (!mapViewModel) {
+    mapViewModel = new MapViewModel();
+  }
+  return mapViewModel;
+};
 
 var MapViewModel = function() {
   this.prop = new can.Observe({lat: 40.72616,
@@ -90,12 +98,6 @@ var MapViewModel = function() {
 
     self.prop.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
   });
-};
-module.exports.getMapViewModel = function() {
-  if (!mapViewModel) {
-    mapViewModel = new MapViewModel();
-  }
-  return mapViewModel;
 };
 
 MapViewModel.prototype.centerToLatLng = function() {
