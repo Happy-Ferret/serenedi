@@ -14,25 +14,24 @@ module.exports.getMapControl = function() {
 
 var MapControl = can.Control({
   init: function() {
-    this.mapModel = mapVM;
     this.sideMenu = sideMenuVM;
 
-    if (this.mapModel.eventToOpenID) {
-      this.mapModel.prop.attr('ready', true);
-      can.trigger(this.mapModel.prop, 'change');
+    if (mapVM.eventToOpenID) {
+      mapVM.prop.attr('ready', true);
+      can.trigger(mapVM.prop, 'change');
     } else {
       this.loadMyLocation();
     }
   },
   '.datePicker change': function(el, ev) {
     if (el.prop('id') === 'dateFrom') {
-      this.mapModel.prop.attr('dateFrom', el.val());
+      mapVM.prop.attr('dateFrom', el.val());
     } else if (el.prop('id') === 'dateTo') {
-      this.mapModel.prop.attr('dateTo', el.val());
+      mapVM.prop.attr('dateTo', el.val());
     }
 
-    can.trigger(this.mapModel.prop, 'change');
-    this.mapModel.clearMap();
+    can.trigger(mapVM.prop, 'change');
+    mapVM.clearMap();
   },
   '#loadMyLocation click': function(el, ev) {
     this.loadMyLocation();
@@ -43,13 +42,13 @@ MapControl.prototype.loadMyLocation = function() {
   if (navigator.geolocation) {
     var self = this;
     navigator.geolocation.getCurrentPosition(function (position) {
-      self.mapModel.prop.attr('lat', util.roundNumber(position.coords.latitude));
-      self.mapModel.prop.attr('lng', util.roundNumber(position.coords.longitude));
-      self.mapModel.prop.attr('ready', true);
+      mapVM.prop.attr('lat', util.roundNumber(position.coords.latitude));
+      mapVM.prop.attr('lng', util.roundNumber(position.coords.longitude));
+      mapVM.prop.attr('ready', true);
 
-      self.mapModel.centerToLatLng();
+      mapVM.centerToLatLng();
     }, function(error) {
-      self.mapModel.prop.attr('ready', true);
+      mapVM.prop.attr('ready', true);
     });
   } else {
     statusVM.setStatus(statusVM.CONST.GEO_ERROR);
@@ -60,9 +59,9 @@ MapControl.prototype.addEventMarkers = function(events) {
   for (var n = 1; n < events.length; n++) {
     var currentEvent = events[n].event;
 
-    if (this.mapModel.ids[currentEvent.id] !== 1) {
-      this.mapModel.ids[currentEvent.id] = 1;
-      this.mapModel.addEventMarker(currentEvent);
+    if (mapVM.ids[currentEvent.id] !== 1) {
+      mapVM.ids[currentEvent.id] = 1;
+      mapVM.addEventMarker(currentEvent);
     }
   }
 };
@@ -89,7 +88,7 @@ MapControl.prototype.getEventCallback = function(data) {
   if (data.message !== null) {
     if (data.center) {
       var center = new google.maps.LatLng(data.center.lat, data.center.lng);
-      this.mapModel.map.setCenter(center);
+      mapVM.map.setCenter(center);
     }
 
     if (data.date) {
