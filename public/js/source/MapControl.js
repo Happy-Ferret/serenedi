@@ -103,7 +103,7 @@ MapControl.prototype.getEventCallback = function(data) {
 };
 
 MapControl.prototype.updateMap = function() {
-  if (mapVM.isNeedUpdate()) {
+  if (this.isNeedUpdate()) {
     statusVM.setStatus(statusVM.CONST.WORKING);
     mapVM.latestLoc.lat = mapVM.prop.lat;
     mapVM.latestLoc.lng = mapVM.prop.lng;
@@ -124,6 +124,25 @@ MapControl.prototype.updateMap = function() {
       });
     }
   }
+};
+
+MapControl.prototype.isNeedUpdate = function() {
+  if (mapVM.dragging) {
+    return false;
+  }
+  // Is it current working?
+  if (statusVM.getStatus() === 1) {
+    return false;
+  }
+  if (mapVM.prop.radius > 19) {
+    statusVM.setStatus(statusVM.CONST.ZOOM_ERROR);
+    return false;
+  }
+  if (!mapVM.validateLatLng()) {
+    return false;
+  }
+
+  return mapVM.distCheckPass || Math.abs(mapVM.getScreenTravelDistance()) > mapVM.prop.radius / 1.5;
 };
 
 var getEventsAjaxDeferred = function(url, data) {

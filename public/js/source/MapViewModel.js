@@ -132,25 +132,6 @@ MapViewModel.prototype.validateLatLng = function() {
   return util.isNumber(this.prop.lat) && util.isNumber(this.prop.lng);
 };
 
-MapViewModel.prototype.isNeedUpdate = function() {
-  if (this.dragging) {
-    return false;
-  }
-  // Is it current working?
-  if (statusVM.getStatus() === 1) {
-    return false;
-  }
-  if (this.prop.radius > 19) {
-    statusVM.setStatus(statusVM.CONST.ZOOM_ERROR);
-    return false;
-  }
-  if (!this.validateLatLng()) {
-    return false;
-  }
-
-  return this.distCheckPass || Math.abs(this.getScreenTravelDistance()) > this.prop.radius / 1.5;
-};
-
 MapViewModel.prototype.addEventMarker = function (event) {
   var point = new google.maps.LatLng(event.venue.latitude, event.venue.longitude);
 
