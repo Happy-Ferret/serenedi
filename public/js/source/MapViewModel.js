@@ -34,7 +34,7 @@ var MapViewModel = function() {
     if (self.prop.ready) {
       clearTimeout(self.waitedSinceLastChange);
       self.waitedSinceLastChange = setTimeout(function() {
-        self.updateMap();
+        mapControlObject.getMapControl().updateMap();
       }, 1400);
     }
   });
@@ -149,32 +149,6 @@ MapViewModel.prototype.isNeedUpdate = function() {
   }
 
   return this.distCheckPass || Math.abs(this.getScreenTravelDistance()) > this.prop.radius / 1.5;
-};
-
-MapViewModel.prototype.updateMap = function() {
-  if (this.isNeedUpdate()) {
-    statusVM.setStatus(statusVM.CONST.WORKING);
-    this.latestLoc.lat = this.prop.lat;
-    this.latestLoc.lng = this.prop.lng;
-
-    var mapControl = mapControlObject.getMapControl();
-
-    if (this.eventToOpenID) {
-      mapControl.getEventsByIDCall({
-        id : this.eventToOpenID,
-        radius : this.prop.radius
-      });
-    } else {
-      mapControl.getEventsCall({
-        lat : this.prop.lat,
-        lng : this.prop.lng,
-        dateFrom : this.prop.dateFrom,
-        dateTo : this.prop.dateTo,
-        type : this.prop.types,
-        radius : this.prop.radius
-      });
-    }
-  }
 };
 
 MapViewModel.prototype.addEventMarker = function (event) {

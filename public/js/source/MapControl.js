@@ -102,6 +102,30 @@ MapControl.prototype.getEventCallback = function(data) {
   }
 };
 
+MapControl.prototype.updateMap = function() {
+  if (mapVM.isNeedUpdate()) {
+    statusVM.setStatus(statusVM.CONST.WORKING);
+    mapVM.latestLoc.lat = mapVM.prop.lat;
+    mapVM.latestLoc.lng = mapVM.prop.lng;
+
+    if (mapVM.eventToOpenID) {
+      this.getEventsByIDCall({
+        id : mapVM.eventToOpenID,
+        radius : mapVM.prop.radius
+      });
+    } else {
+      this.getEventsCall({
+        lat : mapVM.prop.lat,
+        lng : mapVM.prop.lng,
+        dateFrom : mapVM.prop.dateFrom,
+        dateTo : mapVM.prop.dateTo,
+        type : mapVM.prop.types,
+        radius : mapVM.prop.radius
+      });
+    }
+  }
+};
+
 var getEventsAjaxDeferred = function(url, data) {
   return $.ajax({
     type: 'GET',
