@@ -26,8 +26,6 @@ var SideMenuViewModel = function() {
   this.dateFromDom = $('#dateFrom');
   this.dateToDom = $('#dateTo');
 
-  mapVM.types = this.types;
-
   $('#sideMenu').html(can.view(SIDE_MENU_TEMPLATE, mapVM));
   var self = this;
 
