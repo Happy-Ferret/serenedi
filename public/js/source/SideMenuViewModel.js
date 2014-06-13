@@ -1,6 +1,6 @@
 var mapVM = require('./MapViewModel.js').getMapViewModel();
 var util = require('../../../shared/Util.js');
-var mapControlObject = require('./MapControl.js');
+var mapUpdateTrigger = require('./MapUpdateTrigger.js');
 
 var SIDE_MENU_TEMPLATE = 'sideMenuTemplate';
 var today = new Date();
@@ -35,26 +35,19 @@ var SideMenuViewModel = function() {
                                 trade: true,
                                 travel: true,
                                 other: true});
-  this.prop = new can.Observe({mapProp: mapVM.mapProp,
-                              types: '1111111111111111111',
-                              ready: false,
+  this.prop = new can.Observe({types: '1111111111111111111',
                               dateFrom: util.getPrettyDate(today),
                               dateTo: util.getPrettyDate(weekAfter)});
   this.dateFromDom = $('#dateFrom');
   this.dateToDom = $('#dateTo');
   this.waitedSinceLastChange = undefined;
 
-  $('#sideMenu').html(can.view(SIDE_MENU_TEMPLATE, this));
+  $('#sideMenu').html(can.view(SIDE_MENU_TEMPLATE, {sideMenuVM: this, mapVM: mapVM}));
 
   var self = this;
 
   this.prop.bind('change', function(event, attr, how, newVal, oldVal) {
-    if (self.prop.ready) {
-      clearTimeout(self.waitedSinceLastChange);
-      self.waitedSinceLastChange = setTimeout(function() {
-        mapControlObject.getMapControl().updateMap();
-      }, 1400);
-    }
+    mapUpdateTrigger();
   });
 
   this.prop.bind('types', function(event, newVal, oldVal) {

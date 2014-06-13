@@ -3,6 +3,7 @@ var statusVM = require('./StatusViewModel.js').getStatusViewModel();
 var mapVM = require('./MapViewModel.js').getMapViewModel();
 var sideMenuVM = require('./SideMenuViewModel.js').getSideMenuViewModel();
 var eventToOpenID = parseInt(require('./UrlArgs.js').id, 10);
+var mapUpdateTrigger = require('./MapUpdateTrigger.js');
 
 var mapControl;
 
@@ -18,7 +19,6 @@ var MapControl = can.Control({
     this.sideMenu = sideMenuVM;
 
     if (eventToOpenID) {
-      sideMenuVM.prop.attr('ready', true);
       can.trigger(sideMenuVM.prop, 'change');
     } else {
       this.loadMyLocation();
@@ -45,11 +45,12 @@ MapControl.prototype.loadMyLocation = function() {
     navigator.geolocation.getCurrentPosition(function (position) {
       mapVM.mapProp.attr('lat', util.roundNumber(position.coords.latitude));
       mapVM.mapProp.attr('lng', util.roundNumber(position.coords.longitude));
-      sideMenuVM.prop.attr('ready', true);
 
       self.centerToLatLng();
+      mapUpdateTrigger();
     }, function(error) {
-      sideMenuVM.prop.attr('ready', true);
+      console.log(error);
+      mapUpdateTrigger();
     });
   } else {
     statusVM.setStatus(statusVM.CONST.GEO_ERROR);
