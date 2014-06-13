@@ -24,7 +24,6 @@ var MapViewModel = function() {
   this.lastClick = {marker: null, info: null};
   this.latestLoc = {lat: null, lng: null};
   this.dragging = false;
-  this.waitedSinceLastChange = undefined;
   this.distCheckPass = true;
 
   var self = this;

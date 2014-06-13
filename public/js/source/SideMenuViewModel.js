@@ -42,6 +42,7 @@ var SideMenuViewModel = function() {
                               dateTo: util.getPrettyDate(weekAfter)});
   this.dateFromDom = $('#dateFrom');
   this.dateToDom = $('#dateTo');
+  this.waitedSinceLastChange = undefined;
 
   $('#sideMenu').html(can.view(SIDE_MENU_TEMPLATE, this));
 
@@ -49,8 +50,8 @@ var SideMenuViewModel = function() {
 
   this.prop.bind('change', function(event, attr, how, newVal, oldVal) {
     if (self.prop.ready) {
-      clearTimeout(mapVM.waitedSinceLastChange);
-      mapVM.waitedSinceLastChange = setTimeout(function() {
+      clearTimeout(self.waitedSinceLastChange);
+      self.waitedSinceLastChange = setTimeout(function() {
         mapControlObject.getMapControl().updateMap();
       }, 1400);
     }
