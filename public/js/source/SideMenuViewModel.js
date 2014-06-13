@@ -39,7 +39,7 @@ var SideMenuViewModel = function() {
   var self = this;
 
   this.types.bind('change', function(event, attr, how, newVal, oldVal) {
-    self.prop.attr('types', (this.conf ? '1' : '0') +
+    mapVM.prop.attr('types', (this.conf ? '1' : '0') +
                                       (this.conv ? '1' : '0') +
                                       (this.ent ? '1' : '0') +
                                       (this.fair ? '1' : '0') +
