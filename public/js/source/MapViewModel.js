@@ -1,5 +1,4 @@
 var util = require('../../../shared/Util.js');
-var urlArgs = require('./UrlArgs.js');
 var statusVM = require('./StatusViewModel.js').getStatusViewModel();
 
 var MAP_BOX = 'mapBox';
@@ -24,7 +23,6 @@ var MapViewModel = function() {
   this.markers = [];
   this.lastClick = {marker: null, info: null};
   this.latestLoc = {lat: null, lng: null};
-  this.eventToOpenID = parseInt(urlArgs.id, 10);
   this.dragging = false;
   this.waitedSinceLastChange = undefined;
   this.distCheckPass = true;
