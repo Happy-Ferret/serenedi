@@ -130,10 +130,6 @@ MapViewModel.prototype.closeLastOpen = function () {
   }
 };
 
-MapViewModel.prototype.validateLatLng = function() {
-  return util.isNumber(this.prop.lat) && util.isNumber(this.prop.lng);
-};
-
 MapViewModel.prototype.addEventMarker = function (event) {
   var point = new google.maps.LatLng(event.venue.latitude, event.venue.longitude);
 

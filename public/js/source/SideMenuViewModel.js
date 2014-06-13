@@ -1,5 +1,7 @@
-var SIDE_MENU_TEMPLATE = 'sideMenuTemplate';
 var mapVM = require('./MapViewModel.js').getMapViewModel();
+var util = require('../../../shared/Util.js');
+
+var SIDE_MENU_TEMPLATE = 'sideMenuTemplate';
 
 var sideMenuViewModel;
 
@@ -95,4 +97,9 @@ SideMenuViewModel.prototype.setDateToSelectedEvent = function(startDate, endDate
   mapVM.prop.attr('dateTo', endDate);
   this.dateFromDom.datepicker('option', 'maxDate', endDate);
   this.dateToDom.datepicker('option', 'minDate', startDate);
+};
+
+
+SideMenuViewModel.prototype.validateLatLng = function() {
+  return util.isNumber(mapVM.prop.lat) && util.isNumber(mapVM.prop.lng);
 };

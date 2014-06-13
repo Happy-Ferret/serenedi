@@ -138,7 +138,7 @@ MapControl.prototype.isNeedUpdate = function() {
     statusVM.setStatus(statusVM.CONST.ZOOM_ERROR);
     return false;
   }
-  if (!mapVM.validateLatLng()) {
+  if (!sideMenuVM.validateLatLng()) {
     return false;
   }
 
