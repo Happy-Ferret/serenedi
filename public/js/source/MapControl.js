@@ -142,7 +142,11 @@ MapControl.prototype.isNeedUpdate = function() {
     return false;
   }
 
-  return mapVM.distCheckPass || Math.abs(mapVM.getScreenTravelDistance()) > mapVM.prop.radius / 1.5;
+  return mapVM.distCheckPass || Math.abs(this.getScreenTravelDistance()) > mapVM.prop.radius / 1.5;
+};
+
+MapControl.prototype.getScreenTravelDistance = function() {
+  return util.getDistanceFromLatLng(mapVM.prop.lat, mapVM.prop.lng, mapVM.latestLoc.lat, mapVM.latestLoc.lng);
 };
 
 var getEventsAjaxDeferred = function(url, data) {

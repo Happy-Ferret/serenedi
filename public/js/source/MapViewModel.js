@@ -115,10 +115,6 @@ MapViewModel.prototype.clearMap = function () {
   this.ids = [];
 };
 
-MapViewModel.prototype.getScreenTravelDistance = function() {
-  return util.getDistanceFromLatLng(this.prop.lat, this.prop.lng, this.latestLoc.lat, this.latestLoc.lng);
-};
-
 MapViewModel.prototype.closeLastOpen = function () {
   if (this.lastClick.info) {
     this.lastClick.info.close();
