@@ -43,8 +43,8 @@ MapControl.prototype.loadMyLocation = function() {
   if (navigator.geolocation) {
     var self = this;
     navigator.geolocation.getCurrentPosition(function (position) {
-      sideMenuVM.prop.mapProp.attr('lat', util.roundNumber(position.coords.latitude));
-      sideMenuVM.prop.mapProp.attr('lng', util.roundNumber(position.coords.longitude));
+      mapVM.mapProp.attr('lat', util.roundNumber(position.coords.latitude));
+      mapVM.mapProp.attr('lng', util.roundNumber(position.coords.longitude));
       sideMenuVM.prop.attr('ready', true);
 
       self.centerToLatLng();
@@ -106,22 +106,22 @@ MapControl.prototype.getEventCallback = function(data) {
 MapControl.prototype.updateMap = function() {
   if (this.isNeedUpdate()) {
     statusVM.setStatus(statusVM.CONST.WORKING);
-    mapVM.latestLoc.lat = sideMenuVM.prop.mapProp.lat;
-    mapVM.latestLoc.lng = sideMenuVM.prop.mapProp.lng;
+    mapVM.latestLoc.lat = mapVM.mapProp.lat;
+    mapVM.latestLoc.lng = mapVM.mapProp.lng;
 
     if (eventToOpenID) {
       this.getEventsByIDCall({
         id : eventToOpenID,
-        radius : sideMenuVM.prop.mapProp.radius
+        radius : mapVM.mapProp.radius
       });
     } else {
       this.getEventsCall({
-        lat : sideMenuVM.prop.mapProp.lat,
-        lng : sideMenuVM.prop.mapProp.lng,
+        lat : mapVM.mapProp.lat,
+        lng : mapVM.mapProp.lng,
         dateFrom : sideMenuVM.prop.dateFrom,
         dateTo : sideMenuVM.prop.dateTo,
         type : sideMenuVM.prop.types,
-        radius : sideMenuVM.prop.mapProp.radius
+        radius : mapVM.mapProp.radius
       });
     }
   }
@@ -135,7 +135,7 @@ MapControl.prototype.isNeedUpdate = function() {
   if (statusVM.getStatus() === 1) {
     return false;
   }
-  if (sideMenuVM.prop.mapProp.radius > 19) {
+  if (mapVM.mapProp.radius > 19) {
     statusVM.setStatus(statusVM.CONST.ZOOM_ERROR);
     return false;
   }
@@ -143,19 +143,19 @@ MapControl.prototype.isNeedUpdate = function() {
     return false;
   }
 
-  return mapVM.distCheckPass || Math.abs(this.getScreenTravelDistance()) > sideMenuVM.prop.mapProp.radius / 1.5;
+  return mapVM.distCheckPass || Math.abs(this.getScreenTravelDistance()) > mapVM.mapProp.radius / 1.5;
 };
 
 MapControl.prototype.getScreenTravelDistance = function() {
-  return util.getDistanceFromLatLng(sideMenuVM.prop.mapProp.lat, sideMenuVM.prop.mapProp.lng, mapVM.latestLoc.lat, mapVM.latestLoc.lng);
+  return util.getDistanceFromLatLng(mapVM.mapProp.lat, mapVM.mapProp.lng, mapVM.latestLoc.lat, mapVM.latestLoc.lng);
 };
 
 MapControl.prototype.validateLatLng = function() {
-  return util.isNumber(sideMenuVM.prop.mapProp.lat) && util.isNumber(sideMenuVM.prop.mapProp.lng);
+  return util.isNumber(mapVM.mapProp.lat) && util.isNumber(mapVM.mapProp.lng);
 };
 
 MapControl.prototype.centerToLatLng = function() {
-  mapVM.map.setCenter(new google.maps.LatLng(sideMenuVM.prop.mapProp.lat, sideMenuVM.prop.mapProp.lng));
+  mapVM.map.setCenter(new google.maps.LatLng(mapVM.mapProp.lat, mapVM.mapProp.lng));
 };
 
 var getEventsAjaxDeferred = function(url, data) {
