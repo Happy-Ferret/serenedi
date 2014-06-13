@@ -98,8 +98,3 @@ SideMenuViewModel.prototype.setDateToSelectedEvent = function(startDate, endDate
   this.dateFromDom.datepicker('option', 'maxDate', endDate);
   this.dateToDom.datepicker('option', 'minDate', startDate);
 };
-
-
-SideMenuViewModel.prototype.validateLatLng = function() {
-  return util.isNumber(mapVM.prop.lat) && util.isNumber(mapVM.prop.lng);
-};

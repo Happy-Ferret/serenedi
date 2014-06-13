@@ -138,7 +138,7 @@ MapControl.prototype.isNeedUpdate = function() {
     statusVM.setStatus(statusVM.CONST.ZOOM_ERROR);
     return false;
   }
-  if (!sideMenuVM.validateLatLng()) {
+  if (!this.validateLatLng()) {
     return false;
   }
 
@@ -147,6 +147,10 @@ MapControl.prototype.isNeedUpdate = function() {
 
 MapControl.prototype.getScreenTravelDistance = function() {
   return util.getDistanceFromLatLng(mapVM.prop.lat, mapVM.prop.lng, mapVM.latestLoc.lat, mapVM.latestLoc.lng);
+};
+
+MapControl.prototype.validateLatLng = function() {
+  return util.isNumber(mapVM.prop.lat) && util.isNumber(mapVM.prop.lng);
 };
 
 var getEventsAjaxDeferred = function(url, data) {
