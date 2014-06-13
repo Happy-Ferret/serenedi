@@ -100,10 +100,6 @@ var MapViewModel = function() {
   });
 };
 
-MapViewModel.prototype.centerToLatLng = function() {
-  this.map.setCenter(new google.maps.LatLng(this.prop.lat, this.prop.lng));
-};
-
 MapViewModel.prototype.clearMap = function () {
   this.closeLastOpen();
 

@@ -46,7 +46,7 @@ MapControl.prototype.loadMyLocation = function() {
       mapVM.prop.attr('lng', util.roundNumber(position.coords.longitude));
       mapVM.prop.attr('ready', true);
 
-      mapVM.centerToLatLng();
+      self.centerToLatLng();
     }, function(error) {
       mapVM.prop.attr('ready', true);
     });
@@ -151,6 +151,10 @@ MapControl.prototype.getScreenTravelDistance = function() {
 
 MapControl.prototype.validateLatLng = function() {
   return util.isNumber(mapVM.prop.lat) && util.isNumber(mapVM.prop.lng);
+};
+
+MapControl.prototype.centerToLatLng = function() {
+  mapVM.map.setCenter(new google.maps.LatLng(mapVM.prop.lat, mapVM.prop.lng));
 };
 
 var getEventsAjaxDeferred = function(url, data) {
