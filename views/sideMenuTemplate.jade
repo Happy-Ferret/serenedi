@@ -13,101 +13,101 @@ doctype html
     h4
       | Latitude:
   .col-xs-6
-    input#lat.location(type="number", style="width: 100px; margin-left: -20px;", step="0.005", value="{{prop.mapProp.lat}}")
+    input#lat.location(type="number", style="width: 100px; margin-left: -20px;", step="0.005", value="{{mapVM.mapProp.lat}}")
 .row
   .col-xs-6
     h4
       | Longitude:
   .col-xs-6
-    input#lng.location(type="number", style="width: 100px; margin-left: -20px;", step="0.005", value="{{prop.mapProp.lng}}")
+    input#lng.location(type="number", style="width: 100px; margin-left: -20px;", step="0.005", value="{{mapVM.mapProp.lng}}")
 .row
   .col-xs-12
     h3
       | Event Types
 .row
   .col-xs-3
-    input#typeConfFlag.type(type="checkbox", can-value='types.conf')
+    input#typeConfFlag.type(type="checkbox", can-value='sideMenuVM.types.conf')
   .col-xs-3
     h5 Conference
   .col-xs-3
-    input#typeConvFlag.type(type="checkbox", can-value='types.conv')
+    input#typeConvFlag.type(type="checkbox", can-value='sideMenuVM.types.conv')
   .col-xs-3
     h5 Conventions
 .row
   .col-xs-3
-    input#typeEntFlag.type(type="checkbox", can-value='types.ent')
+    input#typeEntFlag.type(type="checkbox", can-value='sideMenuVM.types.ent')
   .col-xs-3
     h5 Entertainment
   .col-xs-3
-    input#typeFairFlag.type(type="checkbox", can-value='types.fair')
+    input#typeFairFlag.type(type="checkbox", can-value='sideMenuVM.types.fair')
   .col-xs-3
     h5 Fair
 .row
   .col-xs-3
-    input#typeFoodFlag.type(type="checkbox", can-value='types.food')
+    input#typeFoodFlag.type(type="checkbox", can-value='sideMenuVM.types.food')
   .col-xs-3
     h5 Food
   .col-xs-3
-    input#typeFundFlag.type(type="checkbox", can-value='types.fund')
+    input#typeFundFlag.type(type="checkbox", can-value='sideMenuVM.types.fund')
   .col-xs-3
     h5 Fundraisers
 .row
   .col-xs-3
-    input#typeMeetFlag.type(type="checkbox", can-value='types.meet')
+    input#typeMeetFlag.type(type="checkbox", can-value='sideMenuVM.types.meet')
   .col-xs-3
     h5 Meetings
   .col-xs-3
-    input#typeMusicFlag.type(type="checkbox", can-value='types.music')
+    input#typeMusicFlag.type(type="checkbox", can-value='sideMenuVM.types.music')
   .col-xs-3
     h5 Music
 .row
   .col-xs-3
-    input#typePerfFlag.type(type="checkbox", can-value='types.perf')
+    input#typePerfFlag.type(type="checkbox", can-value='sideMenuVM.types.perf')
   .col-xs-3
     h5 Performance
   .col-xs-3
-    input#typeRecFlag.type(type="checkbox", can-value='types.rec')
+    input#typeRecFlag.type(type="checkbox", can-value='sideMenuVM.types.rec')
   .col-xs-3
     h5 Recreations
 .row
   .col-xs-3
-    input#typeReligFlag.type(type="checkbox", can-value='types.relig')
+    input#typeReligFlag.type(type="checkbox", can-value='sideMenuVM.types.relig')
   .col-xs-3
     h5 Religion
   .col-xs-3
-    input#typeReunFlag.type(type="checkbox", can-value='types.reun')
+    input#typeReunFlag.type(type="checkbox", can-value='sideMenuVM.types.reun')
   .col-xs-3
     h5 Reunions
 .row
   .col-xs-3
-    input#typeSalesFlag.type(type="checkbox", can-value='types.sales')
+    input#typeSalesFlag.type(type="checkbox", can-value='sideMenuVM.types.sales')
   .col-xs-3
     h5 Sales
   .col-xs-3
-    input#typeSemiFlag.type(type="checkbox", can-value='types.semi')
+    input#typeSemiFlag.type(type="checkbox", can-value='sideMenuVM.types.semi')
   .col-xs-3
     h5 Seminar
 .row
   .col-xs-3
-    input#typeSociFlag.type(type="checkbox", can-value='types.soci')
+    input#typeSociFlag.type(type="checkbox", can-value='sideMenuVM.types.soci')
   .col-xs-3
     h5 Social
   .col-xs-3
-    input#typeSportsFlag.type(type="checkbox", can-value='types.sports')
+    input#typeSportsFlag.type(type="checkbox", can-value='sideMenuVM.types.sports')
   .col-xs-3
     h5 Sports
 .row
   .col-xs-3
-    input#typeTradeFlag.type(type="checkbox", can-value='types.trade')
+    input#typeTradeFlag.type(type="checkbox", can-value='sideMenuVM.types.trade')
   .col-xs-3
     h5 Trade Show
   .col-xs-3
-    input#typeTravelFlag.type(type="checkbox", can-value='types.travel')
+    input#typeTravelFlag.type(type="checkbox", can-value='sideMenuVM.types.travel')
   .col-xs-3
     h5 Travel
 .row
   .col-xs-3
-    input#typeOtherFlag.type(type="checkbox", can-value='types.other')
+    input#typeOtherFlag.type(type="checkbox", can-value='sideMenuVM.types.other')
   .col-xs-3
     h5 Other
 .row
@@ -116,6 +116,6 @@ doctype html
       | Dates
 .row
   .col-xs-12
-    input#dateFrom.datePicker(type="text", style="width: 90px; float:left;", value="{{prop.dateFrom}}")
+    input#dateFrom.datePicker(type="text", style="width: 90px; float:left;", value="{{sideMenuVM.prop.dateFrom}}")
     h5.to(style="float:left;") &nbsp;to&nbsp;
-    input#dateTo.datePicker(type="text", style="width: 90px; float:left", value="{{prop.dateTo}}")
+    input#dateTo.datePicker(type="text", style="width: 90px; float:left", value="{{sideMenuVM.prop.dateTo}}")
