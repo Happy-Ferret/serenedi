@@ -1,5 +1,6 @@
 var util = require('../../../shared/Util.js');
 var statusVM = require('./StatusViewModel.js').getStatusViewModel();
+var mapUpdateTrigger = require('./MapUpdateTrigger.js');
 
 var MAP_BOX = 'mapBox';
 var INFO_TEMPLATE = 'infoPopUpTemplate';
@@ -27,6 +28,10 @@ var MapViewModel = function() {
   this.distCheckPass = true;
 
   var self = this;
+
+  this.mapProp.bind('change', function() {
+    mapUpdateTrigger();
+  });
 
   this.mapProp.bind('lat', function(event, newVal, oldVal) {
     self.distCheckPass = false;
