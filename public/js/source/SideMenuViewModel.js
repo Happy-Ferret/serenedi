@@ -1,7 +1,10 @@
 var mapVM = require('./MapViewModel.js').getMapViewModel();
 var util = require('../../../shared/Util.js');
+var mapControlObject = require('./MapControl.js');
 
 var SIDE_MENU_TEMPLATE = 'sideMenuTemplate';
+var today = new Date();
+var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
 
 var sideMenuViewModel;
 
@@ -14,32 +17,52 @@ module.exports.getSideMenuViewModel = function() {
 
 var SideMenuViewModel = function() {
   this.types = new can.Observe({conf: true,
-                                                conv: true,
-                                                ent: true,
-                                                fair: true,
-                                                food: true,
-                                                fund: true,
-                                                meet: true,
-                                                music: true,
-                                                perf: true,
-                                                rec: true,
-                                                relig: true,
-                                                reun: true,
-                                                sales: true,
-                                                semi: true,
-                                                soci: true,
-                                                sports: true,
-                                                trade: true,
-                                                travel: true,
-                                                other: true});
+                                conv: true,
+                                ent: true,
+                                fair: true,
+                                food: true,
+                                fund: true,
+                                meet: true,
+                                music: true,
+                                perf: true,
+                                rec: true,
+                                relig: true,
+                                reun: true,
+                                sales: true,
+                                semi: true,
+                                soci: true,
+                                sports: true,
+                                trade: true,
+                                travel: true,
+                                other: true});
+  this.prop = new can.Observe({mapProp: mapVM.mapProp,
+                              types: '1111111111111111111',
+                              ready: false,
+                              dateFrom: util.getPrettyDate(today),
+                              dateTo: util.getPrettyDate(weekAfter)});
   this.dateFromDom = $('#dateFrom');
   this.dateToDom = $('#dateTo');
 
-  $('#sideMenu').html(can.view(SIDE_MENU_TEMPLATE, mapVM));
+  $('#sideMenu').html(can.view(SIDE_MENU_TEMPLATE, this));
+
   var self = this;
 
+  this.prop.bind('change', function(event, attr, how, newVal, oldVal) {
+    if (self.prop.ready) {
+      clearTimeout(mapVM.waitedSinceLastChange);
+      mapVM.waitedSinceLastChange = setTimeout(function() {
+        mapControlObject.getMapControl().updateMap();
+      }, 1400);
+    }
+  });
+
+  this.prop.bind('types', function(event, newVal, oldVal) {
+    mapVM.clearMap();
+    mapVM.distCheckPass = true;
+  });
+
   this.types.bind('change', function(event, attr, how, newVal, oldVal) {
-    mapVM.prop.attr('types', (this.conf ? '1' : '0') +
+    self.prop.attr('types', (this.conf ? '1' : '0') +
                                       (this.conv ? '1' : '0') +
                                       (this.ent ? '1' : '0') +
                                       (this.fair ? '1' : '0') +
@@ -61,7 +84,7 @@ var SideMenuViewModel = function() {
   });
 
   this.dateFromDom.datepicker({
-    defaultDate : mapVM.prop.dateFrom,
+    defaultDate : self.prop.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
@@ -69,11 +92,11 @@ var SideMenuViewModel = function() {
       this.dateToDom.datepicker('option', 'minDate', selectedDate);
       $(this).trigger('change');
     },
-    maxDate: mapVM.prop.dateTo
+    maxDate: self.prop.dateTo
   });
 
   this.dateToDom.datepicker({
-    defaultDate : mapVM.prop.dateFrom,
+    defaultDate : self.prop.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
@@ -81,7 +104,7 @@ var SideMenuViewModel = function() {
       this.dateFromDom.datepicker('option', 'maxDate', selectedDate);
       $(this).trigger('change');
     },
-    minDate: mapVM.prop.dateFrom
+    minDate: self.prop.dateFrom
   });
 
   $('#loadMyLocation').popover();
@@ -93,8 +116,8 @@ var SideMenuViewModel = function() {
 };
 
 SideMenuViewModel.prototype.setDateToSelectedEvent = function(startDate, endDate) {
-  mapVM.prop.attr('dateFrom', startDate);
-  mapVM.prop.attr('dateTo', endDate);
+  self.prop.attr('dateFrom', startDate);
+  self.prop.attr('dateTo', endDate);
   this.dateFromDom.datepicker('option', 'maxDate', endDate);
   this.dateToDom.datepicker('option', 'minDate', startDate);
 };

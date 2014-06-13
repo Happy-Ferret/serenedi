@@ -1,10 +1,7 @@
 var util = require('../../../shared/Util.js');
 var urlArgs = require('./UrlArgs.js');
 var statusVM = require('./StatusViewModel.js').getStatusViewModel();
-var mapControlObject = require('./MapControl.js');
 
-var today = new Date();
-var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
 var MAP_BOX = 'mapBox';
 var INFO_TEMPLATE = 'infoPopUpTemplate';
 
@@ -18,13 +15,9 @@ module.exports.getMapViewModel = function() {
 };
 
 var MapViewModel = function() {
-  this.prop = new can.Observe({lat: 40.72616,
-                                                lng: -73.99973,
-                                                radius: undefined,
-                                                types: '1111111111111111111',
-                                                ready: false,
-                                                dateFrom: util.getPrettyDate(today),
-                                                dateTo: util.getPrettyDate(weekAfter)});
+  this.mapProp = new can.Observe({lat: 40.72616,
+                                  lng: -73.99973,
+                                  radius: undefined});
 
   this.map = null;
   this.ids = [];
@@ -38,35 +31,21 @@ var MapViewModel = function() {
 
   var self = this;
 
-  this.prop.bind('change', function(event, attr, how, newVal, oldVal) {
-    if (self.prop.ready) {
-      clearTimeout(self.waitedSinceLastChange);
-      self.waitedSinceLastChange = setTimeout(function() {
-        mapControlObject.getMapControl().updateMap();
-      }, 1400);
-    }
-  });
-
-  this.prop.bind('lat', function(event, newVal, oldVal) {
+  this.mapProp.bind('lat', function(event, newVal, oldVal) {
     self.distCheckPass = false;
   });
 
-  this.prop.bind('lng', function(event, newVal, oldVal) {
+  this.mapProp.bind('lng', function(event, newVal, oldVal) {
     self.distCheckPass = false;
   });
 
-  this.prop.bind('radius', function(event, newVal, oldVal) {
-    self.distCheckPass = true;
-  });
-
-  this.prop.bind('types', function(event, newVal, oldVal) {
-    self.clearMap();
+  this.mapProp.bind('radius', function(event, newVal, oldVal) {
     self.distCheckPass = true;
   });
 
   this.map = new google.maps.Map(document.getElementById(MAP_BOX), {
     zoom : 15,
-    center : new google.maps.LatLng(self.prop.lat, self.prop.lng),
+    center : new google.maps.LatLng(self.mapProp.lat, self.mapProp.lng),
     mapTypeId : google.maps.MapTypeId.ROADMAP,
     disableDefaultUI: true,
     mapTypeControl: true
@@ -76,9 +55,9 @@ var MapViewModel = function() {
     var ne = self.map.getBounds().getNorthEast();
     var sw = self.map.getBounds().getSouthWest();
 
-    self.prop.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
-    self.prop.attr('lat', util.roundNumber(self.map.getCenter().lat()));
-    self.prop.attr('lng', util.roundNumber(self.map.getCenter().lng()));
+    self.mapProp.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
+    self.mapProp.attr('lat', util.roundNumber(self.map.getCenter().lat()));
+    self.mapProp.attr('lng', util.roundNumber(self.map.getCenter().lng()));
   });
 
   google.maps.event.addListener(this.map, 'dragstart', function() {
@@ -88,15 +67,15 @@ var MapViewModel = function() {
 
   google.maps.event.addListener(this.map, 'dragend', function() {
     self.dragging = false;
-    self.prop.attr('lat', util.roundNumber(self.map.getCenter().lat()));
-    self.prop.attr('lng', util.roundNumber(self.map.getCenter().lng()));
+    self.mapProp.attr('lat', util.roundNumber(self.map.getCenter().lat()));
+    self.mapProp.attr('lng', util.roundNumber(self.map.getCenter().lng()));
   });
 
   google.maps.event.addListener(this.map, 'zoom_changed', function() {
     var ne = self.map.getBounds().getNorthEast();
     var sw = self.map.getBounds().getSouthWest();
 
-    self.prop.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
+    self.mapProp.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
   });
 };
 
@@ -179,7 +158,7 @@ MapViewModel.prototype.addEventMarker = function (event) {
     google.maps.event.trigger(marker, 'click');
     self.eventToOpenID = null;
     var center = self.map.getCenter();
-    self.prop.attr('lat', util.roundNumber(center.lat()));
-    self.prop.attr('lng', util.roundNumber(center.lng()));
+    self.mapProp.attr('lat', util.roundNumber(center.lat()));
+    self.mapProp.attr('lng', util.roundNumber(center.lng()));
   }
 };

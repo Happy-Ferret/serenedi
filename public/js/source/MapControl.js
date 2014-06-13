@@ -17,20 +17,20 @@ var MapControl = can.Control({
     this.sideMenu = sideMenuVM;
 
     if (mapVM.eventToOpenID) {
-      mapVM.prop.attr('ready', true);
-      can.trigger(mapVM.prop, 'change');
+      sideMenuVM.prop.attr('ready', true);
+      can.trigger(sideMenuVM.prop, 'change');
     } else {
       this.loadMyLocation();
     }
   },
   '.datePicker change': function(el, ev) {
     if (el.prop('id') === 'dateFrom') {
-      mapVM.prop.attr('dateFrom', el.val());
+      sideMenuVM.prop.attr('dateFrom', el.val());
     } else if (el.prop('id') === 'dateTo') {
-      mapVM.prop.attr('dateTo', el.val());
+      sideMenuVM.prop.attr('dateTo', el.val());
     }
 
-    can.trigger(mapVM.prop, 'change');
+    can.trigger(sideMenuVM.prop, 'change');
     mapVM.clearMap();
   },
   '#loadMyLocation click': function(el, ev) {
@@ -42,13 +42,13 @@ MapControl.prototype.loadMyLocation = function() {
   if (navigator.geolocation) {
     var self = this;
     navigator.geolocation.getCurrentPosition(function (position) {
-      mapVM.prop.attr('lat', util.roundNumber(position.coords.latitude));
-      mapVM.prop.attr('lng', util.roundNumber(position.coords.longitude));
-      mapVM.prop.attr('ready', true);
+      sideMenuVM.prop.mapProp.attr('lat', util.roundNumber(position.coords.latitude));
+      sideMenuVM.prop.mapProp.attr('lng', util.roundNumber(position.coords.longitude));
+      sideMenuVM.prop.attr('ready', true);
 
       self.centerToLatLng();
     }, function(error) {
-      mapVM.prop.attr('ready', true);
+      sideMenuVM.prop.attr('ready', true);
     });
   } else {
     statusVM.setStatus(statusVM.CONST.GEO_ERROR);
@@ -105,22 +105,22 @@ MapControl.prototype.getEventCallback = function(data) {
 MapControl.prototype.updateMap = function() {
   if (this.isNeedUpdate()) {
     statusVM.setStatus(statusVM.CONST.WORKING);
-    mapVM.latestLoc.lat = mapVM.prop.lat;
-    mapVM.latestLoc.lng = mapVM.prop.lng;
+    mapVM.latestLoc.lat = sideMenuVM.prop.mapProp.lat;
+    mapVM.latestLoc.lng = sideMenuVM.prop.mapProp.lng;
 
     if (mapVM.eventToOpenID) {
       this.getEventsByIDCall({
         id : mapVM.eventToOpenID,
-        radius : mapVM.prop.radius
+        radius : sideMenuVM.prop.mapProp.radius
       });
     } else {
       this.getEventsCall({
-        lat : mapVM.prop.lat,
-        lng : mapVM.prop.lng,
-        dateFrom : mapVM.prop.dateFrom,
-        dateTo : mapVM.prop.dateTo,
-        type : mapVM.prop.types,
-        radius : mapVM.prop.radius
+        lat : sideMenuVM.prop.mapProp.lat,
+        lng : sideMenuVM.prop.mapProp.lng,
+        dateFrom : sideMenuVM.prop.dateFrom,
+        dateTo : sideMenuVM.prop.dateTo,
+        type : sideMenuVM.prop.types,
+        radius : sideMenuVM.prop.mapProp.radius
       });
     }
   }
@@ -134,7 +134,7 @@ MapControl.prototype.isNeedUpdate = function() {
   if (statusVM.getStatus() === 1) {
     return false;
   }
-  if (mapVM.prop.radius > 19) {
+  if (sideMenuVM.prop.mapProp.radius > 19) {
     statusVM.setStatus(statusVM.CONST.ZOOM_ERROR);
     return false;
   }
@@ -142,19 +142,19 @@ MapControl.prototype.isNeedUpdate = function() {
     return false;
   }
 
-  return mapVM.distCheckPass || Math.abs(this.getScreenTravelDistance()) > mapVM.prop.radius / 1.5;
+  return mapVM.distCheckPass || Math.abs(this.getScreenTravelDistance()) > sideMenuVM.prop.mapProp.radius / 1.5;
 };
 
 MapControl.prototype.getScreenTravelDistance = function() {
-  return util.getDistanceFromLatLng(mapVM.prop.lat, mapVM.prop.lng, mapVM.latestLoc.lat, mapVM.latestLoc.lng);
+  return util.getDistanceFromLatLng(sideMenuVM.prop.mapProp.lat, sideMenuVM.prop.mapProp.lng, mapVM.latestLoc.lat, mapVM.latestLoc.lng);
 };
 
 MapControl.prototype.validateLatLng = function() {
-  return util.isNumber(mapVM.prop.lat) && util.isNumber(mapVM.prop.lng);
+  return util.isNumber(sideMenuVM.prop.mapProp.lat) && util.isNumber(sideMenuVM.prop.mapProp.lng);
 };
 
 MapControl.prototype.centerToLatLng = function() {
-  mapVM.map.setCenter(new google.maps.LatLng(mapVM.prop.lat, mapVM.prop.lng));
+  mapVM.map.setCenter(new google.maps.LatLng(sideMenuVM.prop.mapProp.lat, sideMenuVM.prop.mapProp.lng));
 };
 
 var getEventsAjaxDeferred = function(url, data) {
