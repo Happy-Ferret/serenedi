@@ -73,7 +73,7 @@ MapControl.prototype.getEventsByIDCall = function(data) {
   getEventsAjaxDeferred('getEventsById', data).done(function(data) {
     self.getEventCallback(data);
   }).fail(function() {
-    console.log('ERROR: getEvents call failed.');
+    console.log('ERROR: getEventsByID call failed.');
   });
 };
 
