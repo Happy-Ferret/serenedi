@@ -26,12 +26,12 @@ var MapControl = can.Control({
   },
   '.datePicker change': function(el, ev) {
     if (el.prop('id') === 'dateFrom') {
-      sideMenuVM.prop.attr('dateFrom', el.val());
+      sideMenuVM.sideMenuProp.attr('dateFrom', el.val());
     } else if (el.prop('id') === 'dateTo') {
-      sideMenuVM.prop.attr('dateTo', el.val());
+      sideMenuVM.sideMenuProp.attr('dateTo', el.val());
     }
 
-    can.trigger(sideMenuVM.prop, 'change');
+    can.trigger(sideMenuVM.sideMenuProp, 'change');
     mapVM.clearMap();
   },
   '#loadMyLocation click': function(el, ev) {
@@ -119,9 +119,9 @@ MapControl.prototype.updateMap = function() {
       this.getEventsCall({
         lat : mapVM.mapProp.lat,
         lng : mapVM.mapProp.lng,
-        dateFrom : sideMenuVM.prop.dateFrom,
-        dateTo : sideMenuVM.prop.dateTo,
-        type : sideMenuVM.prop.types,
+        dateFrom : sideMenuVM.sideMenuProp.dateFrom,
+        dateTo : sideMenuVM.sideMenuProp.dateTo,
+        type : sideMenuVM.sideMenuProp.types,
         radius : mapVM.mapProp.radius
       });
     }

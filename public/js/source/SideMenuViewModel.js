@@ -35,7 +35,7 @@ var SideMenuViewModel = function() {
                                 trade: true,
                                 travel: true,
                                 other: true});
-  this.prop = new can.Observe({types: '1111111111111111111',
+  this.sideMenuProp = new can.Observe({types: '1111111111111111111',
                               dateFrom: util.getPrettyDate(today),
                               dateTo: util.getPrettyDate(weekAfter)});
   this.dateFromDom = $('#dateFrom');
@@ -46,17 +46,17 @@ var SideMenuViewModel = function() {
 
   var self = this;
 
-  this.prop.bind('change', function(event, attr, how, newVal, oldVal) {
+  this.sideMenuProp.bind('change', function(event, attr, how, newVal, oldVal) {
     mapUpdateTrigger();
   });
 
-  this.prop.bind('types', function(event, newVal, oldVal) {
+  this.sideMenuProp.bind('types', function(event, newVal, oldVal) {
     mapVM.clearMap();
     mapVM.distCheckPass = true;
   });
 
   this.types.bind('change', function(event, attr, how, newVal, oldVal) {
-    self.prop.attr('types', (this.conf ? '1' : '0') +
+    self.sideMenuProp.attr('types', (this.conf ? '1' : '0') +
                                       (this.conv ? '1' : '0') +
                                       (this.ent ? '1' : '0') +
                                       (this.fair ? '1' : '0') +
@@ -78,7 +78,7 @@ var SideMenuViewModel = function() {
   });
 
   this.dateFromDom.datepicker({
-    defaultDate : self.prop.dateFrom,
+    defaultDate : self.sideMenuProp.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
@@ -86,11 +86,11 @@ var SideMenuViewModel = function() {
       this.dateToDom.datepicker('option', 'minDate', selectedDate);
       $(this).trigger('change');
     },
-    maxDate: self.prop.dateTo
+    maxDate: self.sideMenuProp.dateTo
   });
 
   this.dateToDom.datepicker({
-    defaultDate : self.prop.dateFrom,
+    defaultDate : self.sideMenuProp.dateFrom,
     changeMonth : true,
     changeYear : true,
     numberOfMonths : 1,
@@ -98,7 +98,7 @@ var SideMenuViewModel = function() {
       this.dateFromDom.datepicker('option', 'maxDate', selectedDate);
       $(this).trigger('change');
     },
-    minDate: self.prop.dateFrom
+    minDate: self.sideMenuProp.dateFrom
   });
 
   $('#loadMyLocation').popover();
@@ -110,8 +110,8 @@ var SideMenuViewModel = function() {
 };
 
 SideMenuViewModel.prototype.setDateToSelectedEvent = function(startDate, endDate) {
-  self.prop.attr('dateFrom', startDate);
-  self.prop.attr('dateTo', endDate);
+  self.sideMenuProp.attr('dateFrom', startDate);
+  self.sideMenuProp.attr('dateTo', endDate);
   this.dateFromDom.datepicker('option', 'maxDate', endDate);
   this.dateToDom.datepicker('option', 'minDate', startDate);
 };
