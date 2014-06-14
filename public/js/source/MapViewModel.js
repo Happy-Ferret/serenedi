@@ -1,5 +1,4 @@
 var util = require('../../../shared/Util.js');
-var statusVM = require('./StatusViewModel.js').getStatusViewModel();
 var mapUpdateTrigger = require('./MapUpdateTrigger.js');
 
 var MAP_BOX = 'mapBox';
@@ -29,10 +28,6 @@ var MapViewModel = function() {
 
   var self = this;
 
-  this.mapProp.bind('change', function() {
-    mapUpdateTrigger();
-  });
-
   this.mapProp.bind('lat', function(event, newVal, oldVal) {
     self.distCheckPass = false;
   });
@@ -60,6 +55,10 @@ var MapViewModel = function() {
     self.mapProp.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
     self.mapProp.attr('lat', util.roundNumber(self.map.getCenter().lat()));
     self.mapProp.attr('lng', util.roundNumber(self.map.getCenter().lng()));
+
+    self.mapProp.bind('change', function(event, attr, how, newVal, oldVal) {
+      mapUpdateTrigger();
+    });
   });
 
   google.maps.event.addListener(this.map, 'dragstart', function() {

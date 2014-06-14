@@ -19,7 +19,7 @@ var MapControl = can.Control({
     this.sideMenu = sideMenuVM;
 
     if (eventToOpenID) {
-      can.trigger(sideMenuVM.prop, 'change');
+      mapUpdateTrigger();
     } else {
       this.loadMyLocation();
     }
