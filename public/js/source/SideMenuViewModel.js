@@ -75,18 +75,32 @@ var SideMenuViewModel = function() {
                                       (this.other ? '1' : '0'));
   });
 
-  $('#datepicker').datepicker({
+
+  this.dates = $('#datepicker');
+
+  this.dates.datepicker({
     todayBtn: true,
     autoclose: true,
-    todayHighlight: true,
-    startDate: self.sideMenuProp.dateFrom,
-    endDate: self.sideMenuProp.dateTo
+    todayHighlight: true
+  }).on('hide', function(e) {
+    var fromDate = self.dateFromDom.datepicker('getDate');
+    var toDate = self.dateToDom.datepicker('getDate');
+
+    self.sideMenuProp.attr('dateFrom', fromDate);
+    self.sideMenuProp.attr('dateTo', toDate);
+
+    self.dateFromDom.datepicker('setEndDate', toDate);
+    self.dateToDom.datepicker('setStartDate', fromDate);
   });
+
   this.dateFromDom = $('#dateFrom');
   this.dateToDom = $('#dateTo');
-  this.dateFromDom.datepicker('setDate', self.sideMenuProp.dateFrom);
-  this.dateToDom.datepicker('setDate', self.sideMenuProp.dateTo);
-
+  this.dateFromDom
+    .datepicker('setDate', self.sideMenuProp.dateFrom)
+    .datepicker('setEndDate', self.sideMenuProp.dateTo);
+  this.dateToDom
+    .datepicker('setDate', self.sideMenuProp.dateTo)
+    .datepicker('setStartDate', self.sideMenuProp.dateFrom);
 
   $('#loadMyLocation').popover();
   $('#sideMenu').mCustomScrollbar({
@@ -94,11 +108,4 @@ var SideMenuViewModel = function() {
         autoScrollOnFocus: false
     }
   });
-};
-
-SideMenuViewModel.prototype.setDateToSelectedEvent = function(startDate, endDate) {
-  // self.sideMenuProp.attr('dateFrom', startDate);
-  // self.sideMenuProp.attr('dateTo', endDate);
-  // this.dateFromDom.datepicker('option', 'maxDate', endDate);
-  // this.dateToDom.datepicker('option', 'minDate', startDate);
 };
