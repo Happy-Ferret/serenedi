@@ -45,11 +45,8 @@ var SideMenuViewModel = function() {
   var self = this;
 
   this.sideMenuProp.bind('change', function(event, attr, how, newVal, oldVal) {
-    mapUpdateTrigger();
-  });
-
-  this.sideMenuProp.bind('types', function(event, newVal, oldVal) {
     mapVM.clearMap();
+    mapUpdateTrigger();
     mapVM.distCheckPass = true;
   });
 
@@ -86,11 +83,11 @@ var SideMenuViewModel = function() {
     var fromDate = self.dateFromDom.datepicker('getDate');
     var toDate = self.dateToDom.datepicker('getDate');
 
-    self.sideMenuProp.attr('dateFrom', fromDate);
-    self.sideMenuProp.attr('dateTo', toDate);
-
     self.dateFromDom.datepicker('setEndDate', toDate);
     self.dateToDom.datepicker('setStartDate', fromDate);
+
+    self.sideMenuProp.attr('dateFrom', util.getPrettyDate(fromDate));
+    self.sideMenuProp.attr('dateTo', util.getPrettyDate(toDate));
   });
 
   this.dateFromDom = $('#dateFrom');
