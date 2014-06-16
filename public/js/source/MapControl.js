@@ -58,6 +58,10 @@ MapControl.prototype.loadMyLocation = function() {
 };
 
 MapControl.prototype.addEventMarkers = function(events) {
+  if (!events) {
+    return;
+  }
+
   for (var n = 1; n < events.length; n++) {
     var currentEvent = events[n].event;
 
