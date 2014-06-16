@@ -14,18 +14,18 @@ module.exports = function(grunt) {
                 data: { googleAPIKey: config.googleAPIKey, url: config.url },
                 pretty: false
             },
-            files: [ { 
-              expand: true, 
-              src: ["*.jade"], 
-              dest: "public/template", 
-              cwd: "views/", 
+            files: [ {
+              expand: true,
+              src: ["*.jade"],
+              dest: "public/template",
+              cwd: "views/",
               ext: '.html'
             } ]
         }
     },
     jshint: {
       options: {
-        '-W069': true, // ignore ['HEAD'] is better written in dot notation        
+        '-W069': true, // ignore ['HEAD'] is better written in dot notation
         '-W079': true
       },
       web: {
@@ -72,7 +72,7 @@ module.exports = function(grunt) {
             'document': true,
             'navigator': true
           }
-        } 
+        }
       }
     },
     less: {

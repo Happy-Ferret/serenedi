@@ -38,8 +38,6 @@ var SideMenuViewModel = function() {
   this.sideMenuProp = new can.Observe({types: '1111111111111111111',
                               dateFrom: util.getPrettyDate(today),
                               dateTo: util.getPrettyDate(weekAfter)});
-  this.dateFromDom = $('#dateFrom');
-  this.dateToDom = $('#dateTo');
   this.waitedSinceLastChange = undefined;
 
   $('#sideMenu').html(can.view(SIDE_MENU_TEMPLATE, {sideMenuVM: this, mapVM: mapVM}));
@@ -77,29 +75,18 @@ var SideMenuViewModel = function() {
                                       (this.other ? '1' : '0'));
   });
 
-  this.dateFromDom.datepicker({
-    defaultDate : self.sideMenuProp.dateFrom,
-    changeMonth : true,
-    changeYear : true,
-    numberOfMonths : 1,
-    onSelect : function(selectedDate) {
-      this.dateToDom.datepicker('option', 'minDate', selectedDate);
-      $(this).trigger('change');
-    },
-    maxDate: self.sideMenuProp.dateTo
+  $('#datepicker').datepicker({
+    todayBtn: true,
+    autoclose: true,
+    todayHighlight: true,
+    startDate: self.sideMenuProp.dateFrom,
+    endDate: self.sideMenuProp.dateTo
   });
+  this.dateFromDom = $('#dateFrom');
+  this.dateToDom = $('#dateTo');
+  this.dateFromDom.datepicker('setDate', self.sideMenuProp.dateFrom);
+  this.dateToDom.datepicker('setDate', self.sideMenuProp.dateTo);
 
-  this.dateToDom.datepicker({
-    defaultDate : self.sideMenuProp.dateFrom,
-    changeMonth : true,
-    changeYear : true,
-    numberOfMonths : 1,
-    onSelect : function(selectedDate) {
-      this.dateFromDom.datepicker('option', 'maxDate', selectedDate);
-      $(this).trigger('change');
-    },
-    minDate: self.sideMenuProp.dateFrom
-  });
 
   $('#loadMyLocation').popover();
   $('#sideMenu').mCustomScrollbar({
@@ -110,8 +97,8 @@ var SideMenuViewModel = function() {
 };
 
 SideMenuViewModel.prototype.setDateToSelectedEvent = function(startDate, endDate) {
-  self.sideMenuProp.attr('dateFrom', startDate);
-  self.sideMenuProp.attr('dateTo', endDate);
-  this.dateFromDom.datepicker('option', 'maxDate', endDate);
-  this.dateToDom.datepicker('option', 'minDate', startDate);
+  // self.sideMenuProp.attr('dateFrom', startDate);
+  // self.sideMenuProp.attr('dateTo', endDate);
+  // this.dateFromDom.datepicker('option', 'maxDate', endDate);
+  // this.dateToDom.datepicker('option', 'minDate', startDate);
 };
