@@ -165,5 +165,5 @@ module.exports = function(grunt) {
   grunt.registerTask('unittest', ['simplemocha']);
   grunt.registerTask('test', ['unittest', 'clicktest']);
 
-  grunt.registerTask('default', ['clean', 'copy', 'jade', 'browserify', 'less', 'jshint', 'templates', ]);
+  grunt.registerTask('default', ['clean', 'copy', 'jade', 'browserify', 'less', 'jshint', 'templates']);
 };
