@@ -26,6 +26,7 @@ var MapControl = can.Control({
   },
   '#loadMyLocation click': function(el, ev) {
     this.loadMyLocation();
+    mapUpdateTrigger();
   }
 });
 
