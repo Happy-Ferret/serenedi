@@ -24,16 +24,6 @@ var MapControl = can.Control({
       this.loadMyLocation();
     }
   },
-  '.datePicker change': function(el, ev) {
-    if (el.prop('id') === 'dateFrom') {
-      sideMenuVM.sideMenuProp.attr('dateFrom', el.val());
-    } else if (el.prop('id') === 'dateTo') {
-      sideMenuVM.sideMenuProp.attr('dateTo', el.val());
-    }
-
-    can.trigger(sideMenuVM.sideMenuProp, 'change');
-    mapVM.clearMap();
-  },
   '#loadMyLocation click': function(el, ev) {
     this.loadMyLocation();
   }
