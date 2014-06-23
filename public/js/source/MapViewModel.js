@@ -103,7 +103,7 @@ MapViewModel.prototype.closeLastOpen = function () {
 };
 
 MapViewModel.prototype.addEventMarker = function (event) {
-  var point = new google.maps.LatLng(event.venue.latitude, event.venue.longitude);
+  var point = new google.maps.LatLng(event.lat, event.lng);
 
   var marker = new google.maps.Marker({
     position: point,
@@ -126,13 +126,13 @@ MapViewModel.prototype.addEventMarker = function (event) {
         content: can.view.render(INFO_TEMPLATE, {
           title: marker.getTitle(),
           url: {eventbrite: event.url, serenedi: SERENEDI_URL + '/?id=' + event.id},
-          start: event.start_date.split(' ')[0],
-          end: event.end_date.split(' ')[0],
-          showAddr: event.venue.address !== null || event.venue.address !== '',
-          addr: event.venue.address + ' ' + event.venue.address_2,
-          city: event.venue.city,
-          region: event.venue.region,
-          zip: event.venue.postalcode,
+          start: event.startDate,
+          end: event.endDate,
+          showAddr: event.addr ? true : false,
+          addr: event.addr,
+          city: event.city,
+          region: event.region,
+          zip: event.postalcode,
           category: event.category
         })
       });

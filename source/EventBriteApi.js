@@ -9,7 +9,7 @@ var READ_SIZE = 100;
 module.exports.searchEvents = function(req, res) {
   callEventSearch(buildEventSearchParam(req.query)).then(function (data) {
     console.log('[LOG] respose \n', data);
-    res.json(data);
+    res.json(convertReceivedData(data));
   }).fail(function (err) {
     console.log('[ERROR] eventbrite search failed. \n', err, req.query);
     res.json({'error': err});
@@ -37,7 +37,7 @@ module.exports.getEvent = function(req, res) {
 
     console.log('[LOG] respose \n', data);
 
-    res.json(data);
+    res.json(convertReceivedData(data));
   }).fail(function (err) {
     console.log('[ERROR] get event by id failed. \n', err, req.query);
 
@@ -87,4 +87,29 @@ var buildEventSearchParam = function(args) {
     "category" : util.getTypeString(args.type),
     "sort_by" : "id"
   };
+};
+
+var convertReceivedData = function(data) {
+  var events = [];
+  data = data.events;
+  for (var n = 1; n < data.length; n++) {
+    var event = {};
+
+    event.id = data[n].event.id;
+    event.title = data[n].event.title;
+    event.lat = data[n].event.venue.latitude;
+    event.lng = data[n].event.venue.longitude;
+    event.url = data[n].event.url;
+    event.startDate = data[n].event.start_date.split(' ')[0];
+    event.endDate = data[n].event.end_date.split(' ')[0];
+    event.addr = data[n].event.venue.address + ' ' + data[n].event.venue.address_2;
+    event.city = data[n].event.venue.city;
+    event.region = data[n].event.venue.region;
+    event.zip = data[n].event.venue.postalcode;
+    event.category = data[n].event.category;
+
+    events.push(event);
+  }
+
+  return events;
 };

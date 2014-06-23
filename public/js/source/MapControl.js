@@ -52,9 +52,8 @@ MapControl.prototype.addEventMarkers = function(events) {
   if (!events) {
     return;
   }
-
   for (var n = 1; n < events.length; n++) {
-    var currentEvent = events[n].event;
+    var currentEvent = events[n];
 
     if (mapVM.ids[currentEvent.id] !== 1) {
       mapVM.ids[currentEvent.id] = 1;
@@ -92,7 +91,7 @@ MapControl.prototype.getEventCallback = function(data) {
       this.sideMenu.setDateToSelectedEvent(data.date.startDate, data.date.endDate);
     }
 
-    this.addEventMarkers(data.events);
+    this.addEventMarkers(data);
     statusVM.setStatus(statusVM.CONST.NORMAL);
   } else {
     statusVM.setStatus(statusVM.CONST.NO_EVENTS);
