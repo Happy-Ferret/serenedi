@@ -52,7 +52,7 @@ MapControl.prototype.addEventMarkers = function(events) {
   if (!events) {
     return;
   }
-  for (var n = 1; n < events.length; n++) {
+  for (var n = 0; n < events.length; n++) {
     var currentEvent = events[n];
 
     if (mapVM.ids[currentEvent.id] !== 1) {
