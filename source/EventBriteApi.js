@@ -8,10 +8,10 @@ var READ_SIZE = 100;
 
 module.exports.searchEvents = function(req, res) {
   callEventSearch(buildEventSearchParam(req.query)).then(function (data) {
-    console.log('[LOG] respose \n', data);
+    console.log('[LOG]|EB| respose \n', data);
     res.json(convertReceivedData(data));
   }).fail(function (err) {
-    console.log('[ERROR] eventbrite search failed. \n', err, req.query);
+    console.log('[ERROR]|EB| search failed. \n', err, req.query);
     res.json({'error': err});
   });
 };
@@ -35,18 +35,18 @@ module.exports.getEvent = function(req, res) {
     data.center = {'lat': lat, 'lng': lng};
     data.date = {'startDate': startDate, 'endDate': endDate};
 
-    console.log('[LOG] respose \n', data);
+    console.log('[LOG]|EB| respose \n', data);
 
     res.json(convertReceivedData(data));
   }).fail(function (err) {
-    console.log('[ERROR] get event by id failed. \n', err, req.query);
+    console.log('[ERROR]|EB| get event by id failed. \n', err, req.query);
 
     res.json({'error': err});
   });
 };
 
 var callEventSearch = function(param) {
-  console.log('[LOG] search events\n', param);
+  console.log('[LOG]|EB| search events\n', param);
 
   var deferred = Q.defer();
   eb_client.event_search(param, function(err, data) {
@@ -61,7 +61,7 @@ var callEventSearch = function(param) {
 };
 
 var callEventGet = function(param) {
-  console.log('[LOG] get events\n', param);
+  console.log('[LOG]|EB| get events\n', param);
 
   var deferred = Q.defer();
   eb_client.event_get(param, function(err, data) {
