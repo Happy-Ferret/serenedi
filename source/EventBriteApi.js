@@ -9,7 +9,7 @@ var READ_SIZE = 100;
 module.exports.searchEvents = function(req, res) {
   callEventSearch(buildEventSearchParam(req.query)).then(function (data) {
     console.log('[LOG]|EB| respose \n', data);
-    res.json(convertReceivedData(data));
+    res.json(module.exports.convertReceivedData(data));
   }).fail(function (err) {
     console.log('[ERROR]|EB| search failed. \n', err, req.query);
     res.json({'error': err});
@@ -37,7 +37,7 @@ module.exports.getEvent = function(req, res) {
 
     console.log('[LOG]|EB| respose \n', data);
 
-    res.json(convertReceivedData(data));
+    res.json(module.exports.convertReceivedData(data));
   }).fail(function (err) {
     console.log('[ERROR]|EB| get event by id failed. \n', err, req.query);
 
@@ -89,7 +89,7 @@ var buildEventSearchParam = function(args) {
   };
 };
 
-var convertReceivedData = function(data) {
+module.exports.convertReceivedData = function(data) {
   var events = [];
   data = data.events;
   for (var n = 1; n < data.length; n++) {
