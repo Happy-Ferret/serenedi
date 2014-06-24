@@ -3,13 +3,23 @@ var statusVM = require('./StatusViewModel.js').getStatusViewModel();
 var mapVM = require('./MapViewModel.js').getMapViewModel();
 var sideMenuVM = require('./SideMenuViewModel.js').getSideMenuViewModel();
 var eventToOpenID = parseInt(require('./UrlArgs.js').id, 10);
-var mapUpdateTrigger = require('./MapUpdateTrigger.js');
+var programEvents = require('./ProgramEvents.js');
 
 var mapControl;
+var waitedSinceLastChange;
 
 module.exports.getMapControl = function() {
   if (!mapControl) {
     mapControl = new MapControl();
+
+    programEvents.add(function(event) {
+      if (event.event === 'updateMap') {
+        clearTimeout(waitedSinceLastChange);
+        waitedSinceLastChange = setTimeout(function() {
+          mapControl.updateMap();
+        }, 1400);
+      }
+    });
   }
   return mapControl;
 };
@@ -19,14 +29,14 @@ var MapControl = can.Control({
     this.sideMenu = sideMenuVM;
 
     if (eventToOpenID) {
-      mapUpdateTrigger();
+      programEvents.dispatch({ event: 'updateMap' });
     } else {
       this.loadMyLocation();
     }
   },
   '#loadMyLocation click': function(el, ev) {
     this.loadMyLocation();
-    mapUpdateTrigger();
+    programEvents.dispatch({ event: 'updateMap' });
   }
 });
 
@@ -38,10 +48,10 @@ MapControl.prototype.loadMyLocation = function() {
       mapVM.mapProp.attr('lng', util.roundNumber(position.coords.longitude));
 
       self.centerToLatLng();
-      mapUpdateTrigger();
+      programEvents.dispatch({ event: 'updateMap' });
     }, function(error) {
       console.log(error);
-      mapUpdateTrigger();
+      programEvents.dispatch({ event: 'updateMap' });
     });
   } else {
     statusVM.setStatus(statusVM.CONST.GEO_ERROR);

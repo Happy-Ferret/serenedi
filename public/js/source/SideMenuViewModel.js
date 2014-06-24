@@ -1,6 +1,6 @@
 var mapVM = require('./MapViewModel.js').getMapViewModel();
 var util = require('../../../shared/Util.js');
-var mapUpdateTrigger = require('./MapUpdateTrigger.js');
+var programEvents = require('./ProgramEvents.js');
 
 var SIDE_MENU_TEMPLATE = 'sideMenuTemplate';
 var today = new Date();
@@ -46,8 +46,8 @@ var SideMenuViewModel = function() {
 
   this.sideMenuProp.bind('change', function(event, attr, how, newVal, oldVal) {
     mapVM.clearMap();
-    mapUpdateTrigger();
     mapVM.distCheckPass = true;
+    programEvents.dispatch({ event: 'updateMap' });
   });
 
   this.types.bind('change', function(event, attr, how, newVal, oldVal) {

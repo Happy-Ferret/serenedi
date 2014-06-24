@@ -1,5 +1,5 @@
 var util = require('../../../shared/Util.js');
-var mapUpdateTrigger = require('./MapUpdateTrigger.js');
+var programEvents = require('./ProgramEvents.js');
 
 var MAP_BOX = 'mapBox';
 var INFO_TEMPLATE = 'infoPopUpTemplate';
@@ -57,7 +57,7 @@ var MapViewModel = function() {
     self.mapProp.attr('lng', util.roundNumber(self.map.getCenter().lng()));
 
     self.mapProp.bind('change', function(event, attr, how, newVal, oldVal) {
-      mapUpdateTrigger();
+      programEvents.dispatch({ event: 'updateMap' });
     });
   });
 
