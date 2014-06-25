@@ -13,7 +13,6 @@ app.get("/api/getEvents", function(req, res) {
 
 app.get("/api/getEventsById", function(req, res) {
   eventBriteApi.getEvent(req, res);
-  // getEventsById(req.query, res);
 });
 
 app.listen(argv.port);
