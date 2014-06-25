@@ -31,8 +31,9 @@ var child = new (forever.Monitor)(path.join(__dirname, './source/', 'Main.js'), 
   minUptime: 2000,
   max: config.maxNAutoRestartOnCrash,
   cwd: path.join(process.cwd(), '..'),
-  options:  ['--port=' + config.port, 
-                  '--eventbriteKey=' + config.eventbriteAPIkey],
+  options:  ['--port=' + config.port,
+                  '--eventbriteKey=' + config.eventbriteAPIkey,
+                  '--meetupKey=' config.meetupAPIKey],
   env: { LANG: 'en_US', LC_ALL: 'C' }
 });
 
