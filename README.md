@@ -10,7 +10,7 @@ Maybe [serenedi](http://serenedi.com) is not the solution but it is my phathetic
 
  * Connect with eventbrite API and pull near by events
  * Connect via Facebook
- * Google map API 
+ * Google map API
 
 ![Screenshot](./screenshot.png)
 
@@ -29,6 +29,7 @@ Running
         "port": 3080,
         "eventbriteAPIkey": "[YOUR EVENTBRITE API KEY]",
         "googleAPIKey": "[YOUR GOOGLE MAP API KEY]",
+        "meetupAPIKey": "[YOUR MEETUP API KEY]",
         "url" : "127.0.0.1:3080"
     }
     ```
@@ -46,4 +47,3 @@ If you have not installed grunt client before, install via `npm install -g grunt
 
 
 Please do note that this is a experimental project.
-

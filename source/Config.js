@@ -23,6 +23,7 @@ config.port = argv.port || configFile.port;
 config.eventbriteAPIkey = argv.eventbriteAPIkey || configFile.eventbriteAPIkey;
 config.launch = argv.launch === undefined ? true : argv.launch;
 config.googleAPIKey = argv.googleAPIKey || configFile.googleAPIKey;
+config.meetupAPIKey = argv.meetupAPIKey || configFile.meetupAPIKey;
 config.url = argv.url || configFile.url;
 module.exports = config;
 
