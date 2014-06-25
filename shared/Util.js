@@ -4,7 +4,7 @@ module.exports.getPrettyDate = function(date) {
   var day = addLeadingZero(date.getDate());
 
   return month + "/" + day + "/" + date.getFullYear();
-};   
+};
 
 var addLeadingZero = function (number) {
   if (number < 10) {
@@ -34,7 +34,7 @@ module.exports.getDistanceFromLatLng = function(lat1, lng1, lat2, lng2) {
   return  R * c;
 };
 
-var deg2rad = function (deg) { 
+var deg2rad = function (deg) {
   return deg * (Math.PI / 180);
 };
 
@@ -76,4 +76,8 @@ var flagCheck = function(flag, category, types) {
   if (flag ==='1') {
     types.push(category);
   }
+};
+
+module.exports.kmToMile = function(km) {
+  return km * 0.62137;
 };
