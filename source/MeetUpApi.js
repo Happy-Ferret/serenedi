@@ -44,5 +44,30 @@ module.exports.buildEventSearchParam = function(args) {
 };
 
 module.exports.convertReceivedData = function(data) {
+  var events = [];
+  data = data.results;
+  for (var n = 0; n < data.length; n++) {
+    var event = {};
+    var current = current;
+    var startDate = new date(current.time);
 
+    event.id = current.id;
+    event.title = current.name;
+    event.lat = current.venue && current.venue.lat ? current.venue.lat : current.group.group_lat;
+    event.lng = current.venue && current.venue.lon ? current.venue.lon : current.group.group_lon;
+    event.url = current.event_url;
+    event.startDate = util.getPrettyDate(startDate);
+    event.endDate = null;
+    if (current.venue) {
+      event.addr = current.venue.address_1 + ' ' + current.venue.address_2;
+      event.city = current.venue.city;
+      event.region = current.venue.state;
+      event.zip = current.venue.zip;
+    }
+    event.category = current.group ? current.group.category : null;
+
+    events.push(event);
+  }
+
+  return events;
 };
