@@ -4,7 +4,13 @@ var util = require('../shared/Util.js');
 var http = require('http');
 
 module.exports.searchEvents = function(req, res) {
-
+  var self = this;
+  http.request(this.buildEventSearchParam(req.query), function(httpRes) {
+    httpRes.setEncoding('utf8');
+    httpRes.on('data', function(data) {
+      res.json(self.convertReceivedData(data));
+    });
+  }).end();
 };
 
 module.exports.getEvent = function(req, res) {
@@ -18,6 +24,8 @@ var callEventSearch = function(param) {
 
 var callEventGet = function(param) {
   console.log('[LOG]|MU| get events\n', param);
+
+
 
 };
 
