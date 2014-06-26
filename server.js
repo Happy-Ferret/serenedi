@@ -33,7 +33,7 @@ var child = new (forever.Monitor)(path.join(__dirname, './source/', 'Main.js'), 
   cwd: path.join(process.cwd(), '..'),
   options:  ['--port=' + config.port,
                   '--eventbriteKey=' + config.eventbriteAPIkey,
-                  '--meetupKey=' config.meetupAPIKey],
+                  '--meetupKey=' + config.meetupAPIKey],
   env: { LANG: 'en_US', LC_ALL: 'C' }
 });
 
