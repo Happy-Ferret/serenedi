@@ -6,20 +6,20 @@ var eb_client = eventbrite({"app_key" : argv.eventbriteKey});
 
 var READ_SIZE = 100;
 
-module.exports.searchEvents = function(req, res) {
-  callEventSearch(buildEventSearchParam(req.query)).then(function (data) {
+module.exports.searchEvents = function(query, res) {
+  callEventSearch(buildEventSearchParam(query)).then(function (data) {
     console.log('[LOG]|EB| respose \n', data);
     res.json(module.exports.convertReceivedData(data));
   }).fail(function (err) {
-    console.log('[ERROR]|EB| search failed. \n', err, req.query);
+    console.log('[ERROR]|EB| search failed. \n', err, query);
     res.json({'error': err});
   });
 };
 
-module.exports.getEvent = function(req, res) {
+module.exports.getEvent = function(query, res) {
   var lat, lng, startDate, endDate;
 
-  callEventGet({'id': req.query.id, 'radius': req.query.radius}).then(function (data) {
+  callEventGet({'id': query.id, 'radius': query.radius}).then(function (data) {
     lat = data.event.venue.latitude;
     lng = data.event.venue.longitude;
 
@@ -29,7 +29,7 @@ module.exports.getEvent = function(req, res) {
     eventStartDate.setDate(eventStartDate.getDate() + 7);
     endDate = util.getPrettyDate(eventStartDate);
 
-    return buildEventSearchParam({'lat': lat, 'lng': lng, 'radius': req.query.radius, 'dateFrom': startDate, 'dateTo': endDate, 'type': null});
+    return buildEventSearchParam({'lat': lat, 'lng': lng, 'radius': query.radius, 'dateFrom': startDate, 'dateTo': endDate, 'type': null});
   }).then(callEventSearch)
   .then(function (data) {
     data.center = {'lat': lat, 'lng': lng};
@@ -39,7 +39,7 @@ module.exports.getEvent = function(req, res) {
 
     res.json(module.exports.convertReceivedData(data));
   }).fail(function (err) {
-    console.log('[ERROR]|EB| get event by id failed. \n', err, req.query);
+    console.log('[ERROR]|EB| get event by id failed. \n', err, query);
 
     res.json({'error': err});
   });

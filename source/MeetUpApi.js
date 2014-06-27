@@ -3,9 +3,9 @@ var argv = require('optimist').argv;
 var util = require('../shared/Util.js');
 var http = require('http');
 
-module.exports.searchEvents = function(req, res) {
+module.exports.searchEvents = function(query, res) {
   var self = this;
-  var param = this.buildEventSearchParam(req.query);
+  var param = this.buildEventSearchParam(query);
 
   console.log('[LOG]|MU| search events\n', param);
   http.get(param, function(httpRes) {
