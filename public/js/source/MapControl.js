@@ -91,7 +91,7 @@ MapControl.prototype.getEventsCall = function(data) {
 };
 
 MapControl.prototype.getEventCallback = function(data) {
-  if (data.message !== null) {
+  if (data) {
     if (data.center) {
       var center = new google.maps.LatLng(data.center.lat, data.center.lng);
       mapVM.map.setCenter(center);
