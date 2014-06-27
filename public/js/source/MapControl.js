@@ -72,18 +72,18 @@ MapControl.prototype.addEventMarkers = function(events) {
   }
 };
 
-MapControl.prototype.getEventsByIDCall = function(data) {
+MapControl.prototype.getEventsByIDCall = function(param) {
   var self = this;
-  getEventsAjaxDeferred('getEventsById', data).done(function(data) {
+  getEventsAjaxDeferred('getEventsById', param).done(function(data) {
     self.getEventCallback(data);
   }).fail(function() {
     console.log('ERROR: getEventsByID call failed.');
   });
 };
 
-MapControl.prototype.getEventsCall = function(data) {
+MapControl.prototype.getEventsCall = function(param) {
   var self = this;
-  getEventsAjaxDeferred('getEvents', data).done(function(data) {
+  getEventsAjaxDeferred('getEvents', param).done(function(data) {
     self.getEventCallback(data);
   }).fail(function() {
     console.log('ERROR: getEvents call failed.');
