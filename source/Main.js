@@ -8,8 +8,11 @@ var app = express();
 app.use(express.static(path.join(__dirname, "../public")));
 app.get("/", function (req, res) { res.redirect("../index.html"); });
 
-app.get("/api/getEvents", function(req, res) {
+app.get("/api/eb/getEvents", function(req, res) {
   eventBriteApi.searchEvents(req, res);
+});
+
+app.get("/api/mu/getEvents", function(req, res) {
   meetUpApi.searchEvents(req, res);
 });
 

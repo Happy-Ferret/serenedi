@@ -72,21 +72,27 @@ MapControl.prototype.addEventMarkers = function(events) {
   }
 };
 
-MapControl.prototype.getEventsByIDCall = function(param) {
+MapControl.prototype.getEventsByIDCall = function(data) {
   var self = this;
-  getEventsAjaxDeferred('getEventsById', param).done(function(data) {
+  getEventsAjaxDeferred('/eb/getEventsById', data).done(function(data) {
     self.getEventCallback(data);
   }).fail(function() {
     console.log('ERROR: getEventsByID call failed.');
   });
 };
 
-MapControl.prototype.getEventsCall = function(param) {
+MapControl.prototype.getEventsCall = function(data) {
   var self = this;
-  getEventsAjaxDeferred('getEvents', param).done(function(data) {
+  getEventsAjaxDeferred('eb/getEvents', data).done(function(data) {
     self.getEventCallback(data);
   }).fail(function() {
-    console.log('ERROR: getEvents call failed.');
+    console.log('ERROR: eventBrite getEvents call failed.');
+  });
+
+  getEventsAjaxDeferred('mu/getEvents', data).done(function(data) {
+    self.getEventCallback(data);
+  }).fail(function() {
+    console.log('ERROR: meetUp getEvents call failed.');
   });
 };
 
