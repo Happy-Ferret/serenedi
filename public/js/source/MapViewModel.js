@@ -52,7 +52,7 @@ var MapViewModel = function() {
     var ne = self.map.getBounds().getNorthEast();
     var sw = self.map.getBounds().getSouthWest();
 
-    self.mapProp.attr('radius', util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3);
+    self.mapProp.attr('radius', Math.ceil(util.getDistanceFromLatLng(ne.lat(), ne.lng(), sw.lat(), sw.lng()) / 3));
     self.mapProp.attr('lat', util.roundNumber(self.map.getCenter().lat()));
     self.mapProp.attr('lng', util.roundNumber(self.map.getCenter().lng()));
 
