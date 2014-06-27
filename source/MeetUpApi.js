@@ -48,8 +48,8 @@ module.exports.convertReceivedData = function(data) {
   data = data.results;
   for (var n = 0; n < data.length; n++) {
     var event = {};
-    var current = current;
-    var startDate = new date(current.time);
+    var current = data[n];
+    var startDate = new Date(current.time);
 
     event.id = current.id;
     event.title = current.name;
