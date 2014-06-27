@@ -5,50 +5,51 @@ var http = require('http');
 
 module.exports.searchEvents = function(req, res) {
   var self = this;
-  http.request(this.buildEventSearchParam(req.query), function(httpRes) {
+  var param = this.buildEventSearchParam(req.query);
+
+  console.log('[LOG]|MU| search events\n', param);
+  http.get(param, function(httpRes) {
     httpRes.setEncoding('utf8');
+    var result = '';
     httpRes.on('data', function(data) {
-      res.json(self.convertReceivedData(data));
+      result += data.trim();
     });
-  }).end();
+
+    httpRes.on('end', function() {
+      var events = self.convertReceivedData(JSON.parse(result));
+
+      console.log('[LOG]|MU| respose\n', events);
+      res.json(events);
+    });
+  });
 };
 
 module.exports.getEvent = function(req, res) {
 
 };
 
-var callEventSearch = function(param) {
-  console.log('[LOG]|MU| search events\n', param);
-
-};
-
 var callEventGet = function(param) {
   console.log('[LOG]|MU| get events\n', param);
-
-
 
 };
 
 module.exports.buildEventSearchParam = function(args) {
-  return {
-    host: "https://api.meetup.com",
-    port: "80",
-    path: '/2/open_events.json' +
+  return 'http://api.meetup.com/2/open_events.json' +
       '?lon=' + args.lng +
       '&lat=' + args.lat +
       '&radius=' + util.kmToMile(args.radius) +
       '&time=' +  (new Date(args.dateFrom)).getTime() + ',' + (new Date(args.dateTo)).getTime() +
-      '&key=' + argv.meetupKey,
-    method: "GET"
-  };
+      '&key=' + argv.meetupKey;
 };
 
 module.exports.convertReceivedData = function(data) {
   var events = [];
   data = data.results;
+
   for (var n = 0; n < data.length; n++) {
     var event = {};
     var current = data[n];
+
     var startDate = new Date(current.time);
 
     event.id = current.id;
