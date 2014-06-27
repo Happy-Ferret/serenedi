@@ -11,6 +11,11 @@ module.exports.searchEvents = function(query, res) {
   http.get(param, function(httpRes) {
     httpRes.setEncoding('utf8');
     var result = '';
+
+    httpRes.on('error', function(error) {
+      res.json({'error': err});
+    });
+
     httpRes.on('data', function(data) {
       result += data.trim();
     });
