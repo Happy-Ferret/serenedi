@@ -66,9 +66,10 @@ MapControl.prototype.addEventMarkers = function(events) {
   }
   for (var n = 0; n < events.length; n++) {
     var currentEvent = events[n];
+    var identifier = currentEvent.type + currentEvent.id;
 
-    if (mapVM.ids[currentEvent.id] !== 1) {
-      mapVM.ids[currentEvent.id] = 1;
+    if (mapVM.ids[identifier] !== 1) {
+      mapVM.ids[identifier] = 1;
       mapVM.addEventMarker(currentEvent);
     }
   }
