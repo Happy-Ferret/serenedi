@@ -100,17 +100,17 @@ MapControl.prototype.getEventsCall = function(data) {
 };
 
 MapControl.prototype.getEventCallback = function(data) {
-  if (data) {
+  if (data.searchResult) {
     if (data.center) {
       var center = new google.maps.LatLng(data.center.lat, data.center.lng);
       mapVM.map.setCenter(center);
     }
 
     if (data.date) {
-      this.sideMenu.setDateToSelectedEvent(data.date.startDate, data.date.endDate);
+      sideMenuVM.setDateToSelectedEvent(data.date.startDate, data.date.endDate);
     }
 
-    this.addEventMarkers(data);
+    this.addEventMarkers(data.searchResult);
     statusVM.setStatus(statusVM.CONST.NORMAL);
   } else {
     statusVM.setStatus(statusVM.CONST.NO_EVENTS);

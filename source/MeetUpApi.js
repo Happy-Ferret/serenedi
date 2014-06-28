@@ -24,7 +24,7 @@ module.exports.searchEvents = function(query, res) {
       var events = self.convertReceivedData(JSON.parse(result));
 
       console.log('[LOG]|MU| respose\n', events);
-      res.json(events);
+      res.json({'searchResult':events});
     });
   });
 };

@@ -9,7 +9,7 @@ var READ_SIZE = 100;
 module.exports.searchEvents = function(query, res) {
   callEventSearch(buildEventSearchParam(query)).then(function (data) {
     console.log('[LOG]|EB| respose \n', data);
-    res.json(module.exports.convertReceivedData(data));
+    res.json({'searchResult': module.exports.convertReceivedData(data)});
   }).fail(function (err) {
     console.log('[ERROR]|EB| search failed. \n', err, query);
     res.json({'error': err});
@@ -32,12 +32,10 @@ module.exports.getEvent = function(query, res) {
     return buildEventSearchParam({'lat': lat, 'lng': lng, 'radius': query.radius, 'dateFrom': startDate, 'dateTo': endDate, 'type': null});
   }).then(callEventSearch)
   .then(function (data) {
-    data.center = {'lat': lat, 'lng': lng};
-    data.date = {'startDate': startDate, 'endDate': endDate};
-
     console.log('[LOG]|EB| respose \n', data);
 
-    res.json(module.exports.convertReceivedData(data));
+    var searchResult = module.exports.convertReceivedData(data);
+    res.json({'searchResult': searchResult, 'center': {'lat': lat, 'lng': lng}, 'date': {'startDate': startDate, 'endDate': endDate}});
   }).fail(function (err) {
     console.log('[ERROR]|EB| get event by id failed. \n', err, query);
 

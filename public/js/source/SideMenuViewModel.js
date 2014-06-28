@@ -106,3 +106,8 @@ var SideMenuViewModel = function() {
     }
   });
 };
+
+SideMenuViewModel.prototype.setDateToSelectedEvent = function(startDate, endDate) {
+  this.sideMenuProp.attr('dateFrom', util.getPrettyDate(new Date(startDate)));
+  this.sideMenuProp.attr('dateTo', util.getPrettyDate(new Date(endDate)));
+};
