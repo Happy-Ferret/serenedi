@@ -107,6 +107,7 @@ module.exports.convertReceivedData = function(data) {
     event.region = data[n].event.venue.region;
     event.zip = data[n].event.venue.postalcode;
     event.category = data[n].event.category;
+    event.type = util.eventBritePrefix;
 
     events.push(event);
   }

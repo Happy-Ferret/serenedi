@@ -3,6 +3,7 @@ var express = require("express");
 var argv = require('optimist').argv;
 var eventBriteApi = require('./EventBriteApi.js');
 var meetUpApi = require('./MeetUpApi.js');
+var util = require('../shared/Util.js');
 var app = express();
 
 app.use(express.static(path.join(__dirname, "../public")));
@@ -17,7 +18,12 @@ app.get("/api/mu/getEvents", function(req, res) {
 });
 
 app.get("/api/getEventsById", function(req, res) {
-  eventBriteApi.getEvent(req.query, res);
+  if (req.query.type === util.eventBritePrefix) {
+    eventBriteApi.getEvent(req.query, res);
+  }
+  if (req.query.type === util.meetUpPrefix) {
+
+  }
 });
 
 app.listen(argv.port);

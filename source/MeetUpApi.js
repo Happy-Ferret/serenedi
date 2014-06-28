@@ -71,6 +71,7 @@ module.exports.convertReceivedData = function(data) {
       event.zip = current.venue.zip;
     }
     event.category = current.group ? current.group.category : null;
+    event.type = util.meetUpPrefix;
 
     events.push(event);
   }

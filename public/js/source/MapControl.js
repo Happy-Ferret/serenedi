@@ -2,7 +2,9 @@ var util = require('../../../shared/Util.js');
 var statusVM = require('./StatusViewModel.js').getStatusViewModel();
 var mapVM = require('./MapViewModel.js').getMapViewModel();
 var sideMenuVM = require('./SideMenuViewModel.js').getSideMenuViewModel();
-var eventToOpenID = parseInt(require('./UrlArgs.js').id, 10);
+var urlArgs = require('./UrlArgs.js');
+var eventToOpenID = urlArgs.id;
+var eventToOpenType = urlArgs.type;
 var programEvents = require('./ProgramEvents.js');
 
 var mapControl;
@@ -28,7 +30,7 @@ var MapControl = can.Control({
   init: function() {
     this.sideMenu = sideMenuVM;
 
-    if (eventToOpenID) {
+    if (eventToOpenID && eventToOpenType) {
       programEvents.dispatch({ event: 'updateMap' });
     } else {
       this.loadMyLocation();
@@ -120,10 +122,11 @@ MapControl.prototype.updateMap = function() {
     mapVM.latestLoc.lat = mapVM.mapProp.lat;
     mapVM.latestLoc.lng = mapVM.mapProp.lng;
 
-    if (eventToOpenID) {
+    if (eventToOpenID && eventToOpenType) {
       this.getEventsByIDCall({
         id : eventToOpenID,
-        radius : mapVM.mapProp.radius
+        radius : mapVM.mapProp.radius,
+        type : eventToOpenType
       });
     } else {
       this.getEventsCall({
