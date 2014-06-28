@@ -12,8 +12,6 @@ var waitedSinceLastChange;
 
 module.exports.getMapControl = function() {
   if (!mapControl) {
-    mapControl = new MapControl();
-
     programEvents.add(function(event) {
       if (event.event === 'updateMap') {
         clearTimeout(waitedSinceLastChange);
@@ -22,6 +20,8 @@ module.exports.getMapControl = function() {
         }, 1400);
       }
     });
+
+    mapControl = new MapControl();
   }
   return mapControl;
 };
@@ -77,7 +77,7 @@ MapControl.prototype.addEventMarkers = function(events) {
 
 MapControl.prototype.getEventsByIDCall = function(data) {
   var self = this;
-  getEventsAjaxDeferred('/eb/getEventsById', data).done(function(data) {
+  getEventsAjaxDeferred('getEventsById', data).done(function(data) {
     self.getEventCallback(data);
   }).fail(function() {
     console.log('ERROR: getEventsByID call failed.');
