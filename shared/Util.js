@@ -44,7 +44,7 @@ module.exports.isNumber = function(n) {
 
 module.exports.getTypeString = function(type) {
   if (!type) {
-    return '1111111111111111111';
+    type = '1111111111111111111';
   }
 
   var types = [];

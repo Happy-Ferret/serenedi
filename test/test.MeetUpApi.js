@@ -16,8 +16,8 @@ describe('Testing MeetUp api', function () {
 
     expect(converted.length).to.be(2);
 
-    expect(converted[0]).to.eql({id:'qmmbvjyskbcb',title:'Shut Up and Picnic! (North San Jose)',lat:37.403854,lng:-121.929131,url:'http://www.meetup.com/ShutUpandWriteSiliconValley/events/189512752/',startDate:'07/01/2014',endDate:null,addr:'River Oaks Parkway & Cisco Way  undefined',city:'San Jose',region:'CA',zip:'95134',category:undefined});
-    expect(converted[1]).to.eql({id:'179964442',title:'Dancing in the Street to Sage!',lat:37.40999984741211,lng:-121.94999694824219,url:'http://www.meetup.com/Friends-Motorcycle-Group/events/179964442/',startDate:'07/02/2014',endDate:null,category:undefined});
+    expect(converted[0]).to.eql({id:'qmmbvjyskbcb',title:'Shut Up and Picnic! (North San Jose)',lat:37.403854,lng:-121.929131,url:'http://www.meetup.com/ShutUpandWriteSiliconValley/events/189512752/',startDate:'07/01/2014',endDate:null,addr:'River Oaks Parkway & Cisco Way  undefined',city:'San Jose',region:'CA',zip:'95134',category:undefined,type:'mu'});
+    expect(converted[1]).to.eql({id:'179964442',title:'Dancing in the Street to Sage!',lat:37.40999984741211,lng:-121.94999694824219,url:'http://www.meetup.com/Friends-Motorcycle-Group/events/179964442/',startDate:'07/02/2014',endDate:null,category:undefined,type:'mu'});
 
     expect(converted[0]).to.have.key('id', 'title', 'lat', 'lng');
     expect(converted[1]).to.have.key('id', 'title', 'lat', 'lng');

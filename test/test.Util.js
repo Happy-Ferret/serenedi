@@ -28,6 +28,8 @@ describe('Testing Server side Util class.', function () {
 
     expect(util.getTypeString("1100000000000000000")).to.be("conferences, conventions");
     expect(util.getTypeString("1100000000000000010")).to.be("conferences, conventions, travel");
+
+    expect(util.getTypeString(null)).to.be('conferences, conventions, entertainment, fairs, food, fundraisers, meetings, music, performances, recreation, religion, reunions, sales, seminars, social, sports, tradeshows, travel, other');
     done();
   });
 
@@ -51,7 +53,7 @@ describe('Testing Server side Util class.', function () {
     expect(util.getPrettyDate(date)).to.be("10/09/2014");
 
     date = new Date(2014, 8, 9);
-    expect(util.getPrettyDate(date)).to.be("09/09/2014");    
+    expect(util.getPrettyDate(date)).to.be("09/09/2014");
 
     done();
   });

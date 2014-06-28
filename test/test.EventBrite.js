@@ -8,8 +8,8 @@ describe('Testing EventBrite api', function () {
     var converted = eventBrite.convertReceivedData(JSON.parse(testData));
 
     expect(converted.length).to.be(2);
-    expect(converted[0]).to.eql({id:5073809902,title:'Cisco Word Wizards Toastmasters Club Meeting',lat:37.408517,lng:-121.927648,url:'http://wordwizards.eventbrite.com/?aff=SRCH',startDate:'2013-01-03',endDate:'2013-01-03',addr:'3650 Cisco Way ',city:'San Jose',region:'CA',zip:undefined,category:''});
-    expect(converted[1]).to.eql({id:11829691927,title:'Free Financial Check-Up Meeting',lat:37.406585,lng:-121.919981,url:'http://fafsa21.eventbrite.com/?aff=SRCH',startDate:'2014-06-09',endDate:'2014-06-09',addr:'1525 McCarthy Blvd, #1000 Suite 1012',city:'Milpitas',region:'CA',zip:undefined,category:''});
+    expect(converted[0]).to.eql({id:5073809902,title:'Cisco Word Wizards Toastmasters Club Meeting',lat:37.408517,lng:-121.927648,url:'http://wordwizards.eventbrite.com/?aff=SRCH',startDate:'2013-01-03',endDate:'2013-01-03',addr:'3650 Cisco Way ',city:'San Jose',region:'CA',zip:undefined,category:'',type:'eb'});
+    expect(converted[1]).to.eql({id:11829691927,title:'Free Financial Check-Up Meeting',lat:37.406585,lng:-121.919981,url:'http://fafsa21.eventbrite.com/?aff=SRCH',startDate:'2014-06-09',endDate:'2014-06-09',addr:'1525 McCarthy Blvd, #1000 Suite 1012',city:'Milpitas',region:'CA',zip:undefined,category:'',type:'eb'});
 
     expect(converted[0]).to.have.key('id', 'title', 'lat', 'lng');
     expect(converted[1]).to.have.key('id', 'title', 'lat', 'lng');
