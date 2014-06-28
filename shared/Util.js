@@ -81,3 +81,6 @@ var flagCheck = function(flag, category, types) {
 module.exports.kmToMile = function(km) {
   return km * 0.62137;
 };
+
+module.exports.eventBritePrefix = 'eb';
+module.exports.meetUpPrefix = 'mu';
