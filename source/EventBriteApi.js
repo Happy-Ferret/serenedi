@@ -29,12 +29,11 @@ module.exports.getEvent = function(query, res) {
     eventStartDate.setDate(eventStartDate.getDate() + 7);
     endDate = util.getPrettyDate(eventStartDate);
 
-    return module.exports.buildEventSearchParam({'lat': lat, 'lng': lng, 'radius': query.radius, 'dateFrom': startDate, 'dateTo': endDate, 'type': null});
-  }).then(callEventSearch)
-  .then(function (data) {
+    return data;
+  }).then(function (data) {
     console.log('[LOG]|EB| respose \n', data);
 
-    var searchResult = module.exports.convertReceivedData(data);
+    var searchResult = module.exports.convertReceivedData({events: [null, data]});
     res.json({'searchResult': searchResult, 'center': {'lat': lat, 'lng': lng}, 'date': {'startDate': startDate, 'endDate': endDate}});
   }).fail(function (err) {
     console.log('[ERROR]|EB| get event by id failed. \n', err, query);
