@@ -3,6 +3,7 @@ var programEvents = require('./ProgramEvents.js');
 
 var MAP_BOX = 'mapBox';
 var INFO_TEMPLATE = 'infoPopUpTemplate';
+var eventToOpenID = parseInt(require('./UrlArgs.js').id, 10);
 
 var mapViewModel;
 
@@ -155,7 +156,7 @@ MapViewModel.prototype.addEventMarker = function (event) {
       FB.XFBML.parse();
     });
 
-  if (event.id === self.eventToOpenID) {
+  if (event.id === eventToOpenID) {
     google.maps.event.trigger(marker, 'click');
     self.eventToOpenID = null;
     var center = self.map.getCenter();
