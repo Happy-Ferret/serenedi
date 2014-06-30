@@ -79,6 +79,14 @@ MapControl.prototype.getEventsByIDCall = function(param) {
   var self = this;
   getEventsAjaxDeferred('getEventsById', param).done(function(data) {
     self.processEventData(data);
+    self.getEventsCall({
+      lat : mapVM.mapProp.lat,
+      lng : mapVM.mapProp.lng,
+      dateFrom : sideMenuVM.sideMenuProp.dateFrom,
+      dateTo : sideMenuVM.sideMenuProp.dateTo,
+      type : sideMenuVM.sideMenuProp.types,
+      radius : mapVM.mapProp.radius
+    });
   }).fail(function() {
     console.log('ERROR: getEventsByID call failed.');
   });
