@@ -7,7 +7,7 @@ var eb_client = eventbrite({"app_key" : argv.eventbriteKey});
 var READ_SIZE = 100;
 
 module.exports.searchEvents = function(query, res) {
-  callEventSearch(buildEventSearchParam(query)).then(function (data) {
+  callEventSearch(module.exports.buildEventSearchParam(query)).then(function (data) {
     console.log('[LOG]|EB| respose \n', data);
     res.json({'searchResult': module.exports.convertReceivedData(data)});
   }).fail(function (err) {
@@ -29,7 +29,7 @@ module.exports.getEvent = function(query, res) {
     eventStartDate.setDate(eventStartDate.getDate() + 7);
     endDate = util.getPrettyDate(eventStartDate);
 
-    return buildEventSearchParam({'lat': lat, 'lng': lng, 'radius': query.radius, 'dateFrom': startDate, 'dateTo': endDate, 'type': null});
+    return module.exports.buildEventSearchParam({'lat': lat, 'lng': lng, 'radius': query.radius, 'dateFrom': startDate, 'dateTo': endDate, 'type': null});
   }).then(callEventSearch)
   .then(function (data) {
     console.log('[LOG]|EB| respose \n', data);
@@ -73,7 +73,7 @@ var callEventGet = function(param) {
   return deferred.promise;
 };
 
-var buildEventSearchParam = function(args) {
+module.exports.buildEventSearchParam = function(args) {
   return {
     'latitude': args.lat,
     'longitude': args.lng,

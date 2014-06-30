@@ -3,7 +3,15 @@ var expect = require('expect.js');
 var eventBrite = require('../source/EventBriteApi.js');
 
 describe('Testing EventBrite api', function () {
-  it("Conversion test", function(done) {
+  it('buildEventSearchParam', function(done) {
+    var searchParam = eventBrite.buildEventSearchParam({lng: 1, lat: 2, radius: 3, dateFrom: '06/24/2014', dateTo: '06/28/2014', radius: 4, type: '1111'});
+
+    expect(searchParam).to.eql({latitude:2,longitude:1,within_unit:'K',max:100,page:1,within:4,date:'2014-06-24 2014-06-28',category:'conferences, conventions, entertainment, fairs',sort_by:'id'});
+    done();
+  });
+
+
+  it("convertReceivedData", function(done) {
 
     var converted = eventBrite.convertReceivedData(JSON.parse(testData));
 
