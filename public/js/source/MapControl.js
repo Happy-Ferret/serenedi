@@ -42,6 +42,25 @@ var MapControl = can.Control({
   }
 });
 
+MapControl.prototype.getEvents = function() {
+  this.getEventsCall({
+    lat : mapVM.mapProp.lat,
+    lng : mapVM.mapProp.lng,
+    dateFrom : sideMenuVM.sideMenuProp.dateFrom,
+    dateTo : sideMenuVM.sideMenuProp.dateTo,
+    type : sideMenuVM.sideMenuProp.types,
+    radius : mapVM.mapProp.radius
+  });
+};
+
+MapControl.prototype.getEventsById = function() {
+  this.getEventsByIdCall({
+    id : eventToOpenID,
+    radius : mapVM.mapProp.radius,
+    sourceType : eventToOpenType
+  });
+};
+
 MapControl.prototype.loadMyLocation = function() {
   if (navigator.geolocation) {
     var self = this;
@@ -75,18 +94,11 @@ MapControl.prototype.addEventMarkers = function(events) {
   }
 };
 
-MapControl.prototype.getEventsByIDCall = function(param) {
+MapControl.prototype.getEventsByIdCall = function(param) {
   var self = this;
   getEventsAjaxDeferred('getEventsById', param).done(function(data) {
     self.processEventData(data);
-    self.getEventsCall({
-      lat : mapVM.mapProp.lat,
-      lng : mapVM.mapProp.lng,
-      dateFrom : sideMenuVM.sideMenuProp.dateFrom,
-      dateTo : sideMenuVM.sideMenuProp.dateTo,
-      type : sideMenuVM.sideMenuProp.types,
-      radius : mapVM.mapProp.radius
-    });
+    self.getEvents();
   }).fail(function() {
     console.log('ERROR: getEventsByID call failed.');
   });
@@ -132,20 +144,9 @@ MapControl.prototype.updateMap = function() {
     mapVM.latestLoc.lng = mapVM.mapProp.lng;
 
     if (eventToOpenID && eventToOpenType) {
-      this.getEventsByIDCall({
-        id : eventToOpenID,
-        radius : mapVM.mapProp.radius,
-        sourceType : eventToOpenType
-      });
+      this.getEventsById();
     } else {
-      this.getEventsCall({
-        lat : mapVM.mapProp.lat,
-        lng : mapVM.mapProp.lng,
-        dateFrom : sideMenuVM.sideMenuProp.dateFrom,
-        dateTo : sideMenuVM.sideMenuProp.dateTo,
-        type : sideMenuVM.sideMenuProp.types,
-        radius : mapVM.mapProp.radius
-      });
+      this.getEvents();
     }
   }
 };
