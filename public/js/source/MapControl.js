@@ -75,31 +75,31 @@ MapControl.prototype.addEventMarkers = function(events) {
   }
 };
 
-MapControl.prototype.getEventsByIDCall = function(data) {
+MapControl.prototype.getEventsByIDCall = function(param) {
   var self = this;
-  getEventsAjaxDeferred('getEventsById', data).done(function(data) {
-    self.getEventCallback(data);
+  getEventsAjaxDeferred('getEventsById', param).done(function(data) {
+    self.processEventData(data);
   }).fail(function() {
     console.log('ERROR: getEventsByID call failed.');
   });
 };
 
-MapControl.prototype.getEventsCall = function(data) {
+MapControl.prototype.getEventsCall = function(param) {
   var self = this;
-  getEventsAjaxDeferred('eb/getEvents', data).done(function(data) {
-    self.getEventCallback(data);
+  getEventsAjaxDeferred('eb/getEvents', param).done(function(data) {
+    self.processEventData(data);
   }).fail(function() {
     console.log('ERROR: eventBrite getEvents call failed.');
   });
 
-  getEventsAjaxDeferred('mu/getEvents', data).done(function(data) {
-    self.getEventCallback(data);
+  getEventsAjaxDeferred('mu/getEvents', param).done(function(data) {
+    self.processEventData(data);
   }).fail(function() {
     console.log('ERROR: meetUp getEvents call failed.');
   });
 };
 
-MapControl.prototype.getEventCallback = function(data) {
+MapControl.prototype.processEventData = function(data) {
   if (data.searchResult) {
     if (data.center) {
       var center = new google.maps.LatLng(data.center.lat, data.center.lng);
@@ -127,7 +127,7 @@ MapControl.prototype.updateMap = function() {
       this.getEventsByIDCall({
         id : eventToOpenID,
         radius : mapVM.mapProp.radius,
-        type : eventToOpenType
+        sourceType : eventToOpenType
       });
     } else {
       this.getEventsCall({

@@ -18,10 +18,10 @@ app.get("/api/mu/getEvents", function(req, res) {
 });
 
 app.get("/api/getEventsById", function(req, res) {
-  if (req.query.type === util.eventBritePrefix) {
+  if (req.query.sourceType === util.eventBritePrefix) {
     eventBriteApi.getEvent(req.query, res);
   }
-  if (req.query.type === util.meetUpPrefix) {
+  if (req.query.sourceType === util.meetUpPrefix) {
 
   }
 });
