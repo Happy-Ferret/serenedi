@@ -56,7 +56,6 @@ MapControl.prototype.getEvents = function() {
 MapControl.prototype.getEventsById = function() {
   this.getEventsByIdCall({
     id : eventToOpenID,
-    radius : mapVM.mapProp.radius,
     sourceType : eventToOpenType
   });
 };

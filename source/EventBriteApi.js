@@ -19,7 +19,7 @@ module.exports.searchEvents = function(query, res) {
 module.exports.getEvent = function(query, res) {
   var lat, lng, startDate, endDate;
 
-  callEventGet({'id': query.id, 'radius': query.radius}).then(function (data) {
+  callEventGet({'id': query.id}).then(function (data) {
     lat = data.event.venue.latitude;
     lng = data.event.venue.longitude;
 
