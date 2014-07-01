@@ -10,6 +10,7 @@ var statusModel = require('./source/StatusViewModel.js').getStatusViewModel();
 $(document).ready(function() {
   require('./source/MapControl.js').getMapControl();
   $('#menuContainer').html(can.view("topMenuTemplate", statusModel.status));
+  $('.add-popover').popover();
 
   $("#optionButton").click(function() {
     var element = $(".optionButtonDirection");
