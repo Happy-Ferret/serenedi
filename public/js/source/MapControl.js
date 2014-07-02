@@ -98,8 +98,8 @@ MapControl.prototype.getEventsByIdCall = function(param) {
   getEventsAjaxDeferred('getEventsById', param).done(function(data) {
     self.processEventData(data);
     self.getEvents();
-  }).fail(function() {
-    console.log('ERROR: getEventsByID call failed.');
+  }).fail(function(error) {
+    console.log('ERROR: getEventsByID call failed.', error);
   });
 };
 
@@ -107,14 +107,14 @@ MapControl.prototype.getEventsCall = function(param) {
   var self = this;
   getEventsAjaxDeferred('eb/getEvents', param).done(function(data) {
     self.processEventData(data);
-  }).fail(function() {
-    console.log('ERROR: eventBrite getEvents call failed.');
+  }).fail(function(error) {
+    console.log('ERROR: eventBrite getEvents call failed.', error);
   });
 
   getEventsAjaxDeferred('mu/getEvents', param).done(function(data) {
     self.processEventData(data);
-  }).fail(function() {
-    console.log('ERROR: meetUp getEvents call failed.');
+  }).fail(function(error) {
+    console.log('ERROR: meetUp getEvents call failed.', error);
   });
 };
 
