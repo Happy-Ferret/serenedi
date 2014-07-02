@@ -164,3 +164,8 @@ MapViewModel.prototype.addEventMarker = function (event) {
     self.mapProp.attr('lng', util.roundNumber(center.lng()));
   }
 };
+
+MapViewModel.prototype.setLatLng = function(lat, lng) {
+  this.mapProp.attr('lat', lat);
+  this.mapProp.attr('lng', lng);
+};

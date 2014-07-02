@@ -61,6 +61,7 @@ MapControl.prototype.getEventsById = function() {
 };
 
 MapControl.prototype.loadMyLocation = function() {
+  console.log('loadmyloc');
   if (navigator.geolocation) {
     var self = this;
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -97,8 +98,8 @@ MapControl.prototype.getEventsByIdCall = function(param) {
   var self = this;
   getEventsAjaxDeferred('getEventsById', param).done(function(data) {
     if (data.center) {
-      var center = new google.maps.LatLng(data.center.lat, data.center.lng);
-      mapVM.map.setCenter(center);
+      mapVM.setLatLng(data.center.lat, data.center.lng);
+      self.centerToLatLng();
     }
 
     if (data.date) {
