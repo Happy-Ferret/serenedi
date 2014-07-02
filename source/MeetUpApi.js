@@ -29,13 +29,49 @@ module.exports.searchEvents = function(query, res) {
   });
 };
 
-module.exports.getEvent = function(req, res) {
+module.exports.getEvent = function(query, res) {
+  var self = this;
+  var param = this.buildGetEventParam(query);
 
+  console.log('[LOG]|MU| get event\n', param);
+  http.get(param, function(httpRes) {
+    httpRes.setEncoding('utf8');
+    var result = '';
+
+    httpRes.on('error', function(error) {
+      res.json({'error': err});
+    });
+
+    httpRes.on('data', function(data) {
+      result += data.trim();
+    });
+
+    httpRes.on('end', function() {
+      var received = JSON.parse(result);
+      var events = self.convertReceivedData({results: [received]});
+
+      var lat = received.venue && received.venue.lat ? received.venue.lat : received.group.group_lat;
+      var lng = received.venue && received.venue.lon ? received.venue.lon : received.group.group_lon;
+      var startDate = util.getPrettyDate(new Date(received.time));
+      var endDate = new Date(received.time);
+      endDate.setDate(endDate.getDate() + 7);
+      endDate = util.getPrettyDate(endDate);
+
+      console.log('[LOG]|MU| respose\n', events);
+      res.json({'searchResult':events, 'center': {'lat': lat, 'lng': lng}, 'date': {'startDate': startDate, 'endDate': endDate}});
+    });
+  });
 };
 
 var callEventGet = function(param) {
   console.log('[LOG]|MU| get events\n', param);
 
+};
+
+module.exports.buildGetEventParam = function(args) {
+  return 'http://api.meetup.com/2/event/' +
+    args.id +
+    '?key=' + argv.meetupKey;
 };
 
 module.exports.buildEventSearchParam = function(args) {
