@@ -92,7 +92,7 @@ module.exports.convertReceivedData = function(data) {
   for (var n = 1; n < data.length; n++) {
     var event = {};
 
-    event.id = data[n].event.id;
+    event.id =  parseInt(data[n].event.id, 10);
     event.title = data[n].event.title;
     event.lat = data[n].event.venue.latitude;
     event.lng = data[n].event.venue.longitude;
