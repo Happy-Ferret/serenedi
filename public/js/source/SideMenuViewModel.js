@@ -108,6 +108,9 @@ var SideMenuViewModel = function() {
 };
 
 SideMenuViewModel.prototype.setDateToSelectedEvent = function(startDate, endDate) {
-  this.sideMenuProp.attr('dateFrom', util.getPrettyDate(new Date(startDate)));
-  this.sideMenuProp.attr('dateTo', util.getPrettyDate(new Date(endDate)));
+  this.sideMenuProp.attr('dateFrom', startDate);
+  this.sideMenuProp.attr('dateTo', endDate);
+
+  this.dateFromDom.datepicker('setEndDate', endDate);
+  this.dateToDom.datepicker('setStartDate', startDate);
 };
