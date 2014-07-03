@@ -1,30 +1,22 @@
 var util = require('../../../shared/Util.js');
-var statusVM = require('./StatusViewModel.js').getStatusViewModel();
-var mapVM = require('./MapViewModel.js').getMapViewModel();
-var sideMenuVM = require('./SideMenuViewModel.js').getSideMenuViewModel();
+var statusVM = require('./StatusViewModel.js');
+var mapVM = require('./MapViewModel.js');
+var sideMenuVM = require('./SideMenuViewModel.js');
 var urlArgs = require('./UrlArgs.js');
 var eventToOpenID = urlArgs.id;
 var eventToOpenType = urlArgs.type;
 var programEvents = require('./ProgramEvents.js');
 
-var mapControl;
 var waitedSinceLastChange;
 
-module.exports.getMapControl = function() {
-  if (!mapControl) {
-    programEvents.add(function(event) {
-      if (event.event === 'updateMap') {
-        clearTimeout(waitedSinceLastChange);
-        waitedSinceLastChange = setTimeout(function() {
-          mapControl.updateMap();
-        }, 1400);
-      }
-    });
-
-    mapControl = new MapControl();
+programEvents.add(function(event) {
+  if (event.event === 'updateMap') {
+    clearTimeout(waitedSinceLastChange);
+    waitedSinceLastChange = setTimeout(function() {
+      mapControl.updateMap();
+    }, 1400);
   }
-  return mapControl;
-};
+});
 
 var MapControl = can.Control({
   init: function() {
@@ -190,3 +182,6 @@ var getEventsAjaxDeferred = function(url, data) {
     cache: false
   });
 };
+
+var mapControl = new MapControl();
+module.exports.getMapControl = mapControl;

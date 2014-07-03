@@ -5,10 +5,10 @@ require('../../bower_components/bootstrap/dist/js/bootstrap.min.js');
 require('../../bower_components/jquery-mousewheel/jquery.mousewheel.js');
 require('../../bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js');
 
-var statusModel = require('./source/StatusViewModel.js').getStatusViewModel();
+var statusModel = require('./source/StatusViewModel.js');
 
 $(document).ready(function() {
-  require('./source/MapControl.js').getMapControl();
+  require('./source/MapControl.js');
   $('#menuContainer').html(can.view("topMenuTemplate", statusModel.status));
   $('.add-popover').popover();
 

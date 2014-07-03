@@ -1,19 +1,10 @@
-var mapVM = require('./MapViewModel.js').getMapViewModel();
+var mapVM = require('./MapViewModel.js');
 var util = require('../../../shared/Util.js');
 var programEvents = require('./ProgramEvents.js');
 
 var SIDE_MENU_TEMPLATE = 'sideMenuTemplate';
 var today = new Date();
 var weekAfter = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
-
-var sideMenuViewModel;
-
-module.exports.getSideMenuViewModel = function() {
-  if(!sideMenuViewModel) {
-    sideMenuViewModel = new SideMenuViewModel();
-  }
-  return sideMenuViewModel;
-};
 
 var SideMenuViewModel = function() {
   this.types = new can.Observe({conf: true,
@@ -114,3 +105,6 @@ SideMenuViewModel.prototype.setDateToSelectedEvent = function(startDate, endDate
   this.dateFromDom.datepicker('setEndDate', endDate);
   this.dateToDom.datepicker('setStartDate', startDate);
 };
+
+var sideMenuViewModel = new SideMenuViewModel();
+module.exports = sideMenuViewModel;

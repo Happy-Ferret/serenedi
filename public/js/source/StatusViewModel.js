@@ -1,13 +1,3 @@
-var statusViewModel;
-
-module.exports.getStatusViewModel = function() {
-  if (!statusViewModel) {
-    statusViewModel = new StatusViewModel();
-  }
-
-  return statusViewModel;
-};
-
 var StatusViewModel = function() {
   this.status = new can.Observe({value: 0, content: 'Working...', src: '/images/ajax-loader.gif'});
   this.CONST = {
@@ -57,3 +47,6 @@ var StatusViewModel = function() {
     }
   });
 };
+
+var statusViewModel = new StatusViewModel();
+module.exports = statusViewModel;

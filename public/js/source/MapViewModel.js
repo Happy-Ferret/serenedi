@@ -5,15 +5,6 @@ var MAP_BOX = 'mapBox';
 var INFO_TEMPLATE = 'infoPopUpTemplate';
 var eventToOpenID = parseInt(require('./UrlArgs.js').id, 10);
 
-var mapViewModel;
-
-module.exports.getMapViewModel = function() {
-  if (!mapViewModel) {
-    mapViewModel = new MapViewModel();
-  }
-  return mapViewModel;
-};
-
 var MapViewModel = function() {
   this.mapProp = new can.Observe({lat: 40.72616,
                                   lng: -73.99973,
@@ -169,3 +160,7 @@ MapViewModel.prototype.setLatLng = function(lat, lng) {
   this.mapProp.attr('lat', lat);
   this.mapProp.attr('lng', lng);
 };
+
+
+var mapViewModel = new MapViewModel();
+module.exports = mapViewModel;
