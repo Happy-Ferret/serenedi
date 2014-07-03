@@ -20,8 +20,6 @@ programEvents.add(function(event) {
 
 var MapControl = can.Control({
   init: function() {
-    this.sideMenu = sideMenuVM;
-
     if (eventToOpenID && eventToOpenType) {
       programEvents.dispatch({ event: 'updateMap' });
     } else {
