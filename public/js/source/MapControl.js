@@ -96,6 +96,7 @@ MapControl.prototype.addEventMarkers = function(events) {
 
 MapControl.prototype.getEventsByIdCall = function(param) {
   var self = this;
+  eventToOpenID = null;
   getEventsAjaxDeferred('getEventsById', param).done(function(data) {
     if (data.center) {
       mapVM.setLatLng(data.center.lat, data.center.lng);
