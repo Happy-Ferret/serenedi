@@ -77,8 +77,8 @@ MapControl.prototype.addEventMarkers = function(events) {
     var currentEvent = events[n];
     var identifier = currentEvent.type + currentEvent.id;
 
-    if (mapVM.ids[identifier] !== 1) {
-      mapVM.ids[identifier] = 1;
+    if (!mapVM.ids[identifier]) {
+      mapVM.ids[identifier] = true;
       mapVM.addEventMarker(currentEvent);
     }
   }
