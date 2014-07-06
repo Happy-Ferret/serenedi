@@ -30,6 +30,7 @@ Running
         "eventbriteAPIkey": "[YOUR EVENTBRITE API KEY]",
         "googleAPIKey": "[YOUR GOOGLE MAP API KEY]",
         "meetupAPIKey": "[YOUR MEETUP API KEY]",
+        "facebookAPIKey": "[YOUR FACEBOOK API KEY]",
         "url" : "127.0.0.1:3080"
     }
     ```

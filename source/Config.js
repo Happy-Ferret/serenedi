@@ -24,6 +24,7 @@ config.eventbriteAPIkey = argv.eventbriteAPIkey || configFile.eventbriteAPIkey;
 config.launch = argv.launch === undefined ? true : argv.launch;
 config.googleAPIKey = argv.googleAPIKey || configFile.googleAPIKey;
 config.meetupAPIKey = argv.meetupAPIKey || configFile.meetupAPIKey;
+config.facebookAPIKey = argv.facebookAPIKey || configFile.facebookAPIKey;
 config.url = argv.url || configFile.url;
 module.exports = config;
 
@@ -32,7 +33,9 @@ if (argv.help) {
     .describe('port', 'Serenedi\'s port number')
     .describe('url', 'URL where Serenedi is hosted on. (includes port number, ex. [--url=127.0.0.1:80])')
     .describe('launch', 'to launch Serenedi on start or not.')
-    .describe('googleAPIKey', 'Google API key');
+    .describe('googleAPIKey', 'Google API key')
+    .describe('meetupAPIKey', 'Meetup API Key')
+    .describe('facebookAPIKey', 'facebookAPIKey');
 
   optimist.showHelp();
   process.exit(0);

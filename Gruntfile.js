@@ -11,7 +11,7 @@ module.exports = function(grunt) {
     jade: {
         compile: {
             options: {
-                data: { googleAPIKey: config.googleAPIKey, url: config.url },
+                data: { googleAPIKey: config.googleAPIKey, url: config.url, facebookAPIKey: config.facebookAPIKey },
                 pretty: false
             },
             files: [ {
