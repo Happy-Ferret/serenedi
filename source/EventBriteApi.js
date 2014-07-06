@@ -6,14 +6,21 @@ var eb_client = eventbrite({"app_key" : argv.eventbriteKey});
 
 var READ_SIZE = 100;
 
-module.exports.searchEvents = function(query, res) {
-  callEventSearch(module.exports.buildEventSearchParam(query)).then(function (data) {
-    console.log('[LOG]|EB| respose \n', data);
-    res.json({'searchResult': module.exports.convertReceivedData(data)});
-  }).fail(function (err) {
-    console.log('[ERROR]|EB| search failed. \n', err, query);
-    res.json({'error': err});
+module.exports.searchEvents = function(query) {
+  console.log('[LOG]|EB| search events\n', param);
+
+  var param = module.exports.buildEventSearchParam(query);
+  var deferred = Q.defer();
+
+  eb_client.event_search(param, function(err, data) {
+    if (err) {
+      deferred.resolve({ events: [] });
+    } else {
+      deferred.resolve(data);
+    }
   });
+
+  return deferred.promise;
 };
 
 module.exports.getEvent = function(query, res) {
@@ -40,21 +47,6 @@ module.exports.getEvent = function(query, res) {
 
     res.json({'error': err});
   });
-};
-
-var callEventSearch = function(param) {
-  console.log('[LOG]|EB| search events\n', param);
-
-  var deferred = Q.defer();
-  eb_client.event_search(param, function(err, data) {
-    if (err) {
-      deferred.resolve({ events: [] });
-    } else {
-      deferred.resolve(data);
-    }
-  });
-
-  return deferred.promise;
 };
 
 var callEventGet = function(param) {

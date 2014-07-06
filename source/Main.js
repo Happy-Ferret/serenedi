@@ -10,7 +10,13 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.get("/", function (req, res) { res.redirect("../index.html"); });
 
 app.get("/api/eb/getEvents", function(req, res) {
-  eventBriteApi.searchEvents(req.query, res);
+  eventBriteApi.searchEvents(req.query).then(function (data) {
+    console.log('[LOG]|EB| respose \n', data);
+    res.json({ 'searchResult': eventBriteApi.convertReceivedData(data) });
+  }).fail(function (err) {
+    console.log('[ERROR]|EB| search failed. \n', err, query);
+    res.json({ 'error': err });
+  });
 });
 
 app.get("/api/mu/getEvents", function(req, res) {
