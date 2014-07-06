@@ -48,7 +48,7 @@ var callEventSearch = function(param) {
   var deferred = Q.defer();
   eb_client.event_search(param, function(err, data) {
     if (err) {
-      deferred.reject(err);
+      deferred.resolve({ events: [] });
     } else {
       deferred.resolve(data);
     }

@@ -8,6 +8,7 @@ var eventToOpenType = urlArgs.type;
 var programEvents = require('./ProgramEvents.js');
 
 var waitedSinceLastChange;
+var emptyReturnedEventsCallCount;
 
 programEvents.add(function(event) {
   if (event.event === 'updateMap') {
@@ -105,6 +106,7 @@ MapControl.prototype.getEventsByIdCall = function(param) {
 
 MapControl.prototype.getEventsCall = function(param) {
   var self = this;
+  emptyReturnedEventsCallCount = 0;
   getEventsAjaxDeferred('eb/getEvents', param).done(function(data) {
     self.processEventData(data);
   }).fail(function(error) {
@@ -119,11 +121,14 @@ MapControl.prototype.getEventsCall = function(param) {
 };
 
 MapControl.prototype.processEventData = function(data) {
-  if (data.searchResult) {
+  if (data.searchResult && data.searchResult.length > 0) {
     this.addEventMarkers(data.searchResult);
     statusVM.setStatus(statusVM.CONST.NORMAL);
   } else {
-    statusVM.setStatus(statusVM.CONST.NO_EVENTS);
+    emptyReturnedEventsCallCount++;
+    if (emptyReturnedEventsCallCount === 2) {
+      statusVM.setStatus(statusVM.CONST.NO_EVENTS);
+    }
   }
 };
 
