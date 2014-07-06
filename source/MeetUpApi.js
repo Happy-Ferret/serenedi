@@ -4,8 +4,6 @@ var util = require('../shared/Util.js');
 var http = require('http');
 
 module.exports.searchEvents = function(query) {
-  console.log('[LOG]|MU| search events\n', param);
-
   var self = this;
   var param = this.buildEventSearchParam(query);
   var d = Q.defer();

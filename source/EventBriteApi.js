@@ -7,8 +7,6 @@ var eb_client = eventbrite({"app_key" : argv.eventbriteKey});
 var READ_SIZE = 100;
 
 module.exports.searchEvents = function(query) {
-  console.log('[LOG]|EB| search events\n', param);
-
   var param = module.exports.buildEventSearchParam(query);
   var deferred = Q.defer();
 

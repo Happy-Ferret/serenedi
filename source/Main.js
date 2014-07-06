@@ -10,6 +10,8 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.get("/", function (req, res) { res.redirect("../index.html"); });
 
 app.get("/api/eb/getEvents", function(req, res) {
+  console.log('[LOG]|EB| search events\n', req.query);
+
   eventBriteApi.searchEvents(req.query).then(function (data) {
     console.log('[LOG]|EB| respose \n', data);
     res.json({ 'searchResult': eventBriteApi.convertReceivedData(data) });
@@ -20,6 +22,8 @@ app.get("/api/eb/getEvents", function(req, res) {
 });
 
 app.get("/api/mu/getEvents", function(req, res) {
+  console.log('[LOG]|MU| search events\n', req.query);
+
   meetUpApi.searchEvents(req.query).then(function (data) {
     console.log('[LOG]|MU| respose \n', data);
     res.json({ 'searchResult': meetUpApi.convertReceivedData(data) });
