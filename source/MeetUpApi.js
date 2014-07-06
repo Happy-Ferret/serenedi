@@ -3,17 +3,19 @@ var argv = require('optimist').argv;
 var util = require('../shared/Util.js');
 var http = require('http');
 
-module.exports.searchEvents = function(query, res) {
+module.exports.searchEvents = function(query) {
+  console.log('[LOG]|MU| search events\n', param);
+
   var self = this;
   var param = this.buildEventSearchParam(query);
+  var d = Q.defer();
 
-  console.log('[LOG]|MU| search events\n', param);
   http.get(param, function(httpRes) {
     httpRes.setEncoding('utf8');
     var result = '';
 
     httpRes.on('error', function(error) {
-      res.json({'error': err});
+      d.reject(error);
     });
 
     httpRes.on('data', function(data) {
@@ -21,12 +23,11 @@ module.exports.searchEvents = function(query, res) {
     });
 
     httpRes.on('end', function() {
-      var events = self.convertReceivedData(JSON.parse(result));
-
-      console.log('[LOG]|MU| respose\n', events);
-      res.json({'searchResult':events});
+      d.resolve(JSON.parse(result));
     });
   });
+
+  return d.promise;
 };
 
 module.exports.getEvent = function(query, res) {

@@ -20,7 +20,13 @@ app.get("/api/eb/getEvents", function(req, res) {
 });
 
 app.get("/api/mu/getEvents", function(req, res) {
-  meetUpApi.searchEvents(req.query, res);
+  meetUpApi.searchEvents(req.query).then(function (data) {
+    console.log('[LOG]|MU| respose \n', data);
+    res.json({ 'searchResult': meetUpApi.convertReceivedData(data) });
+  }).fail(function (err) {
+    console.log('[ERROR]|MU| search failed. \n', err, query);
+    res.json({ 'error': err });
+  });
 });
 
 app.get("/api/getEventsById", function(req, res) {
