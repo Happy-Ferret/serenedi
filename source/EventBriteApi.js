@@ -5,34 +5,32 @@ var eventbrite = require("eventbrite");
 var eb_client = eventbrite({"app_key" : argv.eventbriteKey});
 
 var READ_SIZE = 100;
+var getDeferred = function(param) {
+  var d = Q.defer();
+
+  var deferredCallBack = function(err, data) {
+    if (err) {
+      d.reject(err);
+    } else {
+      d.resolve(data);
+    }
+  };
+
+  if (param.id) {
+    eb_client.event_get(param, deferredCallBack);
+  } else {
+    eb_client.event_search(param, deferredCallBack);
+  }
+
+  return d;
+};
 
 module.exports.searchEvents = function(query) {
-  var param = module.exports.buildEventSearchParam(query);
-  var deferred = Q.defer();
-
-  eb_client.event_search(param, function(err, data) {
-    if (err) {
-      deferred.resolve({ events: [] });
-    } else {
-      deferred.resolve(data);
-    }
-  });
-
-  return deferred.promise;
+  return getDeferred(module.exports.buildEventSearchParam(query)).promise;
 };
 
 module.exports.getEvent = function(query) {
-  var deferred = Q.defer();
-
-  eb_client.event_get({'id': query.id}, function(err, data) {
-    if (err) {
-      deferred.reject(err);
-    } else {
-      deferred.resolve(data);
-    }
-  });
-
-  return deferred.promise;
+  return getDeferred({'id': query.id}).promise;
 };
 
 module.exports.buildEventSearchParam = function(args) {
