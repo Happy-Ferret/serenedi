@@ -21,32 +21,10 @@ module.exports.searchEvents = function(query) {
   return deferred.promise;
 };
 
-module.exports.getEvent = function(query, res) {
-  var lat, lng, startDate, endDate;
-
-  callEventGet({'id': query.id}).then(function (data) {
-    lat = data.event.venue.latitude;
-    lng = data.event.venue.longitude;
-
-    var eventStartDate = new Date(data.event.start_date.split(" ")[0].split("-"));
-
-    startDate = util.getPrettyDate(eventStartDate);
-    eventStartDate.setDate(eventStartDate.getDate() + 7);
-    endDate = util.getPrettyDate(eventStartDate);
-
-    res.json({'searchResult': module.exports.convertReceivedData({events: [null, data]}), 'center': {'lat': lat, 'lng': lng}, 'date': {'startDate': startDate, 'endDate': endDate}});
-  }).fail(function (err) {
-    console.log('[ERROR]|EB| get event by id failed. \n', err, query);
-
-    res.json({'error': err});
-  });
-};
-
-var callEventGet = function(param) {
-  console.log('[LOG]|EB| get events\n', param);
-
+module.exports.getEvent = function(query) {
   var deferred = Q.defer();
-  eb_client.event_get(param, function(err, data) {
+
+  eb_client.event_get({'id': query.id}, function(err, data) {
     if (err) {
       deferred.reject(err);
     } else {
