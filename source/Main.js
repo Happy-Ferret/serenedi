@@ -14,7 +14,7 @@ app.get("/api/eb/getEvents", function(req, res) {
 
   eventBriteApi.searchEvents(req.query).then(function (data) {
     console.log('[LOG]|EB| respose \n', data);
-    res.json({ 'searchResult': eventBriteApi.convertReceivedData(data) });
+    res.json(createSearchResult(eventBriteApi.convertReceivedData(data)));
   }).fail(function (err) {
     console.log('[ERROR]|EB| search failed. \n', err, query);
     res.json({ 'error': err });
@@ -26,7 +26,7 @@ app.get("/api/mu/getEvents", function(req, res) {
 
   meetUpApi.searchEvents(req.query).then(function (data) {
     console.log('[LOG]|MU| respose \n', data);
-    res.json({ 'searchResult': meetUpApi.convertReceivedData(data) });
+    res.json(createSearchResult(meetUpApi.convertReceivedData(data)));
   }).fail(function (err) {
     console.log('[ERROR]|MU| search failed. \n', err, query);
     res.json({ 'error': err });
@@ -35,9 +35,10 @@ app.get("/api/mu/getEvents", function(req, res) {
 
 app.get("/api/getEventsById", function(req, res) {
   console.log(req.query, util.meetUpPrefix);
+  var promise;
 
   if (req.query.sourceType === util.eventBritePrefix) {
-    eventBriteApi.getEvent(req.query, res).then(function (data) {
+    promise = eventBriteApi.getEvent(req.query, res).then(function (data) {
       lat = data.event.venue.latitude;
       lng = data.event.venue.longitude;
 
@@ -47,14 +48,10 @@ app.get("/api/getEventsById", function(req, res) {
       eventStartDate.setDate(eventStartDate.getDate() + 7);
       endDate = util.getPrettyDate(eventStartDate);
 
-      res.json({'searchResult': eventBriteApi.convertReceivedData({events: [null, data]}), 'center': {'lat': lat, 'lng': lng}, 'date': {'startDate': startDate, 'endDate': endDate}});
-    }).fail(function (err) {
-      console.log('[ERROR]|EB| get event by id failed. \n', err, query);
-
-      res.json({'error': err});
+      res.json(createSearchResult(eventBriteApi.convertReceivedData({events: [null, data]}), lat, lng, startDate, endDate));
     });
   } else if (req.query.sourceType === util.meetUpPrefix) {
-    meetUpApi.getEvent(req.query, res).then(function(received) {
+    promise = meetUpApi.getEvent(req.query, res).then(function(received) {
       var lat = received.venue && received.venue.lat ? received.venue.lat : received.group.group_lat;
       var lng = received.venue && received.venue.lon ? received.venue.lon : received.group.group_lon;
       var startDate = util.getPrettyDate(new Date(received.time));
@@ -62,14 +59,32 @@ app.get("/api/getEventsById", function(req, res) {
       endDate.setDate(endDate.getDate() + 7);
       endDate = util.getPrettyDate(endDate);
 
-      res.json({'searchResult': meetUpApi.convertReceivedData({results: [received]}), 'center': {'lat': lat, 'lng': lng}, 'date': {'startDate': startDate, 'endDate': endDate}});
-    }).fail(function(error) {
-      res.json({ 'error': err });
+      res.json(createSearchResult(meetUpApi.convertReceivedData({results: [received]}), lat, lng, startDate, endDate));
     });
   } else {
     res.json({});
+    return;
   }
+
+  promise.fail(function (error) {
+    console.log('[ERROR] get event by id failed. \n', error);
+
+    res.json({'error': error});
+  });
 });
+
+var createSearchResult = function(result, lat, lng, startDate, endDate) {
+  var searchResult = {};
+  searchResult.searchResult = result;
+
+  if (lat && lng) {
+    searchResult.center = {'lat': lat, 'lng': lng};
+  }
+  if (startDate && endDate) {
+    searchResult.date = {'startDate': startDate, 'endDate': endDate};
+  }
+  return searchResult;
+};
 
 app.listen(argv.port);
 console.log("## Serenedi started ##");
