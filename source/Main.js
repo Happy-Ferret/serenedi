@@ -54,7 +54,18 @@ app.get("/api/getEventsById", function(req, res) {
       res.json({'error': err});
     });
   } else if (req.query.sourceType === util.meetUpPrefix) {
-    meetUpApi.getEvent(req.query, res);
+    meetUpApi.getEvent(req.query, res).then(function(received) {
+      var lat = received.venue && received.venue.lat ? received.venue.lat : received.group.group_lat;
+      var lng = received.venue && received.venue.lon ? received.venue.lon : received.group.group_lon;
+      var startDate = util.getPrettyDate(new Date(received.time));
+      var endDate = new Date(received.time);
+      endDate.setDate(endDate.getDate() + 7);
+      endDate = util.getPrettyDate(endDate);
+
+      res.json({'searchResult': meetUpApi.convertReceivedData({results: [received]}), 'center': {'lat': lat, 'lng': lng}, 'date': {'startDate': startDate, 'endDate': endDate}});
+    }).fail(function(error) {
+      res.json({ 'error': err });
+    });
   } else {
     res.json({});
   }
