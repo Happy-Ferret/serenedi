@@ -68,11 +68,6 @@ module.exports.getEvent = function(query, res) {
   });
 };
 
-var callEventGet = function(param) {
-  console.log('[LOG]|MU| get events\n', param);
-
-};
-
 module.exports.buildGetEventParam = function(args) {
   return 'http://api.meetup.com/2/event/' +
     args.id +

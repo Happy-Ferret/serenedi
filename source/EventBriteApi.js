@@ -34,12 +34,7 @@ module.exports.getEvent = function(query, res) {
     eventStartDate.setDate(eventStartDate.getDate() + 7);
     endDate = util.getPrettyDate(eventStartDate);
 
-    return data;
-  }).then(function (data) {
-    console.log('[LOG]|EB| respose \n', data);
-
-    var searchResult = module.exports.convertReceivedData({events: [null, data]});
-    res.json({'searchResult': searchResult, 'center': {'lat': lat, 'lng': lng}, 'date': {'startDate': startDate, 'endDate': endDate}});
+    res.json({'searchResult': module.exports.convertReceivedData({events: [null, data]}), 'center': {'lat': lat, 'lng': lng}, 'date': {'startDate': startDate, 'endDate': endDate}});
   }).fail(function (err) {
     console.log('[ERROR]|EB| get event by id failed. \n', err, query);
 
