@@ -3,9 +3,7 @@ var argv = require('optimist').argv;
 var util = require('../shared/Util.js');
 var http = require('http');
 
-module.exports.searchEvents = function(query) {
-  var self = this;
-  var param = this.buildEventSearchParam(query);
+var getDeferred = function(param) {
   var d = Q.defer();
 
   http.get(param, function(httpRes) {
@@ -25,33 +23,15 @@ module.exports.searchEvents = function(query) {
     });
   });
 
-  return d.promise;
+  return d;
+};
+
+module.exports.searchEvents = function(query) {
+  return getDeferred(this.buildEventSearchParam(query)).promise;
 };
 
 module.exports.getEvent = function(query, res) {
-  console.log('[LOG]|MU| get event\n', query);
-  var self = this;
-  var param = this.buildGetEventParam(query);
-  var d = Q.defer();
-
-  http.get(param, function(httpRes) {
-    httpRes.setEncoding('utf8');
-    var result = '';
-
-    httpRes.on('error', function(error) {
-      d.reject(err);
-    });
-
-    httpRes.on('data', function(data) {
-      result += data.trim();
-    });
-
-    httpRes.on('end', function() {
-      d.resolve(JSON.parse(result));
-    });
-  });
-
-  return d.promise;
+  return getDeferred(this.buildGetEventParam(query)).promise;
 };
 
 module.exports.buildGetEventParam = function(args) {
@@ -62,11 +42,11 @@ module.exports.buildGetEventParam = function(args) {
 
 module.exports.buildEventSearchParam = function(args) {
   return 'http://api.meetup.com/2/open_events.json' +
-      '?lon=' + args.lng +
-      '&lat=' + args.lat +
-      '&radius=' + util.kmToMile(args.radius) +
-      '&time=' +  (new Date(args.dateFrom)).getTime() + ',' + (new Date(args.dateTo)).getTime() +
-      '&key=' + argv.meetupKey;
+    '?lon=' + args.lng +
+    '&lat=' + args.lat +
+    '&radius=' + util.kmToMile(args.radius) +
+    '&time=' +  (new Date(args.dateFrom)).getTime() + ',' + (new Date(args.dateTo)).getTime() +
+    '&key=' + argv.meetupKey;
 };
 
 module.exports.convertReceivedData = function(data) {

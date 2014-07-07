@@ -66,10 +66,10 @@ app.get("/api/getEventsById", function(req, res) {
     return;
   }
 
-  promise.fail(function (error) {
-    console.log('[ERROR] get event by id failed. \n', error);
+  promise.fail(function (err) {
+    console.log('[ERROR] get event by id failed. \n', err);
 
-    res.json({'error': error});
+    res.json({'error': err});
   });
 });
 
