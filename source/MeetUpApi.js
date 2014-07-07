@@ -29,16 +29,17 @@ module.exports.searchEvents = function(query) {
 };
 
 module.exports.getEvent = function(query, res) {
+  console.log('[LOG]|MU| get event\n', query);
   var self = this;
   var param = this.buildGetEventParam(query);
+  var d= Q.defer();
 
-  console.log('[LOG]|MU| get event\n', param);
   http.get(param, function(httpRes) {
     httpRes.setEncoding('utf8');
     var result = '';
 
     httpRes.on('error', function(error) {
-      res.json({'error': err});
+      d.reject(err);
     });
 
     httpRes.on('data', function(data) {
@@ -46,19 +47,24 @@ module.exports.getEvent = function(query, res) {
     });
 
     httpRes.on('end', function() {
-      var received = JSON.parse(result);
-      var events = self.convertReceivedData({results: [received]});
-
-      var lat = received.venue && received.venue.lat ? received.venue.lat : received.group.group_lat;
-      var lng = received.venue && received.venue.lon ? received.venue.lon : received.group.group_lon;
-      var startDate = util.getPrettyDate(new Date(received.time));
-      var endDate = new Date(received.time);
-      endDate.setDate(endDate.getDate() + 7);
-      endDate = util.getPrettyDate(endDate);
-
-      console.log('[LOG]|MU| respose\n', events);
-      res.json({'searchResult':events, 'center': {'lat': lat, 'lng': lng}, 'date': {'startDate': startDate, 'endDate': endDate}});
+      d.resolve(JSON.parse(result));
     });
+  });
+
+  d.promise.then(function(received) {
+    var events = self.convertReceivedData({results: [received]});
+
+    var lat = received.venue && received.venue.lat ? received.venue.lat : received.group.group_lat;
+    var lng = received.venue && received.venue.lon ? received.venue.lon : received.group.group_lon;
+    var startDate = util.getPrettyDate(new Date(received.time));
+    var endDate = new Date(received.time);
+    endDate.setDate(endDate.getDate() + 7);
+    endDate = util.getPrettyDate(endDate);
+
+    console.log('[LOG]|MU| respose\n', events);
+    res.json({'searchResult':events, 'center': {'lat': lat, 'lng': lng}, 'date': {'startDate': startDate, 'endDate': endDate}});
+  }).fail(function(error) {
+    res.json({ 'error': err });
   });
 };
 
