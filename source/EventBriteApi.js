@@ -1,8 +1,7 @@
 var Q = require('q');
-var argv = require('optimist').argv;
 var util = require('../shared/Util.js');
 var eventbrite = require("eventbrite");
-var eb_client = eventbrite({"app_key" : argv.eventbriteKey});
+var eb_client = eventbrite({"app_key" : require('optimist').argv.eventbriteKey});
 
 var READ_SIZE = 100;
 var getDeferred = function(param) {
@@ -26,7 +25,7 @@ var getDeferred = function(param) {
 };
 
 module.exports.searchEvents = function(query) {
-  return getDeferred(module.exports.buildEventSearchParam(query)).promise;
+  return getDeferred(this.buildEventSearchParam(query)).promise;
 };
 
 module.exports.getEvent = function(query) {
