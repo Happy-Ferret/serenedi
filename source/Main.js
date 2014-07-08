@@ -40,14 +40,14 @@ app.get("/api/getEventsById", function(req, res) {
     console.log('[EB] getEventById: ', req.query);
     promise = eventBriteApi.getEvent(req.query, res).then(function (received) {
       console.log('[EB] getEventById response received: ', received);
-      lat = received.event.venue.latitude;
-      lng = received.event.venue.longitude;
+      var lat = received.event.venue.latitude;
+      var lng = received.event.venue.longitude;
 
       var eventStartDate = new Date(received.event.start_date.split(" ")[0].split("-"));
 
-      startDate = util.getPrettyDate(eventStartDate);
+      var startDate = util.getPrettyDate(eventStartDate);
       eventStartDate.setDate(eventStartDate.getDate() + 7);
-      endDate = util.getPrettyDate(eventStartDate);
+      var endDate = util.getPrettyDate(eventStartDate);
 
       res.json(createSearchResult(eventBriteApi.convertReceivedData({events: [null, received]}), lat, lng, startDate, endDate));
     });
