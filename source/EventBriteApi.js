@@ -51,19 +51,20 @@ module.exports.convertReceivedData = function(data) {
   data = data.events;
   for (var n = 1; n < data.length; n++) {
     var event = {};
+    var current = data[n];
 
-    event.id =  parseInt(data[n].event.id, 10);
-    event.title = data[n].event.title;
-    event.lat = data[n].event.venue.latitude;
-    event.lng = data[n].event.venue.longitude;
-    event.url = data[n].event.url;
-    event.startDate = data[n].event.start_date.split(' ')[0];
-    event.endDate = data[n].event.end_date.split(' ')[0];
-    event.addr = data[n].event.venue.address + ' ' + data[n].event.venue.address_2;
-    event.city = data[n].event.venue.city;
-    event.region = data[n].event.venue.region;
-    event.zip = data[n].event.venue.postalcode;
-    event.category = data[n].event.category;
+    event.id = current.event.id.toString();
+    event.title = current.event.title;
+    event.lat = current.event.venue.latitude;
+    event.lng = current.event.venue.longitude;
+    event.url = current.event.url;
+    event.startDate = current.event.start_date.split(' ')[0];
+    event.endDate = current.event.end_date.split(' ')[0];
+    event.addr = current.event.venue.address + ' ' + current.event.venue.address_2;
+    event.city = current.event.venue.city;
+    event.region = current.event.venue.region;
+    event.zip = current.event.venue.postalcode;
+    event.category = current.event.category;
     event.type = util.eventBritePrefix;
 
     events.push(event);

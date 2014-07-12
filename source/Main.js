@@ -54,7 +54,6 @@ app.get("/api/getEventsById", function(req, res) {
   }
 
   promise.then(function(data) {
-
     if (data.length > 0) {
       var event = data[0];
       var endDate = new Date(event.startDate);

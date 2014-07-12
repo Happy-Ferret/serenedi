@@ -59,7 +59,7 @@ module.exports.convertReceivedData = function(data) {
 
     var startDate = new Date(current.time);
 
-    event.id = parseInt(current.id, 10);
+    event.id = current.id.toString();
     event.title = current.name;
     event.lat = current.venue && current.venue.lat ? current.venue.lat : current.group.group_lat;
     event.lng = current.venue && current.venue.lon ? current.venue.lon : current.group.group_lon;

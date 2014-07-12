@@ -3,7 +3,7 @@ var programEvents = require('./ProgramEvents.js');
 
 var MAP_BOX = 'mapBox';
 var INFO_TEMPLATE = 'infoPopUpTemplate';
-var eventToOpenID = parseInt(require('./UrlArgs.js').id, 10);
+var eventToOpenID = require('./UrlArgs.js').id;
 
 var MapViewModel = function() {
   this.mapProp = new can.Observe({lat: 40.72616,
