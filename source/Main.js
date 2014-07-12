@@ -40,34 +40,32 @@ app.get("/api/getEventsById", function(req, res) {
     console.log('[EB] getEventById: ', req.query);
     promise = eventBriteApi.getEvent(req.query, res).then(function (received) {
       console.log('[EB] getEventById response received: ', received);
-      var lat = received.event.venue.latitude;
-      var lng = received.event.venue.longitude;
-
-      var eventStartDate = new Date(received.event.start_date.split(" ")[0].split("-"));
-
-      var startDate = util.getPrettyDate(eventStartDate);
-      eventStartDate.setDate(eventStartDate.getDate() + 7);
-      var endDate = util.getPrettyDate(eventStartDate);
-
-      res.json(createSearchResult(eventBriteApi.convertReceivedData({events: [null, received]}), lat, lng, startDate, endDate));
+      return eventBriteApi.convertReceivedData( {events: [null, received]} );
     });
   } else if (req.query.sourceType === util.meetUpPrefix) {
     console.log('[MU] getEventById: ', req.query);
     promise = meetUpApi.getEvent(req.query, res).then(function(received) {
       console.log('[MU] getEventById response received: ', received);
-      var lat = received.venue && received.venue.lat ? received.venue.lat : received.group.group_lat;
-      var lng = received.venue && received.venue.lon ? received.venue.lon : received.group.group_lon;
-      var startDate = util.getPrettyDate(new Date(received.time));
-      var endDate = new Date(received.time);
-      endDate.setDate(endDate.getDate() + 7);
-      endDate = util.getPrettyDate(endDate);
-
-      res.json(createSearchResult(meetUpApi.convertReceivedData({results: [received]}), lat, lng, startDate, endDate));
+      return meetUpApi.convertReceivedData( {results: [received]} );
     });
   } else {
     res.json({});
     return;
   }
+
+  promise.then(function(data) {
+
+    if (data.length > 0) {
+      var event = data[0];
+      var endDate = new Date(event.startDate);
+      endDate.setDate(endDate.getDate() + 7);
+      endDate = util.getPrettyDate(endDate);
+
+      res.json(createSearchResult(data, event.lat, event.lng, event.startDate, endDate));
+    } else {
+      res.json( {searchResult: null} );
+    }
+  });
 
   promise.fail(function (err) {
     console.error('getEventById failed: ', err);
