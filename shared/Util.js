@@ -1,5 +1,9 @@
 
 module.exports.getPrettyDate = function(date) {
+  if (!date) {
+      return null;
+  }
+
   var month = addLeadingZero(date.getMonth() + 1);
   var day = addLeadingZero(date.getDate());
 

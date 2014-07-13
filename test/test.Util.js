@@ -55,6 +55,9 @@ describe('Testing Server side Util class.', function () {
     date = new Date(2014, 8, 9);
     expect(util.getPrettyDate(date)).to.be("09/09/2014");
 
+    date = null;
+    expect(util.getPrettyDate(date)).to.be(null);
+
     done();
   });
 });
