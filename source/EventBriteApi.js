@@ -58,8 +58,19 @@ module.exports.convertReceivedData = function(data) {
     event.lat = current.event.venue.latitude;
     event.lng = current.event.venue.longitude;
     event.url = current.event.url;
-    event.startDate = current.event.start_date.split(' ')[0];
-    event.endDate = current.event.end_date.split(' ')[0];
+
+    var startDate = current.event.start_date.split(' ')[0];
+    if (startDate) {
+      event.startDate = util.getPrettyDate(new Date(startDate));
+    } else {
+      event.startDate = null;
+    }
+    var endDate = current.event.end_date.split(' ')[0];
+    if (endDate) {
+      event.endDate = current.event.end_date.split(' ')[0];
+    } else {
+      event.endDate = null;
+    }
     event.addr = current.event.venue.address + ' ' + current.event.venue.address_2;
     event.city = current.event.venue.city;
     event.region = current.event.venue.region;
