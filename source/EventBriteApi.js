@@ -67,7 +67,7 @@ module.exports.convertReceivedData = function(data) {
     }
     var endDate = current.event.end_date.split(' ')[0];
     if (endDate) {
-      event.endDate = current.event.end_date.split(' ')[0];
+      event.endDate = util.getPrettyDate(new Date(endDate));
     } else {
       event.endDate = null;
     }
