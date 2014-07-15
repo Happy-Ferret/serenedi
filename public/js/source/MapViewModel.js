@@ -117,7 +117,7 @@ MapViewModel.prototype.addEventMarker = function (event) {
       var info = new google.maps.InfoWindow({
         content: can.view.render(INFO_TEMPLATE, {
           title: marker.getTitle(),
-          url: {eventbrite: event.url, serenedi: 'http://' + SERENEDI_URL + '/?id=' + event.id + '&type=' + event.type},
+          url: {host: event.url, serenedi: (SERENEDI_URL.substring(0,7) === 'http://' ? '' : 'http://') + SERENEDI_URL + '/?id=' + event.id + '&type=' + event.type},
           start: event.startDate,
           end: event.endDate,
           showAddr: event.addr ? true : false,
